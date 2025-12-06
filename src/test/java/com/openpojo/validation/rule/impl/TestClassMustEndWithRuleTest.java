@@ -1,0 +1,145 @@
+/*
+ * Copyright (c) 2010-2018 Osman Shoukry
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied.
+ *
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.openpojo.validation.rule.impl;
+
+import static org.junit.jupiter.api.Assertions.fail;
+
+import java.util.UUID;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import com.openpojo.reflection.PojoClass;
+import com.openpojo.reflection.impl.PojoClassFactory;
+import com.openpojo.reflection.java.bytecode.asm.ASMService;
+import com.openpojo.reflection.java.bytecode.asm.DefaultSubClassDefinition;
+import com.openpojo.validation.rule.impl.sampleclasses.AClassThatIsNotATestButEndsWithTest;
+import com.openpojo.validation.rule.impl.sampleclasses.ATestNGClassEndsWithTest;
+
+/**
+ * @author oshoukry
+ */
+public class TestClassMustEndWithRuleTest {
+
+	private TestClassMustBeProperlyNamedRule testClassMustEndWithRule;
+
+	@BeforeEach
+	public void setUp() throws Exception {
+		testClassMustEndWithRule = new TestClassMustBeProperlyNamedRule();
+	}
+
+	@Test
+	public void shouldPassValidation() {
+		PojoClass aGoodTestClassPojo = PojoClassFactory.getPojoClass(this.getClass());
+		testClassMustEndWithRule.evaluate(aGoodTestClassPojo);
+	}
+
+	@Test
+	public void shouldFailValidation() {
+		try {
+			Class<?> aBadTestClass = ASMService.getInstance().createSubclassFor(this.getClass(),
+					new DefaultSubClassDefinition(this.getClass(), "ABadClassName"));
+			PojoClass aBadTestClassPojo = PojoClassFactory.getPojoClass(aBadTestClass);
+			testClassMustEndWithRule.evaluate(aBadTestClassPojo);
+			fail("Exception expected");
+		} catch (AssertionError e) {
+		} catch (Exception e) {
+			fail("Exception expected");
+		}
+	}
+
+	@Test
+	public void aClassThatHasTestNotAsStartOrEndShouldFailValidation() {
+		try {
+			Class<?> aBadTestClass = ASMService.getInstance().createSubclassFor(this.getClass(),
+					new DefaultSubClassDefinition(this.getClass(), getUniqueClassName("ABadTestClassName")));
+			PojoClass aBadTestClassPojo = PojoClassFactory.getPojoClass(aBadTestClass);
+			testClassMustEndWithRule.evaluate(aBadTestClassPojo);
+			fail("Exception expected");
+		} catch (AssertionError e) {
+		} catch (Exception e) {
+			fail("Exception expected");
+		}
+	}
+
+	@Test
+	public void givenAClassThatEndsWithTestCaseShouldPass() {
+		Class<?> testClass = ASMService.getInstance().createSubclassFor(this.getClass(),
+				new DefaultSubClassDefinition(this.getClass(), "AClassTestCase"));
+		PojoClass aBadTestClassPojo = PojoClassFactory.getPojoClass(testClass);
+		testClassMustEndWithRule.evaluate(aBadTestClassPojo);
+	}
+
+	@Test
+	public void aClassThatHasTestSuiteButDoesntEndWithTestCaseShouldFailValidation() {
+		try {
+			Class<?> testClass = ASMService.getInstance().createSubclassFor(this.getClass(),
+					new DefaultSubClassDefinition(this.getClass(), "AClassTestCaseAndSomethingElse"));
+			PojoClass aBadTestClassPojo = PojoClassFactory.getPojoClass(testClass);
+			testClassMustEndWithRule.evaluate(aBadTestClassPojo);
+			fail("Exception expected");
+		} catch (AssertionError e) {
+		} catch (Exception e) {
+			fail("Exception expected");
+		}
+	}
+
+	@Test
+	public void aClassThatEndWithTestMayNotBeATest() {
+		Class<?> aTestClassThatEndsWithTest = AClassThatIsNotATestButEndsWithTest.class;
+		Assertions.assertTrue(aTestClassThatEndsWithTest.getName().endsWith("Test"),
+				"Should end with Test (was the class refactored?)");
+		testClassMustEndWithRule.evaluate(PojoClassFactory.getPojoClass(aTestClassThatEndsWithTest));
+	}
+
+	@Test
+	public void aClassThatDoesNotEndWithTestAndIsNotATestShouldPass() {
+		Class<?> aClassThatDoesNotEndWithTest = String.class;
+		testClassMustEndWithRule.evaluate(PojoClassFactory.getPojoClass(aClassThatDoesNotEndWithTest));
+	}
+
+	@Test
+	public void aTestNGClassThatEndsWithTestShouldPass() {
+		Class<?> aTestClassThatEndsWithTest = ATestNGClassEndsWithTest.class;
+		Assertions.assertTrue(aTestClassThatEndsWithTest.getName().endsWith("Test"),
+				"Should end with Test (was the class refactored?)");
+		testClassMustEndWithRule.evaluate(PojoClassFactory.getPojoClass(aTestClassThatEndsWithTest));
+	}
+
+	@Test
+	public void aTestNGClassThatDoesntEndWithTestShouldFail() {
+		try {
+			final Class<ATestNGClassEndsWithTest> parentClass = ATestNGClassEndsWithTest.class;
+			Class<?> aBadTestClass = ASMService.getInstance().createSubclassFor(parentClass,
+					new DefaultSubClassDefinition(parentClass, getUniqueClassName("ABadTestClassName")));
+			PojoClass aBadTestClassPojo = PojoClassFactory.getPojoClass(aBadTestClass);
+			testClassMustEndWithRule.evaluate(aBadTestClassPojo);
+			fail("Exception expected");
+		} catch (AssertionError e) {
+		} catch (Exception e) {
+			fail("Exception expected");
+		}
+	}
+
+	private String getUniqueClassName(String prefix) {
+		return prefix + "_" + UUID.randomUUID().toString().replace("-", "_");
+	}
+
+}

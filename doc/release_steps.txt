@@ -1,0 +1,12 @@
+#Keep pom.xml file clean
+mvn sortpom:sort -Dsort.nrOfIndentSpace=2 -Dsort.keepBlankLines=true -Dsort.sortProperties=true -Dsort.createBackupFile=false
+
+# This file is for reference on the steps performed to cut a release.
+mvn clean
+mvn release:clean
+mvn release:prepare
+mvn release:perform
+
+mkdir OpenPojo-<version>
+mv openpojo* OpenPojo-<version>
+zip -r OpenPojo-<version>.zip OpenPojo-<version>/
