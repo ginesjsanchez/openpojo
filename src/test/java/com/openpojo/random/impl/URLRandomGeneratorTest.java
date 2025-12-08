@@ -100,8 +100,8 @@ public class URLRandomGeneratorTest {
 	public void willThrowExceptionWhenHostPrefixMalformed() {
 		try {
 			URLRandomGenerator.getInstance().setUrlPrefix("");
-			URLRandomGenerator.getInstance().doGenerate(URL.class);
-			fail("Exception expected");
+			URL url = (URL) URLRandomGenerator.getInstance().doGenerate(URL.class);
+			fail("Exception expected " + url);
 		} catch (RandomGeneratorException e) {
 		} catch (Exception e) {
 			fail("Exception expected");

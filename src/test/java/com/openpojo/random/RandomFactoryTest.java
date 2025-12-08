@@ -62,7 +62,7 @@ public class RandomFactoryTest {
 
 		});
 
-		Assertions.assertEquals("RandomGenerator registration failed", randomString,
+		Affirm.affirmEquals("RandomGenerator registration failed", randomString,
 				RandomFactory.getRandomValue(RegisteredDummy.class).getValue());
 	}
 

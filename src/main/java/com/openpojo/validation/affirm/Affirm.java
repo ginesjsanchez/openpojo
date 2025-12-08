@@ -18,7 +18,6 @@
 
 package com.openpojo.validation.affirm;
 
-
 import java.util.Collection;
 
 /**
@@ -27,75 +26,73 @@ import java.util.Collection;
  * 1. To enforce how the Assert is to be used.<br>
  * 2. To simplify available Assert calls.<br>
  * <br>
- * In a nutshell all Affirmations must include a message describing the Affirm being performed.
+ * In a nutshell all Affirmations must include a message describing the Affirm
+ * being performed.
  *
  * @author oshoukry
  */
 public class Affirm {
 
-  private static Affirmation getAffirmation() {
-    return AffirmationFactory.getInstance().getAffirmation();
-  }
+	private static Affirmation getAffirmation() {
+		return AffirmationFactory.getInstance().getAffirmation();
+	}
 
-  /**
-   * Fail with a message.
-   *
-   * @param message
-   *     The message describing the failure.
-   */
-  public static void fail(final String message) {
-    getAffirmation().fail(message);
-  }
+	/**
+	 * Fail with a message.
+	 *
+	 * @param message The message describing the failure.
+	 */
+	public static void fail(final String message) {
+		getAffirmation().fail(message);
+	}
 
-  /**
-   * This method will only affirm failure if the condition is false.
-   *
-   * @param message
-   *     The message describing the affirmation being performed.
-   * @param condition
-   *     The condition being affirmed.
-   */
-  public static void affirmTrue(final String message, final boolean condition) {
-    getAffirmation().affirmTrue(message, condition);
-  }
+	/**
+	 * This method will only affirm failure if the condition is false.
+	 *
+	 * @param message   The message describing the affirmation being performed.
+	 * @param condition The condition being affirmed.
+	 */
+	public static void affirmTrue(final String message, final boolean condition) {
+		getAffirmation().affirmTrue(message, condition);
+	}
 
-  public static void affirmFalse(final String message, final boolean condition) {
-    getAffirmation().affirmFalse(message, condition);
-  }
+	public static void affirmFalse(final String message, final boolean condition) {
+		getAffirmation().affirmFalse(message, condition);
+	}
 
-  public static void affirmNotNull(final String message, final Object object) {
-    getAffirmation().affirmNotNull(message, object);
-  }
+	public static void affirmNotNull(final String message, final Object object) {
+		getAffirmation().affirmNotNull(message, object);
+	}
 
-  public static void affirmNull(final String message, final Object object) {
-    getAffirmation().affirmNull(message, object);
-  }
+	public static void affirmNull(final String message, final Object object) {
+		getAffirmation().affirmNull(message, object);
+	}
 
-  public static void affirmEquals(final String message, final Object first, final Object second) {
-    getAffirmation().affirmEquals(message, first, second);
-  }
+	public static void affirmEquals(final String message, final Object first, final Object second) {
+		getAffirmation().affirmEquals(message, first, second);
+	}
 
-  public static void affirmSame(final String message, final Object first, final Object second) {
-    getAffirmation().affirmSame(message, first, second);
-  }
+	public static void affirmSame(final String message, final Object first, final Object second) {
+		getAffirmation().affirmSame(message, first, second);
+	}
 
-  public static void affirmContains(final String message, final Object expected, final Collection<?> collection) {
-    for (Object entry : collection) {
-      if (expected == null) {
-        if (entry == null) {
-          return;
-        }
-      } else {
-        if (expected.equals(entry)) {
-          return;
-        }
-      }
-    }
-    Affirm.fail(message + ":expected value [" + expected + "] not found");
-  }
+	public static void affirmContains(final String message, final Object expected, final Collection<?> collection) {
+		for (Object entry : collection) {
+			if (expected == null) {
+				if (entry == null) {
+					return;
+				}
+			} else {
+				if (expected.equals(entry)) {
+					return;
+				}
+			}
+		}
+		Affirm.fail(message + ":expected value [" + expected + "] not found");
+	}
 
-  private Affirm() {
-    throw new UnsupportedOperationException(Affirm.class.getName() +  " should not be constructed!");
-  }
+	private Affirm() {
+		throw new UnsupportedOperationException(Affirm.class.getName() + " should not be constructed!");
+	}
 
 }

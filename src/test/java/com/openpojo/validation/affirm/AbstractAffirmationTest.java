@@ -128,11 +128,10 @@ public abstract class AbstractAffirmationTest {
 	 * {@link com.openpojo.validation.affirm.Affirm#affirmEquals(java.lang.String, java.lang.Object, java.lang.Object)}.
 	 */
 	@Test
-	@SuppressWarnings("UnnecessaryBoxing")
 	public void testAffirmEquals() {
-		Integer five = new Integer(5);
-		Integer anotherFive = new Integer(5);
-		Integer six = new Integer(6);
+		Integer five = Integer.valueOf(5);
+		Integer anotherFive = Integer.valueOf(5);
+		Integer six = Integer.valueOf(6);
 
 		Affirm.affirmEquals("Affirm.affirmEquals on equal objects failed", five, anotherFive);
 		try {

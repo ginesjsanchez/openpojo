@@ -34,66 +34,68 @@ import com.openpojo.reflection.java.version.VersionFactory;
  * @author oshoukry
  */
 public class ByteCodeFactory {
-  private static final Logger LOGGER = LoggerFactory.getLogger(ByteCodeFactory.class);
-  public static final Version ASM_MIN_VERSION = VersionFactory.getVersion("5.0.0");
-  public static final Version ASM_MAX_VERSION = VersionFactory.getVersion("7.1.0");
+	private static final Logger LOGGER = LoggerFactory.getLogger(ByteCodeFactory.class);
+	public static final Version ASM_MIN_VERSION = VersionFactory.getVersion("5.0.0");
+	// public static final Version ASM_MAX_VERSION =
+	// VersionFactory.getVersion("7.1.0");
 
-  private static boolean asm_enabled = ASMDetector.getInstance().isASMLoaded();
-  private static Version asm_version = ASMDetector.getInstance().getVersion();
+	private static boolean asm_enabled = ASMDetector.getInstance().isASMLoaded();
+	private static Version asm_version = ASMDetector.getInstance().getVersion();
 
+	public static <T> Class<? extends T> getSubClass(Class<T> clazz) {
+		if (isNull(clazz) || isAnInterface(clazz) || isAnEnum(clazz) || isPrimitive(clazz) || isAnArray(clazz)
+				|| isFinal(clazz)) {
+			LOGGER.error(
+					"Invalid request to generate a subclass for [{0}], argument must be [not null, not an interface, not an"
+							+ " enum, not primitive, not an array or a final class",
+					clazz);
+			return null;
+		}
 
-  public static <T> Class<? extends T> getSubClass(Class<T> clazz) {
-    if (isNull(clazz) || isAnInterface(clazz) || isAnEnum(clazz) || isPrimitive(clazz) || isAnArray(clazz) || isFinal(clazz)) {
-      LOGGER.error("Invalid request to generate a subclass for [{0}], argument must be [not null, not an interface, not an" +
-          " enum, not primitive, not an array or a final class", clazz);
-      return null;
-    }
+		verifyASMLoadedAndMatchesRequiredVersions();
 
-    verifyASMLoadedAndMatchesRequiredVersions();
+		LOGGER.info("Generating subclass for class [{0}]", clazz);
+		return ASMService.getInstance().createSubclassFor(clazz);
+	}
 
-    LOGGER.info("Generating subclass for class [{0}]", clazz);
-    return ASMService.getInstance().createSubclassFor(clazz);
-  }
+	private static void verifyASMLoadedAndMatchesRequiredVersions() {
+		if (!asm_enabled)
+			throw ASMNotLoadedException.getInstance();
 
-  private static void verifyASMLoadedAndMatchesRequiredVersions() {
-    if (!asm_enabled)
-      throw ASMNotLoadedException.getInstance();
+		if (ASM_MIN_VERSION.compareTo(asm_version) >= 0) { // || ASM_MAX_VERSION.compareTo(asm_version) < 0) {
+			throw ASMNotLoadedException.getInstance(
+					"Incorrect version of ASM found, " + "expected versions between [" + ASM_MIN_VERSION.getVersion()
+					// + " and not greater than "
+					// + ASM_MAX_VERSION.getVersion()
+							+ "] found [" + asm_version.getVersion() + "]");
+		}
+	}
 
-    if (ASM_MIN_VERSION.compareTo(asm_version) >= 0 || ASM_MAX_VERSION.compareTo(asm_version) < 0) {
-      throw ASMNotLoadedException.getInstance("Incorrect version of ASM found, "
-          + "expected versions between ["
-          + ASM_MIN_VERSION.getVersion()
-          + " and not greater than "
-          + ASM_MAX_VERSION.getVersion()
-          + "] found [" + asm_version.getVersion() + "]");
-    }
-  }
+	private static <T> boolean isNull(Class<T> clazz) {
+		return clazz == null;
+	}
 
-  private static <T> boolean isNull(Class<T> clazz) {
-    return clazz == null;
-  }
+	private static <T> boolean isAnInterface(Class<T> clazz) {
+		return Modifier.isInterface(clazz.getModifiers());
+	}
 
-  private static <T> boolean isAnInterface(Class<T> clazz) {
-    return Modifier.isInterface(clazz.getModifiers());
-  }
+	private static <T> boolean isAnEnum(Class<T> clazz) {
+		return clazz.isEnum();
+	}
 
-  private static <T> boolean isAnEnum(Class<T> clazz) {
-    return clazz.isEnum();
-  }
+	private static <T> boolean isPrimitive(Class<T> clazz) {
+		return clazz.isPrimitive();
+	}
 
-  private static <T> boolean isPrimitive(Class<T> clazz) {
-    return clazz.isPrimitive();
-  }
+	private static <T> boolean isAnArray(Class<T> clazz) {
+		return clazz.isArray();
+	}
 
-  private static <T> boolean isAnArray(Class<T> clazz) {
-    return clazz.isArray();
-  }
+	private static <T> boolean isFinal(Class<T> clazz) {
+		return Modifier.isFinal(clazz.getModifiers());
+	}
 
-  private static <T> boolean isFinal(Class<T> clazz) {
-    return Modifier.isFinal(clazz.getModifiers());
-  }
-
-  private ByteCodeFactory() {
-    throw new UnsupportedOperationException(ByteCodeFactory.class.getName() + " should not be constructed!");
-  }
+	private ByteCodeFactory() {
+		throw new UnsupportedOperationException(ByteCodeFactory.class.getName() + " should not be constructed!");
+	}
 }

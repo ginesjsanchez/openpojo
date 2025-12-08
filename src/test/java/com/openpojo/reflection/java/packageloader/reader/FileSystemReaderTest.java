@@ -24,6 +24,8 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 import org.junit.jupiter.api.AfterEach;
@@ -53,8 +55,8 @@ public class FileSystemReaderTest {
 	}
 
 	@Test
-	public void shouldNotFailForEmptyPaths() throws MalformedURLException {
-		URL url = new URL("file://" + file.getAbsolutePath());
+	public void shouldNotFailForEmptyPaths() throws MalformedURLException, URISyntaxException {
+		URL url = new URI("file://" + file.getAbsolutePath()).toURL();
 		FileSystemReader fileSystemReader = FileSystemReader.getInstance(url);
 		// //assertThat(fileSystemReader, notNullValue());
 		// //assertThat(fileSystemReader.getSubPackagesOfPackage("").size(), is(0));
@@ -62,13 +64,13 @@ public class FileSystemReaderTest {
 	}
 
 	@Test
-	public void throwsProperException() throws MalformedURLException {
+	public void throwsProperException() throws MalformedURLException, URISyntaxException {
 		String anyUrl = anyUrl();
 		try {
-			FileSystemReader.getInstance(new URL(anyUrl));
+			FileSystemReader.getInstance(new URI(anyUrl).toURL());
 			fail("Expected exception not thrown!");
 		} catch (ReflectionException re) {
-			URLToFileSystemAdapter ufsa = new URLToFileSystemAdapter(new URL(anyUrl));
+			URLToFileSystemAdapter ufsa = new URLToFileSystemAdapter(new URI(anyUrl).toURL());
 			assertEquals("Failed to retrieve entries in path: " + "[" + ufsa.getAsFile().getAbsolutePath() + "]"
 					+ " created from URI: [" + ufsa.getAsURI() + "].  Please report this issue @ http://openpojo.com",
 					re.getMessage());

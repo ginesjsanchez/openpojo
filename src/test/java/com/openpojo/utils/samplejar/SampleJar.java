@@ -20,6 +20,8 @@ package com.openpojo.utils.samplejar;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
 
@@ -27,59 +29,58 @@ import java.net.URLClassLoader;
  * @author oshoukry
  */
 public class SampleJar {
-  private final URLClassLoader urlClassLoader;
-  private final String jarUrlPath;
-  private final String jarFilePath;
+	private final URLClassLoader urlClassLoader;
+	private final String jarUrlPath;
+	private final String jarFilePath;
 
-  private static final SampleJar INSTANCE = new SampleJar();
+	private static final SampleJar INSTANCE = new SampleJar();
 
+	public static URLClassLoader getURLClassLoader() {
+		return INSTANCE.urlClassLoader;
+	}
 
-  public static URLClassLoader getURLClassLoader() {
-    return INSTANCE.urlClassLoader;
-  }
+	public static URL getJarURL() {
+		try {
+			return new URI(getJarURLPath()).toURL();
+		} catch (IOException | URISyntaxException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
-  public static URL getJarURL() {
-    try {
-      return new URL(getJarURLPath());
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-  }
+	public static String getJarURLPath() {
+		return INSTANCE.jarUrlPath;
+	}
 
-  public static String getJarURLPath() {
-    return INSTANCE.jarUrlPath;
-  }
+	public static String getJarFilePath() {
+		return INSTANCE.jarFilePath;
+	}
 
-  public static String getJarFilePath() {
-    return INSTANCE.jarFilePath;
-  }
+	private String buildJarFilePath() {
+		String systemPath = "";
+		String userdir = System.getProperty("user.dir");
 
-  private String buildJarFilePath() {
-    String systemPath = "";
-    String userdir = System.getProperty("user.dir");
+		boolean isWindows = System.getProperty("os.name").toLowerCase().contains("windows");
 
-    boolean isWindows = System.getProperty("os.name").toLowerCase().contains("windows");
+		if (isWindows)
+			systemPath += userdir.substring(2).replace("\\", "/"); // skip over the letter drive (i.e. C:)
+		else
+			systemPath += userdir;
 
-    if (isWindows)
-      systemPath += userdir.substring(2).replace("\\", "/"); // skip over the letter drive (i.e. C:)
-    else
-      systemPath += userdir;
+		systemPath += "/test/sampleJar.zip";
+		return systemPath;
+	}
 
-    systemPath += "/test/sampleJar.zip";
-    return systemPath;
-  }
+	private SampleJar() {
+		jarFilePath = buildJarFilePath();
+		jarUrlPath = "jar:file://" + jarFilePath + "!/";
+		urlClassLoader = getClassLoader();
+	}
 
-  private SampleJar() {
-    jarFilePath = buildJarFilePath();
-    jarUrlPath = "jar:file://" + jarFilePath + "!/" ;
-    urlClassLoader = getClassLoader();
-  }
-
-  private URLClassLoader getClassLoader() {
-    try {
-      return URLClassLoader.newInstance(new URL[] { new URL(jarUrlPath) });
-    } catch (MalformedURLException e) {
-      throw new RuntimeException(e);
-    }
-  }
+	private URLClassLoader getClassLoader() {
+		try {
+			return URLClassLoader.newInstance(new URL[] { new URI(jarUrlPath).toURL() });
+		} catch (MalformedURLException | URISyntaxException e) {
+			throw new RuntimeException(e);
+		}
+	}
 }

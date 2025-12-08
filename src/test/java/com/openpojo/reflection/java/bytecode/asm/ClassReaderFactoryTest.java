@@ -23,7 +23,6 @@ import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import com.openpojo.random.exception.RandomGeneratorException;
 import com.openpojo.reflection.PojoClass;
 import com.openpojo.reflection.construct.InstanceFactory;
 import com.openpojo.reflection.exception.ReflectionException;
@@ -50,9 +49,9 @@ public class ClassReaderFactoryTest {
 				}
 			}
 			Assertions.fail("Should have not been able to construct");
-		} catch (RandomGeneratorException e) {
+		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			fail("UnsupportedOperationException expected");
+			fail("UnsupportedOperationException expected", e);
 		}
 	}
 

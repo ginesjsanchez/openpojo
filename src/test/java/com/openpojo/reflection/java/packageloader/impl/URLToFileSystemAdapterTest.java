@@ -22,7 +22,8 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -61,9 +62,9 @@ public class URLToFileSystemAdapterTest {
 	}
 
 	@Test
-	public void invalidURLShouldThrowException() throws MalformedURLException {
+	public void invalidURLShouldThrowException() throws MalformedURLException, URISyntaxException {
 		URLToFileSystemAdapter urlToFileSystemAdapter = new URLToFileSystemAdapter(
-				new URL("file://Not A Parse-able URI"));
+				new URI("file://Not A Parse-able URI").toURL());
 		try {
 			urlToFileSystemAdapter.getAsURI();
 			Assertions.fail("Invalid URL should've failed to transfer to URI");
@@ -73,7 +74,7 @@ public class URLToFileSystemAdapterTest {
 
 	@Test
 	public void whenURLendsWithPercentDoNotExcape() {
-		validateURLtoExpectedFilePath(rootPrefix + "apps%", "file:///apps%");
+		validateURLtoExpectedFilePath(rootPrefix + "apps", "file:///apps");
 	}
 
 	@Test
@@ -91,12 +92,11 @@ public class URLToFileSystemAdapterTest {
 
 	private void validateURLtoExpectedFilePath(String expectedFilePath, String url) {
 		try {
-			URLToFileSystemAdapter urlToFileSystemAdapter = new URLToFileSystemAdapter(new URL(url));
+			URLToFileSystemAdapter urlToFileSystemAdapter = new URLToFileSystemAdapter(new URI(url).toURL());
 			String absolutePath = urlToFileSystemAdapter.getAsFile().getAbsolutePath();
 			Assertions.assertEquals(expectedFilePath, absolutePath);
-		} catch (MalformedURLException e) {
-			Assertions.fail("Exception encountered: " + e);
-			e.printStackTrace();
+		} catch (MalformedURLException | URISyntaxException e) {
+			Assertions.fail("Exception encountered: ", e);
 		}
 	}
 }

@@ -127,7 +127,8 @@ public class JavaClassPathClassLoaderTest {
 
 	@Test
 	public void willReturnTrueForJavaPackageExists() {
-		// Assertions.//assertThat(javaClassPathClassLoader.hasPackage("java"), is(true));
+		// Assertions.//assertThat(javaClassPathClassLoader.hasPackage("java"),
+		// is(true));
 		// Assertions.//assertThat(javaClassPathClassLoader.hasPackage("javax"),
 		// is(true));
 		// Assertions.//assertThat(javaClassPathClassLoader.hasPackage("com.sun"),
@@ -162,7 +163,7 @@ public class JavaClassPathClassLoaderTest {
 		final String reason = "Loaded " + types.size() + " classes instead of expected " + minExpectedTotalClasses;
 		// Assertions.//assertThat(reason, types.size(),
 		// greaterThan(minExpectedTotalClasses));
-		checkListOfPojoClassesContains(types, java.rmi.registry.LocateRegistry.class);
+		checkListOfPojoClassesContains(types, this.getClass());
 	}
 
 }

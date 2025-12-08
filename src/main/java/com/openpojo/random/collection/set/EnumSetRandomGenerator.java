@@ -36,38 +36,42 @@ import com.openpojo.reflection.Parameterizable;
  * @author oshoukry
  */
 public class EnumSetRandomGenerator extends BaseCollectionRandomGenerator {
-  private static final Random RANDOM = new Random(new Date().getTime());
-  private static final Class<?>[] TYPES = new Class<?>[] { EnumSet.class };
-  private static final EnumSetRandomGenerator INSTANCE = new EnumSetRandomGenerator();
+	private static final Random RANDOM = new Random(new Date().getTime());
+	private static final Class<?>[] TYPES = new Class<?>[] { EnumSet.class };
+	private static final EnumSetRandomGenerator INSTANCE = new EnumSetRandomGenerator();
 
-  public static EnumSetRandomGenerator getInstance() {
-    return INSTANCE;
-  }
+	public static EnumSetRandomGenerator getInstance() {
+		return INSTANCE;
+	}
 
-  public Collection<Class<?>> getTypes() {
-    return Arrays.asList(TYPES);
-  }
+	@Override
+	public Collection<Class<?>> getTypes() {
+		return Arrays.asList(TYPES);
+	}
 
-  @Override
-  protected Collection getBasicInstance(Class<?> type) {
-    Helper.assertIsAssignableTo(type, getTypes());
-    List<SomeEnum> someEnums = new ArrayList<SomeEnum>();
-    for (int i = 0; i < CollectionHelper.MAX_RANDOM_ELEMENTS; i++) {
-      someEnums.add(SomeEnum.values()[RANDOM.nextInt(SomeEnum.values().length - 1)]);
-    }
+	@Override
+	protected Collection<?> getBasicInstance(Class<?> type) {
+		Helper.assertIsAssignableTo(type, getTypes());
+		List<SomeEnum> someEnums = new ArrayList<SomeEnum>();
+		for (int i = 0; i < CollectionHelper.MAX_RANDOM_ELEMENTS; i++) {
+			someEnums.add(SomeEnum.values()[RANDOM.nextInt(SomeEnum.values().length - 1)]);
+		}
 
-    return EnumSet.copyOf(someEnums);
-  }
+		return EnumSet.copyOf(someEnums);
+	}
 
-  public Collection doGenerate(Class<?> type) {
-    return getBasicInstance(type);
-  }
+	@Override
+	public Collection<?> doGenerate(Class<?> type) {
+		return getBasicInstance(type);
+	}
 
-  public Collection doGenerate(Parameterizable parameterizedType) {
-    Helper.assertIsAssignableTo(parameterizedType.getType(), getTypes());
-    return EnumSet.allOf((Class) parameterizedType.getParameterTypes().get(0));
-  }
+	@Override
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public Collection<?> doGenerate(Parameterizable parameterizedType) {
+		Helper.assertIsAssignableTo(parameterizedType.getType(), getTypes());
+		return EnumSet.allOf((Class) parameterizedType.getParameterTypes().get(0));
+	}
 
-  private EnumSetRandomGenerator() {
-  }
+	private EnumSetRandomGenerator() {
+	}
 }

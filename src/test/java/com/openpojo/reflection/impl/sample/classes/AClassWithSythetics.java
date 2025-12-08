@@ -23,13 +23,16 @@ package com.openpojo.reflection.impl.sample.classes;
  */
 public class AClassWithSythetics {
 
-  private AClassWithSythetics() {
+	public NestedClass nestedClass = new NestedClass();
 
-  }
+	public class NestedClass {
+		public NestedClass() {
+		}
+	}
 
-  public static class Factory {
-    public static AClassWithSythetics getInstance() {
-      return new AClassWithSythetics();
-    }
-  }
+	public static class Factory {
+		public static AClassWithSythetics getInstance() {
+			return new AClassWithSythetics();
+		}
+	}
 }

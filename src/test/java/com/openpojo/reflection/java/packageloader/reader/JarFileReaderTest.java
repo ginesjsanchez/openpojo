@@ -18,6 +18,7 @@
 
 package com.openpojo.reflection.java.packageloader.reader;
 
+import java.net.URI;
 import java.net.URL;
 import java.util.Set;
 
@@ -27,7 +28,6 @@ import org.junit.jupiter.api.Test;
 import com.openpojo.reflection.PojoClass;
 import com.openpojo.reflection.PojoMethod;
 import com.openpojo.reflection.impl.PojoClassFactory;
-import com.openpojo.reflection.java.Java;
 import com.openpojo.utils.samplejar.SampleJar;
 
 /**
@@ -82,7 +82,7 @@ public class JarFileReaderTest {
 	@Test
 	public void shouldReturnFalseIfFileIsNotJarFile() throws Exception {
 		PojoClass pojoClass = PojoClassFactory.getPojoClass(this.getClass());
-		String sourcePath = (new URL(pojoClass.getSourcePath())).getPath();
+		String sourcePath = (new URI(pojoClass.getSourcePath())).toURL().getPath();
 		JarFileReader jarFileReader = JarFileReader.getInstance(sourcePath);
 		Assertions.assertFalse(jarFileReader.isValid());
 	}
@@ -93,9 +93,10 @@ public class JarFileReaderTest {
 		Assertions.assertTrue(jarFileReader.isValid());
 	}
 
+	@SuppressWarnings("unused")
 	@Test
 	public void canReadEntries() {
-		String jarFile = getJarFile("rt.jar");
+		String jarFile = System.getProperty("java.home") + "/lib/jrt-fs.jar";
 		Assertions.assertNotNull(jarFile);
 		JarFileReader jarFileReader = JarFileReader.getInstance(jarFile);
 		Assertions.assertNotNull(jarFileReader);
@@ -105,16 +106,17 @@ public class JarFileReaderTest {
 		//// actual number is 20,651
 	}
 
-	private String getJarFile(String jarFileName) {
-		String classPath = System.getProperty("java.class.path");
-		classPath += Java.CLASSPATH_DELIMITER + System.getProperty("java.library.path");
-		classPath += Java.CLASSPATH_DELIMITER + System.getProperty("java.ext.dirs");
-		classPath += Java.CLASSPATH_DELIMITER + System.getProperty("sun.boot.class.path");
-		String[] classPathParts = classPath.split(Java.CLASSPATH_DELIMITER);
-		for (String entry : classPathParts) {
-			if (entry.endsWith(Java.PATH_DELIMITER + jarFileName))
-				return entry;
-		}
-		return null;
-	}
+//	private String getJarFile(String jarFileName) {
+//		logger.info("*** {}", System.getProperty("java.home"));
+//		String classPath = System.getProperty("java.class.path");
+//		classPath += Java.CLASSPATH_DELIMITER + System.getProperty("java.library.path");
+//		classPath += Java.CLASSPATH_DELIMITER + System.getProperty("java.ext.dirs");
+//		classPath += Java.CLASSPATH_DELIMITER + System.getProperty("sun.boot.class.path");
+//		String[] classPathParts = classPath.split(Java.CLASSPATH_DELIMITER);
+//		for (String entry : classPathParts) {
+//			if (entry.endsWith(Java.PATH_DELIMITER + jarFileName))
+//				return entry;
+//		}
+//		return null;
+//	}
 }

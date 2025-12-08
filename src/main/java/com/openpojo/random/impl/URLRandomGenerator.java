@@ -19,6 +19,8 @@
 package com.openpojo.random.impl;
 
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Collection;
@@ -32,34 +34,37 @@ import com.openpojo.random.exception.RandomGeneratorException;
  * @author oshoukry
  */
 public class URLRandomGenerator implements RandomGenerator {
-  private static final Class<?>[] TYPES = new Class<?>[] { URL.class };
-  private String urlPrefix = "http://randomurl.openpojo.com/";
+	private static final Class<?>[] TYPES = new Class<?>[] { URL.class };
+	private String urlPrefix = "http://randomurl.openpojo.com/";
 
-  private URLRandomGenerator() {
-  }
+	private URLRandomGenerator() {
+	}
 
-  public static URLRandomGenerator getInstance() {
-    return Instance.INSTANCE;
-  }
+	public static URLRandomGenerator getInstance() {
+		return Instance.INSTANCE;
+	}
 
-  public Collection<Class<?>> getTypes() {
-    return Arrays.asList(TYPES);
-  }
+	@Override
+	public Collection<Class<?>> getTypes() {
+		return Arrays.asList(TYPES);
+	}
 
-  public void setUrlPrefix(String hostPrefix) {
-    this.urlPrefix = hostPrefix;
-  }
+	public void setUrlPrefix(String hostPrefix) {
+		this.urlPrefix = hostPrefix;
+	}
 
-  public Object doGenerate(Class<?> type) {
-    String entry = urlPrefix + RandomFactory.getRandomValue(UUID.class) + "/";
-    try {
-      return new URL(entry);
-    } catch (MalformedURLException me) {
-      throw RandomGeneratorException.getInstance("Failed to create random URL (Invalid urlPrefix set?): " + entry, me);
-    }
-  }
+	@Override
+	public Object doGenerate(Class<?> type) {
+		String entry = urlPrefix + RandomFactory.getRandomValue(UUID.class) + "/";
+		try {
+			return new URI(entry).toURL();
+		} catch (MalformedURLException | URISyntaxException | IllegalArgumentException me) {
+			throw RandomGeneratorException.getInstance("Failed to create random URL (Invalid urlPrefix set?): " + entry,
+					me);
+		}
+	}
 
-  private static class Instance {
-    private static final URLRandomGenerator INSTANCE = new URLRandomGenerator();
-  }
+	private static class Instance {
+		private static final URLRandomGenerator INSTANCE = new URLRandomGenerator();
+	}
 }

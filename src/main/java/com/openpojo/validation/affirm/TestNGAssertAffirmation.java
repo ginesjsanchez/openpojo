@@ -34,7 +34,7 @@ import com.openpojo.reflection.java.load.ClassUtil;
  */
 public class TestNGAssertAffirmation extends AbstractAffirmation implements Affirmation {
 	static {
-		if (!ClassUtil.isClassLoaded("org.testng.Assertions"))
+		if (!ClassUtil.isClassLoaded("org.testng.Assert"))
 			throw ReflectionException.getInstance("org.testng.Assertions class not found");
 	}
 
