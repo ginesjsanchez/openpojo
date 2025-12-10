@@ -18,64 +18,66 @@
 
 package com.openpojo.reflection.java.bytecode.asm;
 
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassWriter;
+
 import com.openpojo.cache.CacheStorage;
 import com.openpojo.cache.CacheStorageFactory;
 import com.openpojo.log.Logger;
 import com.openpojo.log.LoggerFactory;
 import com.openpojo.reflection.exception.ReflectionException;
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassWriter;
 
 /**
  * @author oshoukry
  */
 public class ASMService {
-  private SimpleClassLoader simpleClassLoader = new SimpleClassLoader();
-  private Logger logger = LoggerFactory.getLogger(this.getClass());
-  private CacheStorage<Class<?>> alreadyGeneratedClasses = CacheStorageFactory.getPersistentCacheStorage();
+	private SimpleClassLoader simpleClassLoader = new SimpleClassLoader();
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	private CacheStorage<Class<?>> alreadyGeneratedClasses = CacheStorageFactory.getPersistentCacheStorage();
 
-  private ASMService() {
-  }
+	private ASMService() {
+	}
 
-  public static ASMService getInstance() {
-    return Instance.INSTANCE;
-  }
+	public static ASMService getInstance() {
+		return Instance.INSTANCE;
+	}
 
-  public <T> Class<? extends T> createSubclassFor(Class<T> clazz) {
-    SubClassDefinition subClassDefinition = new DefaultSubClassDefinition(clazz);
-    return createSubclassFor(clazz, subClassDefinition);
-  }
+	public <T> Class<? extends T> createSubclassFor(Class<T> clazz) {
+		SubClassDefinition subClassDefinition = new DefaultSubClassDefinition(clazz);
+		return createSubclassFor(clazz, subClassDefinition);
+	}
 
-  @SuppressWarnings("unchecked")
-  public <T> Class<? extends T> createSubclassFor(Class<T> clazz, SubClassDefinition subClassDefinition) {
-    Class<? extends T> generatedClass = (Class<? extends T>) alreadyGeneratedClasses.get(subClassDefinition.getGeneratedClassName());
+	@SuppressWarnings("unchecked")
+	public <T> Class<? extends T> createSubclassFor(Class<T> clazz, SubClassDefinition subClassDefinition) {
+		Class<? extends T> generatedClass = (Class<? extends T>) alreadyGeneratedClasses
+				.get(subClassDefinition.getGeneratedClassName());
 
-    if (generatedClass != null) {
-      logger.info("Reusing already generated sub-class for class [{0}]", clazz.getName());
-    } else {
-      try {
-        generatedClass = (Class<? extends T>) simpleClassLoader.loadThisClass(getSubClassByteCode(subClassDefinition),
-            subClassDefinition.getGeneratedClassName());
-        alreadyGeneratedClasses.add(subClassDefinition.getGeneratedClassName(), generatedClass);
-      } catch (Throwable throwable) {
-        throw ReflectionException.getInstance("Failed to create subclass for class: " + clazz, throwable);
-      }
-    }
-    return generatedClass;
-  }
+		if (generatedClass != null) {
+			logger.info("Reusing already generated sub-class for class [{0}]", clazz.getName());
+		} else {
+			try {
+				generatedClass = (Class<? extends T>) simpleClassLoader.loadThisClass(
+						getSubClassByteCode(subClassDefinition), subClassDefinition.getGeneratedClassName());
+				alreadyGeneratedClasses.add(subClassDefinition.getGeneratedClassName(), generatedClass);
+			} catch (Throwable throwable) {
+				throw ReflectionException.getInstance("Failed to create subclass for class: " + clazz, throwable);
+			}
+		}
+		return generatedClass;
+	}
 
-  private byte[] getSubClassByteCode(SubClassDefinition subClassDefinition) {
+	private byte[] getSubClassByteCode(SubClassDefinition subClassDefinition) {
 
-    ClassReader classReader = subClassDefinition.getClassReader();
-    ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
+		ClassReader classReader = subClassDefinition.getClassReader();
+		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
+		SubClassCreator subClassCreator = new SubClassCreator(cw, subClassDefinition.getGeneratedClassNameAsJDKPath());
+		classReader.accept(subClassCreator, 0);
 
-    classReader.accept(new SubClassCreator(cw, subClassDefinition.getGeneratedClassNameAsJDKPath()), 0);
+		cw.visitEnd();
+		return cw.toByteArray();
+	}
 
-    cw.visitEnd();
-    return cw.toByteArray();
-  }
-
-  private static class Instance {
-    private static final ASMService INSTANCE = new ASMService();
-  }
+	private static class Instance {
+		private static final ASMService INSTANCE = new ASMService();
+	}
 }

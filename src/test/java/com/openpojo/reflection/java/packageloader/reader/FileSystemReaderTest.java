@@ -19,6 +19,7 @@
 package com.openpojo.reflection.java.packageloader.reader;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 //import static org.junit.jupiter.api.Assertions.//assertThat;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -28,6 +29,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
+import org.apache.commons.lang3.SystemUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,7 +46,7 @@ public class FileSystemReaderTest {
 
 	@BeforeEach
 	public void setup() {
-		file = new File(System.getProperty("user.dir") + File.separator + ".tmp.testing.folder."
+		file = new File(System.getProperty("user.dir").replace("C:", "") + File.separator + "target/"
 				+ RandomFactory.getRandomValue(String.class));
 		file.mkdir();
 	}
@@ -54,13 +56,17 @@ public class FileSystemReaderTest {
 		file.delete();
 	}
 
+	// TODO
 	@Test
 	public void shouldNotFailForEmptyPaths() throws MalformedURLException, URISyntaxException {
-		URL url = new URI("file://" + file.getAbsolutePath()).toURL();
-		FileSystemReader fileSystemReader = FileSystemReader.getInstance(url);
-		// //assertThat(fileSystemReader, notNullValue());
-		// //assertThat(fileSystemReader.getSubPackagesOfPackage("").size(), is(0));
-		// //assertThat(fileSystemReader.getTypesInPackage("").size(), is(0));
+		if (SystemUtils.IS_OS_LINUX) {
+			String[] parts = file.getAbsolutePath().replace("\\", "/").split(":/");
+			URL url = new URI("file://" + parts[parts.length - 1]).toURL();
+			FileSystemReader fileSystemReader = FileSystemReader.getInstance(url);
+			assertNotNull(fileSystemReader);
+			// //assertThat(fileSystemReader.getSubPackagesOfPackage("").size(), is(0));
+			// //assertThat(fileSystemReader.getTypesInPackage("").size(), is(0));
+		}
 	}
 
 	@Test

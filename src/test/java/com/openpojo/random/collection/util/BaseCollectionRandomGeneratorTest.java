@@ -49,8 +49,10 @@ public abstract class BaseCollectionRandomGeneratorTest {
 
 	protected abstract Class<? extends ParameterizableRandomGenerator> getGeneratorClass();
 
+	@SuppressWarnings("rawtypes")
 	protected abstract Class<? extends Collection> getExpectedTypeClass();
 
+	@SuppressWarnings("rawtypes")
 	protected abstract Class<? extends Collection> getGeneratedTypeClass();
 
 	protected abstract Class<?> getGenericType();
@@ -155,7 +157,6 @@ public abstract class BaseCollectionRandomGeneratorTest {
 	}
 
 	@Test
-	@SuppressWarnings("unchecked")
 	public void shouldGenerateParametrizableCorrectCollectionForRequest() {
 		Collection<?> collectionOfType = (Collection) getInstance().doGenerate(getParameterizedType());
 

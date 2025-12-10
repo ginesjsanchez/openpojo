@@ -60,7 +60,7 @@ public class JarFileReader {
 		try {
 			jarFile = new JarFile(jarFilePath, true);
 			initClassNames();
-		} catch (Throwable ignored) {
+		} catch (Exception e) {
 		}
 	}
 
@@ -68,7 +68,7 @@ public class JarFileReader {
 		try {
 			jarFile = ((JarURLConnection) jarURL.openConnection()).getJarFile();
 			initClassNames();
-		} catch (Throwable ignored) {
+		} catch (Exception e) {
 		}
 	}
 

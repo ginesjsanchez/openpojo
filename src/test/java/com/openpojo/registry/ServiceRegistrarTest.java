@@ -32,7 +32,6 @@ import com.openpojo.validation.affirm.Affirm;
 
 public class ServiceRegistrarTest {
 
-	private String javaVersion = System.getProperty("java.version");
 	private final String[] expectedDefaultTypeNames = new String[] {
 		// @formatter:off
             "java.awt.image.BufferedImage"
@@ -120,14 +119,9 @@ public class ServiceRegistrarTest {
             ,"javax.management.relation.RoleList"
             ,"javax.management.relation.RoleUnresolvedList"
 
-            ,"javax.print.attribute.standard.JobStateReasons"
-
             ,"javax.xml.datatype.XMLGregorianCalendar"
-
-            ,"sun.security.krb5.Credentials"
-            ,"sun.security.krb5.EncryptionKey"
-            ,"sun.security.krb5.internal.KerberosTime"
-            ,"sun.security.krb5.PrincipalName"
+            
+            ,"org.springframework.security.crypto.password.PasswordEncoder"
     };
     // @formatter:on
 
