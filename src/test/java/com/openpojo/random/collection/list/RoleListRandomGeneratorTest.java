@@ -18,8 +18,6 @@
 
 package com.openpojo.random.collection.list;
 
-import static org.junit.jupiter.api.Assertions.fail;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -36,6 +34,8 @@ import com.openpojo.random.util.SomeRole;
 import com.openpojo.reflection.PojoClass;
 import com.openpojo.reflection.PojoMethod;
 import com.openpojo.reflection.impl.PojoClassFactory;
+
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author oshoukry

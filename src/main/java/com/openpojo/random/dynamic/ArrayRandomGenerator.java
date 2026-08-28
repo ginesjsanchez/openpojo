@@ -25,31 +25,47 @@ import java.util.Random;
 import com.openpojo.random.RandomFactory;
 
 /**
+ * Generates arrays: creates one of the requested component type and fills it by delegating to the generator matching
+ * that component.
+ *
  * @author oshoukry
  */
 public class ArrayRandomGenerator {
-  private static final Random RANDOM = new Random(new Date().getTime());
-  private static final int MAX_RANDOM_ELEMENTS = 5;
+	private static final Random RANDOM = new Random(new Date().getTime());
+	private static final int MAX_RANDOM_ELEMENTS = 5;
 
-  private ArrayRandomGenerator() {
-  }
+	private ArrayRandomGenerator() {
+	}
 
-  public static ArrayRandomGenerator getInstance() {
-    return Instance.INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared generator.
+	 */
+	public static ArrayRandomGenerator getInstance() {
+		return Instance.INSTANCE;
+	}
 
-  public Object doGenerate(final Class<?> type) {
-    final int count = RANDOM.nextInt(MAX_RANDOM_ELEMENTS) + 1;
-    final Object arrayReturn = Array.newInstance(type.getComponentType(), count);
-    for (int i = 0; i < count; i++) {
-      Array.set(arrayReturn, i, RandomFactory.getRandomValue(type.getComponentType()));
-    }
+	/**
+	 * Creates an array of the requested component type and fills it with random values.
+	 *
+	 * @param type
+	 *     The array type to generate.
+	 * @return the generated array.
+	 */
+	public Object doGenerate(final Class<?> type) {
+		final int count = RANDOM.nextInt(MAX_RANDOM_ELEMENTS) + 1;
+		final Object arrayReturn = Array.newInstance(type.getComponentType(), count);
+		for (int i = 0; i < count; i++) {
+			Array.set(arrayReturn, i, RandomFactory.getRandomValue(type.getComponentType()));
+		}
 
-    return arrayReturn;
-  }
+		return arrayReturn;
+	}
 
-  private static class Instance {
-    private static final ArrayRandomGenerator INSTANCE = new ArrayRandomGenerator();
-  }
+	private static class Instance {
+		private static final ArrayRandomGenerator INSTANCE = new ArrayRandomGenerator();
+	}
 
 }

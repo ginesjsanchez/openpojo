@@ -29,38 +29,53 @@ import com.openpojo.random.RandomGenerator;
 import com.openpojo.random.exception.RandomGeneratorException;
 
 /**
+ * Generates a random {@code java.net.URI}.
+ *
  * @author oshoukry
  */
 public class URIRandomGenerator implements RandomGenerator {
-  private static final Class<?>[] TYPES = new Class<?>[] { URI.class };
-  private String uriPrefix = "http://randomuri.openpojo.com/";
+	private static final Class<?>[] TYPES = new Class<?>[]{URI.class};
+	private String uriPrefix = "http://randomuri.openpojo.com/";
 
-  private URIRandomGenerator() {
+	private URIRandomGenerator() {
 
-  }
+	}
 
-  public static URIRandomGenerator getInstance() {
-    return Instance.INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared generator.
+	 */
+	public static URIRandomGenerator getInstance() {
+		return Instance.INSTANCE;
+	}
 
-  public Collection<Class<?>> getTypes() {
-    return Arrays.asList(TYPES);
-  }
+	public Collection<Class<?>> getTypes() {
+		return Arrays.asList(TYPES);
+	}
 
-  public Object doGenerate(Class<?> type) {
-    String entry = uriPrefix + RandomFactory.getRandomValue(UUID.class) + "/";
-    try {
-      return new URI(entry);
-    } catch (URISyntaxException use) {
-      throw RandomGeneratorException.getInstance("Failed to create random URI (Invalid uriPrefix set?): " + entry, use);
-    }
-  }
+	public Object doGenerate(Class<?> type) {
+		String entry = uriPrefix + RandomFactory.getRandomValue(UUID.class) + "/";
+		try {
+			return new URI(entry);
+		} catch (URISyntaxException use) {
+			throw RandomGeneratorException.getInstance("Failed to create random URI (Invalid uriPrefix set?): " + entry,
+					use);
+		}
+	}
 
-  public void setUriPrefix(String uriPrefix) {
-    this.uriPrefix = uriPrefix;
-  }
+	/**
+	 * Changes the prefix used to build the generated URIs.
+	 *
+	 * @param uriPrefix
+	 *     The prefix to use.
+	 */
+	public void setUriPrefix(String uriPrefix) {
+		this.uriPrefix = uriPrefix;
+	}
 
-  private static class Instance {
-    private static final URIRandomGenerator INSTANCE = new URIRandomGenerator();
-  }
+	private static class Instance {
+		private static final URIRandomGenerator INSTANCE = new URIRandomGenerator();
+	}
 }

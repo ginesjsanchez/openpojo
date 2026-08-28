@@ -26,8 +26,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-import com.openpojo.log.Logger;
-import com.openpojo.log.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.openpojo.random.RandomFactory;
 import com.openpojo.reflection.PojoClass;
 import com.openpojo.reflection.PojoField;
@@ -45,106 +46,116 @@ import com.openpojo.validation.utils.CloseableHelper;
  * @author oshoukry
  */
 public class SerializableTester implements Tester {
-  private final Logger logger = LoggerFactory.getLogger(SerializableTester.class);
-  private final boolean useStrictValidation;
+	private final Logger logger = LoggerFactory.getLogger(SerializableTester.class);
+	private final boolean useStrictValidation;
 
-  public SerializableTester() {
-    this(false);
-  }
+	/**
+	 * Creates the tester in lenient mode: non serializable classes are ignored.
+	 */
+	public SerializableTester() {
+		this(false);
+	}
 
-  public SerializableTester(boolean useStrictValidation) {
-    this.useStrictValidation = useStrictValidation;
-  }
+	/**
+	 * Creates the tester choosing how strict the check should be.
+	 *
+	 * @param useStrictValidation
+	 *     {@code true} to require the class to be serializable.
+	 */
+	public SerializableTester(boolean useStrictValidation) {
+		this.useStrictValidation = useStrictValidation;
+	}
 
-  public void run(PojoClass pojoClass) {
-    final Class<?> clazz = pojoClass.getClazz();
+	public void run(PojoClass pojoClass) {
+		final Class<?> clazz = pojoClass.getClazz();
 
-    if (Serializable.class.isAssignableFrom(clazz)) {
-      Object instance = RandomFactory.getRandomValue(clazz);
-      ensureNoFieldsAreNull(pojoClass, instance);
+		if (Serializable.class.isAssignableFrom(clazz)) {
+			Object instance = RandomFactory.getRandomValue(clazz);
+			ensureNoFieldsAreNull(pojoClass, instance);
 
-      try {
-        byte[] serializedObject = serialize(pojoClass, instance);
-        Object instance2 = deSerialize(serializedObject, instance.getClass());
-        Affirm.affirmNotNull("Failed to load serialized object [" + instance + "]", instance2);
-      } catch (Exception e) {
-        Affirm.fail("Failed to run " + this.getClass().getName() + " - Got exception [" + e + "] on PojoClass " + pojoClass);
-      }
-    } else {
-      logger.warn("Class [" + clazz + "] is not serializable, skipping validation");
-    }
-  }
+			try {
+				byte[] serializedObject = serialize(pojoClass, instance);
+				Object instance2 = deSerialize(serializedObject, instance.getClass());
+				Affirm.affirmNotNull("Failed to load serialized object [" + instance + "]", instance2);
+			} catch (Exception e) {
+				Affirm.fail("Failed to run " + this.getClass().getName() + " - Got exception [" + e + "] on PojoClass "
+						+ pojoClass);
+			}
+		} else {
+			logger.warn("Class [" + clazz + "] is not serializable, skipping validation");
+		}
+	}
 
-  private void ensureNoFieldsAreNull(PojoClass pojoClass, Object instance) {
-    PojoClass currentPojo = pojoClass;
-    while (currentPojo != null) {
-      for (PojoField field : currentPojo.getPojoFields()) {
-        PojoClass fieldClass = PojoClassFactory.getPojoClass(field.getType());
-        if (useStrictValidation && !fieldClass.extendz(Serializable.class) && fieldClass.isInterface() && !field.isTransient()) {
-          Affirm.fail("Field ["
-                  + field.getName()
-                  + "] is an interface that allows non-Serializable types on a Serializable ["
-                  + pojoClass.getClazz()
-                  + "]"
-              );
-        }
-        if (field.get(instance) == null)
-          field.set(instance, RandomFactory.getRandomValue(field));
-      }
-      currentPojo = currentPojo.getSuperClass();
-    }
-  }
+	private void ensureNoFieldsAreNull(PojoClass pojoClass, Object instance) {
+		PojoClass currentPojo = pojoClass;
+		while (currentPojo != null) {
+			for (PojoField field : currentPojo.getPojoFields()) {
+				PojoClass fieldClass = PojoClassFactory.getPojoClass(field.getType());
+				if (useStrictValidation && !fieldClass.extendz(Serializable.class) && fieldClass.isInterface()
+						&& !field.isTransient()) {
+					Affirm.fail("Field ["
+							+ field.getName()
+							+ "] is an interface that allows non-Serializable types on a Serializable ["
+							+ pojoClass.getClazz()
+							+ "]");
+				}
+				if (field.get(instance) == null)
+					field.set(instance, RandomFactory.getRandomValue(field));
+			}
+			currentPojo = currentPojo.getSuperClass();
+		}
+	}
 
-  private byte[] serialize(PojoClass pojoClass, Object object) {
-    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-    ObjectOutputStream objectOutputStream = null;
+	private byte[] serialize(PojoClass pojoClass, Object object) {
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		ObjectOutputStream objectOutputStream = null;
 
-    try {
-      logger.debug("Serializing [" + object + "] to byte[]");
-      objectOutputStream = new ObjectOutputStream(outputStream);
-      objectOutputStream.writeObject(object);
-    } catch (NotSerializableException notSerializable) {
-      final String failMessage = getFailMessage(pojoClass, notSerializable);
-      Affirm.fail(failMessage);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    } finally {
-      CloseableHelper.closeResources(objectOutputStream, outputStream);
-    }
-    return outputStream.toByteArray();
-  }
+		try {
+			logger.debug("Serializing [" + object + "] to byte[]");
+			objectOutputStream = new ObjectOutputStream(outputStream);
+			objectOutputStream.writeObject(object);
+		} catch (NotSerializableException notSerializable) {
+			final String failMessage = getFailMessage(pojoClass, notSerializable);
+			Affirm.fail(failMessage);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		} finally {
+			CloseableHelper.closeResources(objectOutputStream, outputStream);
+		}
+		return outputStream.toByteArray();
+	}
 
-  private String getFailMessage(PojoClass pojoClass, NotSerializableException notSerializable) {
-    String message = "Class [" + pojoClass.getClazz().getName() + "] has non-serializable field type [";
-    boolean found = false;
-    for (PojoField field : pojoClass.getPojoFields())
-      if (field.getType().getName().equals(notSerializable.getMessage())) {
-        found = true;
-        message += field;
-      }
-    if (!found)
-      message += notSerializable.getMessage() + "] which is inherited from a super class";
-    else
-      message += "]";
-    return message;
-  }
+	private String getFailMessage(PojoClass pojoClass, NotSerializableException notSerializable) {
+		String message = "Class [" + pojoClass.getClazz().getName() + "] has non-serializable field type [";
+		boolean found = false;
+		for (PojoField field : pojoClass.getPojoFields())
+			if (field.getType().getName().equals(notSerializable.getMessage())) {
+				found = true;
+				message += field;
+			}
+		if (!found)
+			message += notSerializable.getMessage() + "] which is inherited from a super class";
+		else
+			message += "]";
+		return message;
+	}
 
-  private <T> T deSerialize(byte[] bytes, Class<T> clazz) {
+	private <T> T deSerialize(byte[] bytes, Class<T> clazz) {
 
-    final T outClazz;
-    logger.debug("De-Serializing [" + clazz.getName() + "] from byte[]");
-    ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
-    ObjectInputStream objectInputStream = null;
+		final T outClazz;
+		logger.debug("De-Serializing [" + clazz.getName() + "] from byte[]");
+		ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
+		ObjectInputStream objectInputStream = null;
 
-    try {
-      objectInputStream = new ObjectInputStream(inputStream);
-      outClazz = clazz.cast(objectInputStream.readObject());
-    } catch (Exception e) {
-      throw new RuntimeException(e);
-    } finally {
-      CloseableHelper.closeResources(objectInputStream, inputStream);
-    }
-    return outClazz;
-  }
+		try {
+			objectInputStream = new ObjectInputStream(inputStream);
+			outClazz = clazz.cast(objectInputStream.readObject());
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		} finally {
+			CloseableHelper.closeResources(objectInputStream, inputStream);
+		}
+		return outClazz;
+	}
 
 }

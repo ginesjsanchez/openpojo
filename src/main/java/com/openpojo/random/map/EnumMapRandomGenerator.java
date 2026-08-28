@@ -31,38 +31,58 @@ import com.openpojo.random.util.SomeEnum;
 import com.openpojo.reflection.Parameterizable;
 
 /**
+ * Generates an {@code EnumMap}. When the real enum is unknown it uses {@code SomeEnum}; when the type carries
+ * parameters, it builds the map with the enum given.
+ *
  * @author oshoukry
  */
 public class EnumMapRandomGenerator extends BaseMapRandomGenerator {
-  private static final Class<?>[] TYPES = new Class<?>[] { EnumMap.class };
-  private static final EnumMapRandomGenerator INSTANCE = new EnumMapRandomGenerator();
+	private static final Class<?>[] TYPES = new Class<?>[]{EnumMap.class};
+	private static final EnumMapRandomGenerator INSTANCE = new EnumMapRandomGenerator();
 
-  public static EnumMapRandomGenerator getInstance() {
-    return INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared generator.
+	 */
+	public static EnumMapRandomGenerator getInstance() {
+		return INSTANCE;
+	}
 
-  public Collection<Class<?>> getTypes() {
-    return Arrays.asList(TYPES);
-  }
+	public Collection<Class<?>> getTypes() {
+		return Arrays.asList(TYPES);
+	}
 
-  @Override
-  protected Map getBasicInstance(Class<?> type) {
-    Helper.assertIsAssignableTo(type, getTypes());
-    return MapHelper.buildMap(new EnumMap<SomeEnum, SerializableComparableObject>(SomeEnum.class), SomeEnum.class,
-        SerializableComparableObject.class);
-  }
+	@Override
+	protected Map<Object, Object> getBasicInstance(Class<?> type) {
+		Helper.assertIsAssignableTo(type, getTypes());
+		return MapHelper.buildMap(MapHelper.asMap(new EnumMap<>(SomeEnum.class)), SomeEnum.class,
+				SerializableComparableObject.class);
+	}
 
-  @SuppressWarnings("unchecked")
-  public Map doGenerate(Parameterizable parameterizedType) {
-    Helper.assertIsAssignableTo(parameterizedType.getType(), getTypes());
+	@Override
+	public Map<Object, Object> doGenerate(Parameterizable parameterizedType) {
+		Helper.assertIsAssignableTo(parameterizedType.getType(), getTypes());
 
-    Class<?> type = (Class<?>) parameterizedType.getParameterTypes().get(0);
-    EnumMap returnedMap = new EnumMap(type);
-    return MapHelper.buildMap(returnedMap, parameterizedType.getParameterTypes().get(0),
-        parameterizedType.getParameterTypes().get(1));
-  }
+		Class<?> type = (Class<?>) parameterizedType.getParameterTypes().get(0);
+		Map<Object, Object> returnedMap = MapHelper.asMap(newEnumMap(type));
+		return MapHelper.buildMap(returnedMap, parameterizedType.getParameterTypes().get(0),
+				parameterizedType.getParameterTypes().get(1));
+	}
 
-  private EnumMapRandomGenerator() {
-  }
+	/**
+	 * EnumMap bounds its key with {@code K extends Enum<K>}, a self-referential bound that a wildcard cannot express.
+	 * This generic method captures that type variable so the map can be built from a {@code Class<?>} obtained at
+	 * runtime.
+	 */
+	private static <K extends Enum<K>> EnumMap<K, Object> newEnumMap(Class<?> keyType) {
+		@SuppressWarnings("unchecked")
+		final Class<K> enumType = (Class<K>) keyType;
+		return new EnumMap<>(enumType);
+	}
+
+	private EnumMapRandomGenerator() {
+	}
 
 }

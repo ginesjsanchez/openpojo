@@ -20,6 +20,12 @@ package com.openpojo.validation.test.impl;
 
 import java.util.List;
 
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import com.openpojo.reflection.PojoClass;
 import com.openpojo.reflection.PojoField;
 import com.openpojo.reflection.impl.PojoClassFactory;
@@ -28,63 +34,54 @@ import com.openpojo.validation.Validator;
 import com.openpojo.validation.ValidatorBuilder;
 import com.openpojo.validation.test.Tester;
 import com.openpojo.validation.test.impl.sampleclasses.AClassWithFieldThatThrowsExceptionWhenToString;
-import org.apache.log4j.spi.LoggingEvent;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import static org.hamcrest.CoreMatchers.is;
-//import static org.junit.jupiter.api.Assertions.//assertThat;
 
 /**
  * @author oshoukry
  */
 public abstract class LoggingTesterTest {
-  private SpyAppender spyAppender;
-  private Class<?> sampleClass;
-  private Validator validator;
-  private Tester tester;
+	private SpyAppender spyAppender;
+	private Class<?> sampleClass;
+	private Validator validator;
+	private Tester tester;
 
-  @BeforeEach
-  public void setup() {
-    spyAppender = new SpyAppender();
-    tester = getTester();
-    spyAppender.startCaptureForLogger(tester.getClass());
-    sampleClass = AClassWithFieldThatThrowsExceptionWhenToString.class;
-    validator = ValidatorBuilder
-        .create()
-        .with(tester)
-        .build();
-  }
+	@BeforeEach
+	public void setup() {
+		spyAppender = new SpyAppender();
+		tester = getTester();
+		spyAppender.startCaptureForLogger(tester.getClass());
+		sampleClass = AClassWithFieldThatThrowsExceptionWhenToString.class;
+		validator = ValidatorBuilder
+				.create()
+				.with(tester)
+				.build();
+	}
 
-  protected abstract Tester getTester();
+	protected abstract Tester getTester();
 
-  @Test
-  public void shouldSuccessfullyValidateEvenIfLoggingFails() {
-    validator.validate(PojoClassFactory.getPojoClass(sampleClass));
+	@Test
+	public void shouldSuccessfullyValidateEvenIfLoggingFails() {
+		validator.validate(PojoClassFactory.getPojoClass(sampleClass));
 
-    final List<LoggingEvent> eventsForLogger = spyAppender.getEventsForLogger(tester.getClass());
-    //assertThat(eventsForLogger.size(), is(1));
+		final List<ILoggingEvent> eventsForLogger = spyAppender.getEventsForLogger(tester.getClass());
+		Assertions.assertEquals(1, eventsForLogger.size());
+		Assertions.assertEquals(getExpectedLogMessage(), eventsForLogger.get(0).getFormattedMessage());
+	}
 
-    String expectedLog = getExpectedLogMessage();
-    //assertThat(eventsForLogger.get(0).getMessage().toString(), is(expectedLog));
-  }
+	private String getExpectedLogMessage() {
+		final PojoField pojoField = getPojoField();
+		return "Testing Field ["
+				+ pojoField
+				+ "] with value [Error calling toString: 'java.lang.RuntimeException: UnSupported call to toString()']";
+	}
 
-  private String getExpectedLogMessage() {
-    final PojoField pojoField = getPojoField();
-    return "Testing Field ["
-        + pojoField
-        + "] with value [Error calling toString: 'java.lang.RuntimeException: UnSupported call to toString()']";
-  }
+	private PojoField getPojoField() {
+		PojoClass pojoClass = PojoClassFactory.getPojoClass(sampleClass);
+		return pojoClass.getPojoFields().get(0);
+	}
 
-  private PojoField getPojoField() {
-    PojoClass pojoClass = PojoClassFactory.getPojoClass(sampleClass);
-    return pojoClass.getPojoFields().get(0);
-  }
-
-  @AfterEach
-  public void tearDown() {
-    spyAppender.stopCaptureForLogger(tester.getClass());
-  }
+	@AfterEach
+	public void tearDown() {
+		spyAppender.stopCaptureForLogger(tester.getClass());
+	}
 
 }

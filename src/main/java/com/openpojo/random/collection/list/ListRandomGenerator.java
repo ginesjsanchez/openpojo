@@ -27,26 +27,34 @@ import com.openpojo.random.collection.util.BaseCollectionRandomGenerator;
 import com.openpojo.random.util.Helper;
 
 /**
+ * Generates values for {@code List}, returning a {@code ArrayList} holding between 1 and 5 random elements.
+ *
  * @author oshoukry
  */
 public class ListRandomGenerator extends BaseCollectionRandomGenerator {
-  private static final Class<?>[] TYPES = new Class<?>[] { List.class };
-  private static final ListRandomGenerator INSTANCE = new ListRandomGenerator();
+	private static final Class<?>[] TYPES = new Class<?>[]{List.class};
+	private static final ListRandomGenerator INSTANCE = new ListRandomGenerator();
 
-  public static ListRandomGenerator getInstance() {
-    return INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared generator.
+	 */
+	public static ListRandomGenerator getInstance() {
+		return INSTANCE;
+	}
 
-  public Collection<Class<?>> getTypes() {
-    return Arrays.asList(TYPES);
-  }
+	public Collection<Class<?>> getTypes() {
+		return Arrays.asList(TYPES);
+	}
 
-  @Override
-  protected Collection getBasicInstance(Class<?> type) {
-    Helper.assertIsAssignableTo(type, getTypes());
-    return new ArrayList();
-  }
+	@Override
+	protected Collection<Object> getBasicInstance(Class<?> type) {
+		Helper.assertIsAssignableTo(type, getTypes());
+		return new ArrayList<>();
+	}
 
-  private ListRandomGenerator() {
-  }
+	private ListRandomGenerator() {
+	}
 }

@@ -19,10 +19,24 @@
 package com.openpojo.reflection.java.version;
 
 /**
+ * A version broken down into major, minor and patch, comparable with another.
+ *
  * @author oshoukry
  */
 public interface Version extends Comparable<Version> {
-  String getVersion();
+	/**
+	 * The version exactly as it was received.
+	 *
+	 * @return the original string.
+	 */
+	String getVersion();
 
-  Integer getPart(int idx);
+	/**
+	 * The version number at the given position: 0 major, 1 minor, 2 patch.
+	 *
+	 * @param idx
+	 *     The position to read.
+	 * @return that number, or {@code null} if there is none.
+	 */
+	Integer getPart(int idx);
 }

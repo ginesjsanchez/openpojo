@@ -22,34 +22,43 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Breaks a version string down into its numbers, tolerating suffixes such as those of snapshot versions.
+ *
  * @author oshoukry
  */
 public class VersionParser {
 
-  public static List<Integer> getVersionParts(String version) {
-    List<Integer> parts = new ArrayList<Integer>();
-    if (version == null)
-      return parts;
+	/**
+	 * Breaks a version string down into its numbers, ignoring suffixes such as those of snapshot versions.
+	 *
+	 * @param version
+	 *     The version text.
+	 * @return its numbers, in order.
+	 */
+	public static List<Integer> getVersionParts(String version) {
+		List<Integer> parts = new ArrayList<>();
+		if (version == null)
+			return parts;
 
-    String part = "";
-    for (char c : version.toCharArray()) {
-      if (c >= '0' && c <= '9')
-        part += c;
-      if (c == '.') {
-        if (part.length() > 0)
-          parts.add(Integer.parseInt(part));
-        part = "";
-      }
-    }
+		String part = "";
+		for (char c : version.toCharArray()) {
+			if (c >= '0' && c <= '9')
+				part += c;
+			if (c == '.') {
+				if (part.length() > 0)
+					parts.add(Integer.parseInt(part));
+				part = "";
+			}
+		}
 
-    if (part.length() > 0)
-      parts.add(Integer.parseInt(part));
+		if (part.length() > 0)
+			parts.add(Integer.parseInt(part));
 
-    return parts;
-  }
+		return parts;
+	}
 
-  private VersionParser() {
-    throw new UnsupportedOperationException(VersionParser.class.getName() +  " should not be constructed!");
+	private VersionParser() {
+		throw new UnsupportedOperationException(VersionParser.class.getName() + " should not be constructed!");
 
-  }
+	}
 }

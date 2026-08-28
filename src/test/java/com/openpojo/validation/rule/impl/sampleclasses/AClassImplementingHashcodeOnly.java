@@ -23,9 +23,9 @@ package com.openpojo.validation.rule.impl.sampleclasses;
  */
 public class AClassImplementingHashcodeOnly {
 
-  @Override
-  public int hashCode() {
-    return super.hashCode();
-  }
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
 
 }

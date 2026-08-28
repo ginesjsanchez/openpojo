@@ -35,10 +35,10 @@ public class MapCollectionAssertionHelper {
 	 * Input for expected type is an array representing the nested tree for the
 	 * input structure. Map k: Map k: Map k: Integer v: String v: Map k: Integer v:
 	 * String v: Map k: Map k: Integer v: String v: Map k: Integer v: String
-	 * 
+	 *
 	 * Map k: Map v: Map kk: Map kv: Map vk: Map vv: Map kkk: Integer kkv: String
 	 * kvk: Integer kvv: String vkk: Integer vkv: String vvk: Integer vvv: String
-	 * 
+	 *
 	 */
 	public static void assertParametersStructure(Object input, Class<?>[] expectedTypes) {
 		ensureBagHasTheSameClassType(input);
@@ -73,7 +73,7 @@ public class MapCollectionAssertionHelper {
 			ensureThatAllKeysAndValuesAreSameClassType((Map<?, ?>) bag);
 		}
 		if (isACollection(bag)) {
-			ensureThatAllCollectionEntriesAreSameClassType((Collection) bag);
+			ensureThatAllCollectionEntriesAreSameClassType((Collection<?>) bag);
 		}
 	}
 
@@ -87,7 +87,7 @@ public class MapCollectionAssertionHelper {
 		}
 	}
 
-	private static void ensureThatAllCollectionEntriesAreSameClassType(Collection collection) {
+	private static void ensureThatAllCollectionEntriesAreSameClassType(Collection<?> collection) {
 		if (collection instanceof SynchronousQueue) // This can't have anything in it.
 			return;
 		Object referenceEntry = collection.iterator().next();
@@ -108,7 +108,7 @@ public class MapCollectionAssertionHelper {
 		assertStructure(entry.getValue(), queue);
 	}
 
-	private static void validateCollectionHasCorrectTypes(Collection input, Class<?> listItemType) {
+	private static void validateCollectionHasCorrectTypes(Collection<?> input, Class<?> listItemType) {
 		for (Object entry : input) {
 			assertTypeIsAssignable(entry, listItemType);
 		}

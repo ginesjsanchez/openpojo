@@ -19,7 +19,6 @@
 package com.openpojo.issues.issue82;
 
 import org.junit.jupiter.api.Assertions;
-//import org.junit.Assume;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -19,16 +19,46 @@
 package com.openpojo.business.cache;
 
 /**
+ * Metadata of a field annotated with {@code @BusinessKey}: whether it is part of a composite key, whether it is case
+ * sensitive and whether it is required.
+ *
  * @author oshoukry
  */
 public interface BusinessKeyField {
-  boolean isComposite();
+	/**
+	 * Tells whether the key is composite.
+	 *
+	 * @return {@code true} if the field is part of a composite key.
+	 */
+	boolean isComposite();
 
-  boolean isCaseSensitive();
+	/**
+	 * Tells whether the comparison is case sensitive.
+	 *
+	 * @return {@code true} if text comparison is case sensitive.
+	 */
+	boolean isCaseSensitive();
 
-  boolean isRequired();
+	/**
+	 * Tells whether the field is required.
+	 *
+	 * @return {@code true} if the field cannot be null.
+	 */
+	boolean isRequired();
 
-  Object get(Object instance);
+	/**
+	 * Reads the value of the field on the given instance.
+	 *
+	 * @param instance
+	 *     The object to read from.
+	 * @return the value held by the field.
+	 */
+	Object get(Object instance);
 
-  boolean isArray();
+	/**
+	 * Tells whether the field is an array.
+	 *
+	 * @return {@code true} if the field is an array.
+	 */
+	boolean isArray();
 }

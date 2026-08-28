@@ -18,6 +18,9 @@
 
 package com.openpojo.issues.issue72;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import com.openpojo.issues.issue72.sample.AClassWithUUID;
 import com.openpojo.reflection.PojoClass;
 import com.openpojo.reflection.impl.PojoClassFactory;
@@ -25,28 +28,26 @@ import com.openpojo.validation.Validator;
 import com.openpojo.validation.ValidatorBuilder;
 import com.openpojo.validation.test.impl.GetterTester;
 import com.openpojo.validation.test.impl.SetterTester;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 /**
  * @author oshoukry
  */
 public class IssueTest {
 
-  private PojoClass classWithUUID;
-  private Validator validator;
+	private PojoClass classWithUUID;
+	private Validator validator;
 
-  @BeforeEach
-  public void setup() {
-    classWithUUID = PojoClassFactory.getPojoClass(AClassWithUUID.class);
-    validator = ValidatorBuilder.create()
-                  .with(new GetterTester())
-                  .with(new SetterTester())
-                  .build();
-  }
+	@BeforeEach
+	public void setup() {
+		classWithUUID = PojoClassFactory.getPojoClass(AClassWithUUID.class);
+		validator = ValidatorBuilder.create()
+				.with(new GetterTester())
+				.with(new SetterTester())
+				.build();
+	}
 
-  @Test
-  public void testWithUUID() {
-    validator.validate(classWithUUID);
-  }
+	@Test
+	public void testWithUUID() {
+		validator.validate(classWithUUID);
+	}
 }

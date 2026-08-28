@@ -25,36 +25,45 @@ import java.lang.reflect.Type;
 import com.openpojo.reflection.java.type.TypeResolver;
 
 /**
- * This resolver is used for GenericArrayType, which is returned when the underlying declaration is parameterized with an
- * array.  For example, if you have Set of SomeType[].  In Java 7 and 8, this is no longer the case.
- * TODO: Remove when JDK 1.5 and 1.6 are no longer supported.
+ * This resolver is used for GenericArrayType, which is returned when the
+ * underlying declaration is parameterized with an array. For example, if you
+ * have Set of SomeType[]. In Java 7 and 8, this is no longer the case. TODO:
+ * Remove when JDK 1.5 and 1.6 are no longer supported.
  *
  * @author oshoukry
  */
 public class GenericArrayTypeResolver implements TypeResolver<GenericArrayType> {
 
-  public Type resolveType(GenericArrayType type) {
-    Type returnedType = type.getGenericComponentType();
-    return getArrayClassOfType(returnedType);
-  }
+	@Override
+	public Type resolveType(GenericArrayType type) {
+		Type returnedType = type.getGenericComponentType();
+		return getArrayClassOfType(returnedType);
+	}
 
-  /**
-   * There is no clean way of generating a "Class" in java in runtime that represents an Array.
-   * The only way is to _create_ an array then return the type of that instance.
-   */
-  private Type getArrayClassOfType(Type returnedType) {
-    return Array.newInstance((Class) returnedType, 0).getClass();
-  }
+	/**
+	 * There is no clean way of generating a "Class" in java in runtime that
+	 * represents an Array. The only way is to _create_ an array then return the
+	 * type of that instance.
+	 */
+	private Type getArrayClassOfType(Type returnedType) {
+		return Array.newInstance((Class<?>) returnedType, 0).getClass();
+	}
 
-  public Type getEnclosingType(GenericArrayType type) {
-    throw new UnsupportedOperationException(
-        "getEnclosingType(" + type + ")"
-            + " - This operation is Not Supported, if you ran into this please report this issue @ http://openpojo.com");
-  }
+	@Override
+	public Type getEnclosingType(GenericArrayType type) {
+		throw new UnsupportedOperationException("getEnclosingType(" + type + ")"
+				+ " - This operation is Not Supported, if you ran into this please report this issue @ http://openpojo.com");
+	}
 
-  public Type[] getParameterTypes(GenericArrayType type) {
-    throw new UnsupportedOperationException(
-        "getParameterTypes(" + type + ")"
-            + " - This operation is Not Supported, if you ran into this please report this issue @ http://openpojo.com");
-  }
+	@Override
+	public Type[] getParameterTypes(GenericArrayType type) {
+		throw new UnsupportedOperationException("getParameterTypes(" + type + ")"
+				+ " - This operation is Not Supported, if you ran into this please report this issue @ http://openpojo.com");
+	}
+
+	/**
+	 * Creates an instance ready to use.
+	 */
+	public GenericArrayTypeResolver() {
+	}
 }

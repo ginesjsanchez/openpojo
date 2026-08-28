@@ -31,15 +31,23 @@ import com.openpojo.random.RandomGenerator;
 import com.openpojo.random.exception.RandomGeneratorException;
 
 /**
+ * Generates a random {@code java.net.URL}.
+ *
  * @author oshoukry
  */
 public class URLRandomGenerator implements RandomGenerator {
-	private static final Class<?>[] TYPES = new Class<?>[] { URL.class };
+	private static final Class<?>[] TYPES = new Class<?>[]{URL.class};
 	private String urlPrefix = "http://randomurl.openpojo.com/";
 
 	private URLRandomGenerator() {
 	}
 
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared generator.
+	 */
 	public static URLRandomGenerator getInstance() {
 		return Instance.INSTANCE;
 	}
@@ -49,6 +57,12 @@ public class URLRandomGenerator implements RandomGenerator {
 		return Arrays.asList(TYPES);
 	}
 
+	/**
+	 * Changes the prefix used to build the generated URLs.
+	 *
+	 * @param hostPrefix
+	 *     The prefix to use.
+	 */
 	public void setUrlPrefix(String hostPrefix) {
 		this.urlPrefix = hostPrefix;
 	}

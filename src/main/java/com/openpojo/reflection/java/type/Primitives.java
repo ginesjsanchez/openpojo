@@ -22,32 +22,49 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Mapping between primitive types and their wrappers, plus the default value of each primitive.
+ *
  * @author oshoukry
  */
 public class Primitives {
-  private Map<Class<?>, Class<?>> primitivesToWrappers = new HashMap<Class<?>, Class<?>>(9);
-  private static final Primitives INSTANCE = new Primitives();
+	private Map<Class<?>, Class<?>> primitivesToWrappers = new HashMap<>(9);
+	private static final Primitives INSTANCE = new Primitives();
 
-  public static Primitives getInstance() {
-    return INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared instance.
+	 */
+	public static Primitives getInstance() {
+		return INSTANCE;
+	}
 
-  private Primitives() {
-    primitivesToWrappers.put(Boolean.TYPE, Boolean.class);
-    primitivesToWrappers.put(Byte.TYPE, Byte.class);
-    primitivesToWrappers.put(Character.TYPE, Character.class);
-    primitivesToWrappers.put(Double.TYPE, Double.class);
-    primitivesToWrappers.put(Float.TYPE, Float.class);
-    primitivesToWrappers.put(Integer.TYPE, Integer.class);
-    primitivesToWrappers.put(Long.TYPE, Long.class);
-    primitivesToWrappers.put(Short.TYPE, Short.class);
-    primitivesToWrappers.put(Void.TYPE, Void.class);
-  }
+	private Primitives() {
+		primitivesToWrappers.put(Boolean.TYPE, Boolean.class);
+		primitivesToWrappers.put(Byte.TYPE, Byte.class);
+		primitivesToWrappers.put(Character.TYPE, Character.class);
+		primitivesToWrappers.put(Double.TYPE, Double.class);
+		primitivesToWrappers.put(Float.TYPE, Float.class);
+		primitivesToWrappers.put(Integer.TYPE, Integer.class);
+		primitivesToWrappers.put(Long.TYPE, Long.class);
+		primitivesToWrappers.put(Short.TYPE, Short.class);
+		primitivesToWrappers.put(Void.TYPE, Void.class);
+	}
 
-  @SuppressWarnings("unchecked")
-  public <T> Class<T> autoBox(Class<T> primitive) {
-    if (primitive == null || !primitive.isPrimitive())
-      return primitive;
-    return (Class<T>) primitivesToWrappers.get(primitive);
-  }
+	/**
+	 * Returns the wrapper of a primitive; every other type is returned unchanged.
+	 *
+	 * @param <T>
+	 *     The type received.
+	 * @param primitive
+	 *     The type to convert.
+	 * @return its wrapper, or the same type if it was not a primitive.
+	 */
+	@SuppressWarnings("unchecked")
+	public <T> Class<T> autoBox(Class<T> primitive) {
+		if (primitive == null || !primitive.isPrimitive())
+			return primitive;
+		return (Class<T>) primitivesToWrappers.get(primitive);
+	}
 }

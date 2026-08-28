@@ -18,13 +18,13 @@
 
 package com.openpojo.business;
 
-import static org.junit.jupiter.api.Assertions.fail;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import com.openpojo.business.exception.BusinessException;
 import com.openpojo.business.sampleclasses.Child;
+
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class BusinessIdentityInheritenceTest {
 

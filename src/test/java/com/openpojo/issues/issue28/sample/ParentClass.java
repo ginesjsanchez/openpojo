@@ -22,6 +22,6 @@ package com.openpojo.issues.issue28.sample;
  * @author oshoukry
  */
 public class ParentClass {
-  @SuppressWarnings("unused")
-  private String myString;
+	@SuppressWarnings("unused")
+	private String myString;
 }

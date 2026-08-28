@@ -21,16 +21,38 @@ package com.openpojo.reflection.java.bytecode.asm.method;
 import org.objectweb.asm.MethodVisitor;
 
 /**
+ * Generates the body of an abstract method in the subclass created with ASM.
+ *
  * @author oshoukry
  */
 public interface MethodHandler {
 
-  void generateMethod(MethodVisitor methodVisitor,
-                      String abstractClassName,
-                      String generatedClassName,
-                      int access,
-                      String name,
-                      String desc,
-                      String signature,
-                      String[] exceptions);
+	/**
+	 * Writes the method body into the subclass being generated.
+	 *
+	 * @param methodVisitor
+	 *     The ASM visitor to emit the code on.
+	 * @param abstractClassName
+	 *     Internal name of the abstract class being extended.
+	 * @param generatedClassName
+	 *     Internal name of the subclass being generated.
+	 * @param access
+	 *     The method modifiers, as ASM encodes them.
+	 * @param name
+	 *     The method name.
+	 * @param desc
+	 *     The descriptor of the method signature.
+	 * @param signature
+	 *     The generic signature of the method, or {@code null} if it has none.
+	 * @param exceptions
+	 *     The declared exceptions, or {@code null} if there are none.
+	 */
+	void generateMethod(MethodVisitor methodVisitor,
+			String abstractClassName,
+			String generatedClassName,
+			int access,
+			String name,
+			String desc,
+			String signature,
+			String[] exceptions);
 }

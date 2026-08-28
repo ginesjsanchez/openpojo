@@ -22,26 +22,32 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 /**
+ * A type that may carry type parameters. It gives access to the raw type and, when parameterized, to its parameters;
+ * this is what lets the generators fill a {@code List<Something>} with {@code Something} instances rather than {@code
+ * Object} ones.
+ *
  * @author oshoukry
  */
 public interface Parameterizable {
-  /**
-   * Return the type encapsulated.
-   *
-   * @return The type of the Parameterizable Object.
-   */
-  Class<?> getType();
+	/**
+	 * Return the type encapsulated.
+	 *
+	 * @return The type of the Parameterizable Object.
+	 */
+	Class<?> getType();
 
-  /**
-   * @return True if Parameterized (i.e. List&lt;SomeClass&gt;).
-   */
-  boolean isParameterized();
+	/**
+	 * Tells whether the encapsulated type carries type parameters.
+	 *
+	 * @return True if Parameterized (i.e. List&lt;SomeClass&gt;).
+	 */
+	boolean isParameterized();
 
-  /**
-   * Get the generics defined, returns empty list if not Parameterized.
-   *
-   * @return Return a list of Type that are defined parameterized (i.e. will return a list
-   * containing SomeClass for a List&lt;SomeClass&gt;, or [String, Integer] for Map&lt;String, Integer&lt;, ...etc).
-   */
-  List<Type> getParameterTypes();
+	/**
+	 * Get the generics defined, returns empty list if not Parameterized.
+	 *
+	 * @return Return a list of Type that are defined parameterized (i.e. will return a list
+	 * containing SomeClass for a List&lt;SomeClass&gt;, or [String, Integer] for Map&lt;String, Integer&lt;, ...etc).
+	 */
+	List<Type> getParameterTypes();
 }

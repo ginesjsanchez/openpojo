@@ -32,30 +32,35 @@ import com.openpojo.validation.rule.Rule;
 @SuppressWarnings("WeakerAccess")
 public class EqualsAndHashCodeMatchRule implements Rule {
 
-  public void evaluate(PojoClass pojoClass) {
+	public void evaluate(PojoClass pojoClass) {
 
-    boolean hasEquals = hasEquals(pojoClass);
-    boolean hasHashCode = hasHashCode(pojoClass);
+		boolean hasEquals = hasEquals(pojoClass);
+		boolean hasHashCode = hasHashCode(pojoClass);
 
-    if (hasEquals && !hasHashCode)
-      Affirm.fail("equals implemented but hashcode isn't in Pojo [" + pojoClass + "]");
+		if (hasEquals && !hasHashCode)
+			Affirm.fail("equals implemented but hashcode isn't in Pojo [" + pojoClass + "]");
 
-    if (!hasEquals && hasHashCode)
-      Affirm.fail("hashCode implemented but equals isn't in Pojo [" + pojoClass + "]");
-  }
+		if (!hasEquals && hasHashCode)
+			Affirm.fail("hashCode implemented but equals isn't in Pojo [" + pojoClass + "]");
+	}
 
-  private boolean hasHashCode(PojoClass pojoClass) {
-    for (PojoMethod method : pojoClass.getPojoMethods())
-      if (method.getName().equals("hashCode") && method.getPojoParameters().size() == 0)
-        return true;
-    return false;
-  }
+	private boolean hasHashCode(PojoClass pojoClass) {
+		for (PojoMethod method : pojoClass.getPojoMethods())
+			if (method.getName().equals("hashCode") && method.getPojoParameters().size() == 0)
+				return true;
+		return false;
+	}
 
-  private boolean hasEquals(PojoClass pojoClass) {
-    for (PojoMethod method : pojoClass.getPojoMethods())
-      if (method.getName().equals("equals") && method.getPojoParameters().size() == 1)
-        return true;
-    return false;
-  }
+	private boolean hasEquals(PojoClass pojoClass) {
+		for (PojoMethod method : pojoClass.getPojoMethods())
+			if (method.getName().equals("equals") && method.getPojoParameters().size() == 1)
+				return true;
+		return false;
+	}
 
+	/**
+	 * Creates an instance ready to use.
+	 */
+	public EqualsAndHashCodeMatchRule() {
+	}
 }

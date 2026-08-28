@@ -24,67 +24,69 @@ import java.util.Map;
  * @author oshoukry
  */
 public final class Good_AGetterAndSetterClass {
-  private String attribute;
-  private final String stringAttribute = "a String that is Final";
-  public String stringNoGetterOrSetterAttribute;
+	private String attribute;
+	private final String stringAttribute = "a String that is Final";
+	public String stringNoGetterOrSetterAttribute;
 
-  enum Color {BLACK, WHITE, GREY}
+	enum Color {
+		BLACK, WHITE, GREY
+	}
 
-  private Color hairColor;
+	private Color hairColor;
 
-  @SuppressWarnings("rawtypes")
-  private Map myMap;
+	@SuppressWarnings("rawtypes")
+	private Map myMap;
 
-  /**
-   * @return the myMap
-   */
-  @SuppressWarnings("rawtypes")
-  public Map getMyMap() {
-    return myMap;
-  }
+	/**
+	 * @return the myMap
+	 */
+	@SuppressWarnings("rawtypes")
+	public Map getMyMap() {
+		return myMap;
+	}
 
-  /**
-   * @param myMap
-   *     the myMap to set
-   */
-  public void setMyMap(@SuppressWarnings("rawtypes") final Map myMap) {
-    this.myMap = myMap;
-  }
+	/**
+	 * @param myMap
+	 *     the myMap to set
+	 */
+	public void setMyMap(@SuppressWarnings("rawtypes") final Map myMap) {
+		this.myMap = myMap;
+	}
 
-  /**
-   * @return the hairColor
-   */
-  public Color getHairColor() {
-    return hairColor;
-  }
+	/**
+	 * @return the hairColor
+	 */
+	public Color getHairColor() {
+		return hairColor;
+	}
 
-  /**
-   * @param hairColor
-   *     the hairColor to set
-   */
-  public void setHairColor(final Color hairColor) {
-    this.hairColor = hairColor;
-  }
+	/**
+	 * @param hairColor
+	 *     the hairColor to set
+	 */
+	public void setHairColor(final Color hairColor) {
+		this.hairColor = hairColor;
+	}
 
-  /**
-   * @return the stringAttribute
-   */
-  public String getStringAttribute() {
-    return stringAttribute;
-  }
+	/**
+	 * @return the stringAttribute
+	 */
+	public String getStringAttribute() {
+		return stringAttribute;
+	}
 
-  /**
-   * @return the attribute
-   */
-  public String getAttribute() {
-    return attribute;
-  }
+	/**
+	 * @return the attribute
+	 */
+	public String getAttribute() {
+		return attribute;
+	}
 
-  /**
-   * @param attribute
-   *     the attribute to set
-   */
-  public void setAttribute(final String attribute) {
-    this.attribute = attribute;
-  }
+	/**
+	 * @param attribute
+	 *     the attribute to set
+	 */
+	public void setAttribute(final String attribute) {
+		this.attribute = attribute;
+	}
 }

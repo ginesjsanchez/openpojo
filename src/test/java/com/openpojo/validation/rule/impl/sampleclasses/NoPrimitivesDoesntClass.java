@@ -23,9 +23,9 @@ package com.openpojo.validation.rule.impl.sampleclasses;
  */
 public final class NoPrimitivesDoesntClass {
 
-  // Okay
-  public String string;
+	// Okay
+	public String string;
 
-  // Not Okay
-  public int publicInt;
+	// Not Okay
+	public int publicInt;
 }

@@ -26,10 +26,10 @@ import com.openpojo.business.annotation.BusinessKey;
 @SuppressWarnings("unused")
 public class AClassWithOneBusinessKey {
 
-  @BusinessKey
-  private String name;
+	@BusinessKey
+	private String name;
 
-  public String getName() {
-    return name;
-  }
+	public String getName() {
+		return name;
+	}
 }

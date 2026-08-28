@@ -23,13 +23,13 @@ package com.openpojo.validation.rule.impl.sampleclasses;
  */
 public class AClassImplementingEqualsAndHashCode {
 
-  @Override
-  public int hashCode() {
-    return super.hashCode();
-  }
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
 
-  @Override
-  public boolean equals(Object obj) {
-    return super.equals(obj);
-  }
+	@Override
+	public boolean equals(Object obj) {
+		return super.equals(obj);
+	}
 }

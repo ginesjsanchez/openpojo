@@ -29,27 +29,36 @@ import com.openpojo.random.util.Helper;
 import com.openpojo.random.util.SerializableComparableObject;
 
 /**
+ * Generates a {@code ConcurrentHashMap} holding between 1 and 5 random entries.
+ *
  * @author oshoukry
  */
 public class ConcurrentHashMapRandomGenerator extends BaseMapRandomGenerator {
-  private static final Class<?>[] TYPES = new Class<?>[] { ConcurrentHashMap.class };
-  private static final ConcurrentHashMapRandomGenerator INSTANCE = new ConcurrentHashMapRandomGenerator();
+	private static final Class<?>[] TYPES = new Class<?>[]{ConcurrentHashMap.class};
+	private static final ConcurrentHashMapRandomGenerator INSTANCE = new ConcurrentHashMapRandomGenerator();
 
-  public static ConcurrentHashMapRandomGenerator getInstance() {
-    return INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared generator.
+	 */
+	public static ConcurrentHashMapRandomGenerator getInstance() {
+		return INSTANCE;
+	}
 
-  public Collection<Class<?>> getTypes() {
-    return Arrays.asList(TYPES);
-  }
+	public Collection<Class<?>> getTypes() {
+		return Arrays.asList(TYPES);
+	}
 
-  @Override
-  protected Map getBasicInstance(Class<?> type) {
-    Helper.assertIsAssignableTo(type, getTypes());
-    return MapHelper.buildMap(new ConcurrentHashMap(), SerializableComparableObject.class, SerializableComparableObject.class);
-  }
+	@Override
+	protected Map<Object, Object> getBasicInstance(Class<?> type) {
+		Helper.assertIsAssignableTo(type, getTypes());
+		return MapHelper.buildMap(new ConcurrentHashMap<>(), SerializableComparableObject.class,
+				SerializableComparableObject.class);
+	}
 
-  private ConcurrentHashMapRandomGenerator() {
-  }
+	private ConcurrentHashMapRandomGenerator() {
+	}
 
 }

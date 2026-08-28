@@ -22,18 +22,46 @@ import com.openpojo.reflection.PojoClassFilter;
 import com.openpojo.reflection.adapt.PojoClassAdapter;
 
 /**
+ * Detects whether a coverage tool is present at runtime and supplies the filter and the adapter needed to ignore
+ * whatever that tool injects into the bytecode.
+ *
  * @author oshoukry
  */
 public interface CoverageDetector {
 
-  String getName();
+	/**
+	 * Human readable name of the tool.
+	 *
+	 * @return the name of the coverage tool.
+	 */
+	String getName();
 
-  String getCoverageClassName();
+	/**
+	 * The class whose presence gives this coverage tool away.
+	 *
+	 * @return the fully qualified name of that class.
+	 */
+	String getCoverageClassName();
 
-  boolean isLoaded();
+	/**
+	 * Tells whether the tool is in use.
+	 *
+	 * @return {@code true} if the tool is present on the classpath.
+	 */
+	boolean isLoaded();
 
-  PojoClassFilter getPojoClassFilter();
+	/**
+	 * The class filter belonging to this tool.
+	 *
+	 * @return the filter that discards the classes this tool generates.
+	 */
+	PojoClassFilter getPojoClassFilter();
 
-  PojoClassAdapter getPojoClassAdapter();
+	/**
+	 * The class adapter belonging to this tool.
+	 *
+	 * @return the adapter that hides whatever this tool injects into classes.
+	 */
+	PojoClassAdapter getPojoClassAdapter();
 
 }

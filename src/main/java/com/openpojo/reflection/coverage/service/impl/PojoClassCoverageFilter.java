@@ -25,22 +25,36 @@ import com.openpojo.reflection.PojoClass;
 import com.openpojo.reflection.PojoClassFilter;
 
 /**
+ * Composite filter: a class only passes if the filters of every detected coverage tool accept it.
+ *
  * @author oshoukry
  */
 public class PojoClassCoverageFilter implements PojoClassFilter {
-  private Set<PojoClassFilter> filters = new HashSet<PojoClassFilter>();
+	private Set<PojoClassFilter> filters = new HashSet<>();
 
-  public void add(PojoClassFilter pojoClassFilter) {
-    if (pojoClassFilter != null) {
-      filters.add(pojoClassFilter);
-    }
-  }
+	/**
+	 * Adds a filter to the set; nulls are ignored.
+	 *
+	 * @param pojoClassFilter
+	 *     The filter to add.
+	 */
+	public void add(PojoClassFilter pojoClassFilter) {
+		if (pojoClassFilter != null) {
+			filters.add(pojoClassFilter);
+		}
+	}
 
-  public boolean include(PojoClass pojoClass) {
-    for (PojoClassFilter filter : filters) {
-      if (!filter.include(pojoClass))
-        return false;
-    }
-    return true;
-  }
+	public boolean include(PojoClass pojoClass) {
+		for (PojoClassFilter filter : filters) {
+			if (!filter.include(pojoClass))
+				return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Creates an instance ready to use.
+	 */
+	public PojoClassCoverageFilter() {
+	}
 }

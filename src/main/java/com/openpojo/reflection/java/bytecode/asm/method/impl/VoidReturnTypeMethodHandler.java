@@ -18,26 +18,35 @@
 
 package com.openpojo.reflection.java.bytecode.asm.method.impl;
 
-import com.openpojo.reflection.java.bytecode.asm.method.MethodHandler;
 import org.objectweb.asm.MethodVisitor;
+
+import com.openpojo.reflection.java.bytecode.asm.method.MethodHandler;
 
 import static org.objectweb.asm.Opcodes.RETURN;
 
 /**
+ * Implements an abstract {@code void} method with an empty body.
+ *
  * @author oshoukry
  */
 public class VoidReturnTypeMethodHandler implements MethodHandler {
 
-  public void generateMethod(MethodVisitor methodVisitor,
-                             String abstractClassName,
-                             String generatedClassName,
-                             int access,
-                             String name,
-                             String desc,
-                             String signature,
-                             String[] exceptions) {
-    methodVisitor.visitInsn(RETURN);
-    methodVisitor.visitMaxs(0, 0);
-    methodVisitor.visitEnd();
-  }
+	public void generateMethod(MethodVisitor methodVisitor,
+			String abstractClassName,
+			String generatedClassName,
+			int access,
+			String name,
+			String desc,
+			String signature,
+			String[] exceptions) {
+		methodVisitor.visitInsn(RETURN);
+		methodVisitor.visitMaxs(0, 0);
+		methodVisitor.visitEnd();
+	}
+
+	/**
+	 * Creates an instance ready to use.
+	 */
+	public VoidReturnTypeMethodHandler() {
+	}
 }

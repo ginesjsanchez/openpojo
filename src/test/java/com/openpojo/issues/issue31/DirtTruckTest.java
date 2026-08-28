@@ -18,6 +18,8 @@
 
 package com.openpojo.issues.issue31;
 
+import org.junit.jupiter.api.Test;
+
 import com.openpojo.issues.issue31.sample.DirtTruck;
 import com.openpojo.reflection.PojoClass;
 import com.openpojo.reflection.impl.PojoClassFactory;
@@ -27,23 +29,22 @@ import com.openpojo.validation.rule.impl.GetterMustExistRule;
 import com.openpojo.validation.rule.impl.SetterMustExistRule;
 import com.openpojo.validation.test.impl.GetterTester;
 import com.openpojo.validation.test.impl.SetterTester;
-import org.junit.jupiter.api.Test;
 
 /**
  * @author oshoukry
  */
 public class DirtTruckTest {
 
-  @Test
-  public void validate() {
-    PojoClass pojoClass = PojoClassFactory.getPojoClass(DirtTruck.class);
-    Validator pojoValidator = ValidatorBuilder.create()
-        .with(new SetterMustExistRule())
-        .with(new GetterMustExistRule())
-        .with(new GetterTester())
-        .with(new SetterTester())
-        .build();
+	@Test
+	public void validate() {
+		PojoClass pojoClass = PojoClassFactory.getPojoClass(DirtTruck.class);
+		Validator pojoValidator = ValidatorBuilder.create()
+				.with(new SetterMustExistRule())
+				.with(new GetterMustExistRule())
+				.with(new GetterTester())
+				.with(new SetterTester())
+				.build();
 
-    pojoValidator.validate(pojoClass);
-  }
+		pojoValidator.validate(pojoClass);
+	}
 }

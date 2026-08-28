@@ -26,5 +26,12 @@ import com.openpojo.reflection.PojoClass;
  * @author oshoukry
  */
 public interface PojoClassAdapter {
-  PojoClass adapt(final PojoClass pojoClass);
+	/**
+	 * Returns a view of the class with the noise already discarded.
+	 *
+	 * @param pojoClass
+	 *     The class to adapt.
+	 * @return the adapted class.
+	 */
+	PojoClass adapt(final PojoClass pojoClass);
 }

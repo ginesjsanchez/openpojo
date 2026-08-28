@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Log configuration for the openpojo test suite ONLY.
+  It is not packaged into the jar: openpojo imposes no log implementation.
+
+  The WARN threshold keeps the build output clean. SpyAppender attaches its own
+  appender to the specific logger and raises its level to TRACE, so debug messages
+  remain capturable even though they are not printed to the console.
+-->
+<configuration>
+
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>WARN</level>
+    </filter>
+    <encoder>
+      <pattern>%-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <root level="DEBUG">
+    <appender-ref ref="CONSOLE"/>
+  </root>
+
+</configuration>

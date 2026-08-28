@@ -20,7 +20,6 @@ package com.openpojo.random.collection.queue;
 
 import java.util.Collection;
 
-//import org.junit.Assume;
 import org.junit.jupiter.api.BeforeEach;
 
 import com.openpojo.random.ParameterizableRandomGenerator;
@@ -56,14 +55,14 @@ public class BlockingDequeRandomGeneratorTest extends BaseCollectionRandomGenera
 
 	@Override
 	@SuppressWarnings("unchecked")
-	protected Class<? extends Collection> getExpectedTypeClass() {
-		return (Class<? extends Collection>) ClassUtil.loadClass(EXPECTED_TYPE_CLASS_NAME);
+	protected Class<? extends Collection<?>> getExpectedTypeClass() {
+		return (Class<? extends Collection<?>>) ClassUtil.loadClass(EXPECTED_TYPE_CLASS_NAME);
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
-	protected Class<? extends Collection> getGeneratedTypeClass() {
-		return (Class<? extends Collection>) ClassUtil.loadClass(GENERATED_TYPE_CLASS_NAME);
+	protected Class<? extends Collection<?>> getGeneratedTypeClass() {
+		return (Class<? extends Collection<?>>) ClassUtil.loadClass(GENERATED_TYPE_CLASS_NAME);
 	}
 
 	@Override

@@ -25,7 +25,7 @@ import java.io.Serializable;
  */
 @SuppressWarnings("serial")
 public class SerializableMustHaveSerialVersionUIDDoesntClass implements Serializable {
-  @SuppressWarnings("unused")
-  private String someField;
+	@SuppressWarnings("unused")
+	private String someField;
 
 }

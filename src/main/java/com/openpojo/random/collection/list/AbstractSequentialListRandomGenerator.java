@@ -27,26 +27,36 @@ import com.openpojo.random.collection.util.BaseCollectionRandomGenerator;
 import com.openpojo.random.util.Helper;
 
 /**
+ * Generates values for {@code AbstractSequentialList}, returning a {@code LinkedList} holding between 1 and 5 random
+ * elements.
+ *
  * @author oshoukry
  */
 public class AbstractSequentialListRandomGenerator extends BaseCollectionRandomGenerator {
-  private static final Class<?>[] TYPES = new Class<?>[] { AbstractSequentialList.class };
-  private static final AbstractSequentialListRandomGenerator INSTANCE = new AbstractSequentialListRandomGenerator();
+	private static final Class<?>[] TYPES = new Class<?>[]{AbstractSequentialList.class};
+	private static final AbstractSequentialListRandomGenerator INSTANCE = new AbstractSequentialListRandomGenerator();
 
-  public static AbstractSequentialListRandomGenerator getInstance() {
-    return INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared generator.
+	 */
+	public static AbstractSequentialListRandomGenerator getInstance() {
+		return INSTANCE;
+	}
 
-  public Collection<Class<?>> getTypes() {
-    return Arrays.asList(TYPES);
-  }
+	@Override
+	public Collection<Class<?>> getTypes() {
+		return Arrays.asList(TYPES);
+	}
 
-  @Override
-  protected Collection getBasicInstance(Class<?> type) {
-    Helper.assertIsAssignableTo(type, getTypes());
-    return new LinkedList();
-  }
+	@Override
+	protected Collection<Object> getBasicInstance(Class<?> type) {
+		Helper.assertIsAssignableTo(type, getTypes());
+		return new LinkedList<>();
+	}
 
-  private AbstractSequentialListRandomGenerator() {
-  }
+	private AbstractSequentialListRandomGenerator() {
+	}
 }

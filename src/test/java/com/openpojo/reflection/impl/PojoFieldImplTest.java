@@ -18,8 +18,6 @@
 
 package com.openpojo.reflection.impl;
 
-import static org.junit.jupiter.api.Assertions.fail;
-
 import java.lang.annotation.Annotation;
 import java.util.LinkedList;
 import java.util.List;
@@ -40,6 +38,8 @@ import com.openpojo.reflection.impl.sample.classes.AClassWithVariousAnnotatedFie
 import com.openpojo.reflection.impl.sample.classes.ClassWithGenericTypes;
 import com.openpojo.reflection.impl.sample.classes.PojoFieldImplClass;
 import com.openpojo.validation.affirm.Affirm;
+
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author oshoukry

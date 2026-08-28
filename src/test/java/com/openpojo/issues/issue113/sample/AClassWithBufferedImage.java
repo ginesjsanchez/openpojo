@@ -24,13 +24,13 @@ import java.awt.image.BufferedImage;
  * @author oshoukry
  */
 public class AClassWithBufferedImage {
-  public BufferedImage getBufferedImage() {
-    return bufferedImage;
-  }
+	public BufferedImage getBufferedImage() {
+		return bufferedImage;
+	}
 
-  public void setBufferedImage(BufferedImage bufferedImage) {
-    this.bufferedImage = bufferedImage;
-  }
+	public void setBufferedImage(BufferedImage bufferedImage) {
+		this.bufferedImage = bufferedImage;
+	}
 
-  private BufferedImage bufferedImage;
+	private BufferedImage bufferedImage;
 }

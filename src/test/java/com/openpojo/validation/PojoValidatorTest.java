@@ -124,7 +124,7 @@ public class PojoValidatorTest {
 
 		public static PojoClass getStubPojoClass(MethodValueReturn methodValueReturn) {
 			return (PojoClass) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
-					new Class<?>[] { PojoClass.class }, new StubInvocationHandler(methodValueReturn));
+					new Class<?>[]{PojoClass.class}, new StubInvocationHandler(methodValueReturn));
 		}
 	}
 

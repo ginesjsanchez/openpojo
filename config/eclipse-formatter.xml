@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+  openpojo formatting profile.
+
+  It starts from the Eclipse default formatter, which is what the hand-touched files
+  already produced (tabs), and changes only what is needed:
+
+    * line width 120, the code.line.max.length set by gjs-parent
+    * comments NOT reformatted, so licence headers and the javadoc inherited from the
+      original project are not reflowed
+    * join_wrapped_lines=false, to respect the line breaks the author put where the
+      code already fits
+
+  Applied with:  mvn formatter:format
+  (formatter.file is set as a property in the pom, so it need not be passed)
+-->
+<profiles version="21">
+	<profile kind="CodeFormatterProfile" name="GJS-openpojo" version="21">
+
+		<!-- Indentation: tabs of 4 -->
+		<setting id="org.eclipse.jdt.core.formatter.tabulation.char" value="tab"/>
+		<setting id="org.eclipse.jdt.core.formatter.tabulation.size" value="4"/>
+		<setting id="org.eclipse.jdt.core.formatter.indentation.size" value="4"/>
+		<!-- false: line continuations use tabs as well, which is what the project's
+		     Eclipse was producing. With true they would be aligned with spaces after
+		     the tab. -->
+		<setting id="org.eclipse.jdt.core.formatter.use_tabs_only_for_leading_indentations" value="false"/>
+
+		<!-- Line width -->
+		<setting id="org.eclipse.jdt.core.formatter.lineSplit" value="120"/>
+
+		<!-- Leave comments alone: licence headers and javadoc stay as they are -->
+		<setting id="org.eclipse.jdt.core.formatter.comment.format_block_comments" value="false"/>
+		<setting id="org.eclipse.jdt.core.formatter.comment.format_javadoc_comments" value="false"/>
+		<setting id="org.eclipse.jdt.core.formatter.comment.format_line_comments" value="false"/>
+		<setting id="org.eclipse.jdt.core.formatter.comment.format_header" value="false"/>
+		<setting id="org.eclipse.jdt.core.formatter.comment.format_source_code" value="false"/>
+		<setting id="org.eclipse.jdt.core.formatter.join_lines_in_comments" value="false"/>
+		<setting id="org.eclipse.jdt.core.formatter.never_indent_block_comments_on_first_column" value="true"/>
+		<setting id="org.eclipse.jdt.core.formatter.never_indent_line_comments_on_first_column" value="true"/>
+
+		<!-- Respect existing line breaks when the code already fits -->
+		<setting id="org.eclipse.jdt.core.formatter.join_wrapped_lines" value="false"/>
+
+		<!-- Trailing newline -->
+		<setting id="org.eclipse.jdt.core.formatter.insert_new_line_at_end_of_file_if_missing" value="insert"/>
+
+		<!-- Honour // @formatter:off / on. They are used in NoFieldShadowingRule and in
+		     ServiceRegistrarTest, where there are hand-aligned tables. -->
+		<setting id="org.eclipse.jdt.core.formatter.use_on_off_tags" value="true"/>
+		<setting id="org.eclipse.jdt.core.formatter.disabling_tag" value="@formatter:off"/>
+		<setting id="org.eclipse.jdt.core.formatter.enabling_tag" value="@formatter:on"/>
+
+		<!-- Do not collapse empty blocks onto one line -->
+		<setting id="org.eclipse.jdt.core.formatter.keep_simple_if_on_one_line" value="false"/>
+		<setting id="org.eclipse.jdt.core.formatter.keep_then_statement_on_same_line" value="false"/>
+
+	</profile>
+</profiles>

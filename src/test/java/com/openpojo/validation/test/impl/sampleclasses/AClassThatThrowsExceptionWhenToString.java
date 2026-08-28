@@ -23,8 +23,8 @@ package com.openpojo.validation.test.impl.sampleclasses;
  */
 class AClassThatThrowsExceptionWhenToString {
 
-  @Override
-  public String toString() {
-    throw new RuntimeException("UnSupported call to toString()");
-  }
+	@Override
+	public String toString() {
+		throw new RuntimeException("UnSupported call to toString()");
+	}
 }

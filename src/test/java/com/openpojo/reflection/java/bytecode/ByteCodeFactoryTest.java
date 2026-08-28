@@ -18,9 +18,6 @@
 
 package com.openpojo.reflection.java.bytecode;
 
-import static com.openpojo.reflection.construct.InstanceFactory.getInstance;
-import static org.junit.jupiter.api.Assertions.fail;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -43,6 +40,9 @@ import com.openpojo.validation.rule.impl.GetterMustExistRule;
 import com.openpojo.validation.rule.impl.SetterMustExistRule;
 import com.openpojo.validation.test.impl.GetterTester;
 import com.openpojo.validation.test.impl.SetterTester;
+
+import static com.openpojo.reflection.construct.InstanceFactory.getInstance;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author oshoukry

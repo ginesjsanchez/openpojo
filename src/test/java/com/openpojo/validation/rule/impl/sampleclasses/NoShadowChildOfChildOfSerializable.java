@@ -23,5 +23,5 @@ package com.openpojo.validation.rule.impl.sampleclasses;
  */
 
 public class NoShadowChildOfChildOfSerializable extends NoShadowSerializableParent {
-  private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 }

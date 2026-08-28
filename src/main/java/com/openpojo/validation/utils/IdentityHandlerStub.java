@@ -24,68 +24,109 @@ import java.util.List;
 import com.openpojo.business.identity.IdentityHandler;
 
 /**
+ * Stub {@code IdentityHandler} for the business identity tests, recording the calls it receives.
+ *
  * @author oshoukry
  */
 public class IdentityHandlerStub implements IdentityHandler {
-  private Boolean areEqualReturn;
-  private Integer hashCodeReturn;
+	private Boolean areEqualReturn;
+	private Integer hashCodeReturn;
 
-  private String toStringReturn;
+	private String toStringReturn;
 
-  private Object instance1;
+	private Object instance1;
 
-  private Object instance2;
-  private List<Object> instances = new ArrayList<Object>();
-  public IdentityHandlerStub(Object ... instances) {
-    if (instances != null)
-      for (Object instance : instances)
-      if (instance != null)
-        this.instances.add(instance);
-  }
+	private Object instance2;
+	private List<Object> instances = new ArrayList<>();
+	/**
+	 * Creates the stub and registers it for the given instances.
+	 *
+	 * @param instances
+	 *     The instances whose identity this stub should handle.
+	 */
+	public IdentityHandlerStub(Object... instances) {
+		if (instances != null)
+			for (Object instance : instances)
+				if (instance != null)
+					this.instances.add(instance);
+	}
 
-  public boolean handlerFor(final Object object) {
-    for (Object instance : instances)
-      if (object == instance)
-        return true;
-    return false;
-  }
+	public boolean handlerFor(final Object object) {
+		for (Object instance : instances)
+			if (object == instance)
+				return true;
+		return false;
+	}
 
-  public void validate(final Object object) {
-  }
+	public void validate(final Object object) {
+	}
 
-  public void setAreEqualReturn(final Boolean areEqualReturn) {
-    this.areEqualReturn = areEqualReturn;
-  }
+	/**
+	 * Sets what {@code areEqual} will return.
+	 *
+	 * @param areEqualReturn
+	 *     The value to return.
+	 */
+	public void setAreEqualReturn(final Boolean areEqualReturn) {
+		this.areEqualReturn = areEqualReturn;
+	}
 
-  public Boolean getAreEqualReturn() {
-    return areEqualReturn;
-  }
+	/**
+	 * The value configured for the comparison.
+	 *
+	 * @return what {@code areEqual} will return.
+	 */
+	public Boolean getAreEqualReturn() {
+		return areEqualReturn;
+	}
 
-  public boolean areEqual(final Object first, final Object second) {
-    return areEqualReturn;
-  }
+	public boolean areEqual(final Object first, final Object second) {
+		return areEqualReturn;
+	}
 
-  public void setHashCodeReturn(final Integer hashCodeReturn) {
-    this.hashCodeReturn = hashCodeReturn;
-  }
+	/**
+	 * Sets what {@code generateHashCode} will return.
+	 *
+	 * @param hashCodeReturn
+	 *     The value to return.
+	 */
+	public void setHashCodeReturn(final Integer hashCodeReturn) {
+		this.hashCodeReturn = hashCodeReturn;
+	}
 
-  public Integer getHashCodeReturn() {
-    return hashCodeReturn;
-  }
+	/**
+	 * The value configured for the hash code.
+	 *
+	 * @return what {@code generateHashCode} will return.
+	 */
+	public Integer getHashCodeReturn() {
+		return hashCodeReturn;
+	}
 
-  public int generateHashCode(final Object object) {
-    return hashCodeReturn;
-  }
+	public int generateHashCode(final Object object) {
+		return hashCodeReturn;
+	}
 
-  public void setToStringReturn(String toStringReturn) {
-    this.toStringReturn = toStringReturn;
-  }
+	/**
+	 * Sets what {@code toString} will return.
+	 *
+	 * @param toStringReturn
+	 *     The value to return.
+	 */
+	public void setToStringReturn(String toStringReturn) {
+		this.toStringReturn = toStringReturn;
+	}
 
-  public String getToStringReturn() {
-    return toStringReturn;
-  }
+	/**
+	 * The value configured for the text representation.
+	 *
+	 * @return what {@code toString} will return.
+	 */
+	public String getToStringReturn() {
+		return toStringReturn;
+	}
 
-  public String toString(final Object object) {
-    return toStringReturn;
-  }
+	public String toString(final Object object) {
+		return toStringReturn;
+	}
 }

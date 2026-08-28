@@ -18,33 +18,43 @@
 
 package com.openpojo.reflection.java.bytecode.asm.method.impl;
 
-import com.openpojo.reflection.java.Java;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
+import com.openpojo.reflection.java.Java;
+
 /**
+ * Implements an abstract method returning {@code boolean}, by returning the default value of the type.
+ *
  * @author oshoukry
  */
 public class BooleanReturnTypeMethodHandler extends AbstractReturnTypeMethodHandler {
-  private static final Type HANDLER_TYPE = Type.getObjectType(Boolean.class.getName());
-  private static final int OPCODE = Opcodes.IRETURN;
-  private static final String asPrimitiveMethod = "booleanValue";
-  private static final String RETURN_DESCRIPTION = "()Z";
-  private static final String CLASS_PATH= HANDLER_TYPE.getClassName().replace(Java.PACKAGE_DELIMITER, Java.PATH_DELIMITER);
+	private static final Type HANDLER_TYPE = Type.getObjectType(Boolean.class.getName());
+	private static final int OPCODE = Opcodes.IRETURN;
+	private static final String asPrimitiveMethod = "booleanValue";
+	private static final String RETURN_DESCRIPTION = "()Z";
+	private static final String CLASS_PATH = HANDLER_TYPE.getClassName().replace(Java.PACKAGE_DELIMITER,
+			Java.PATH_DELIMITER);
 
-  protected String getInternalName() {
-    return CLASS_PATH;
-  }
+	protected String getInternalName() {
+		return CLASS_PATH;
+	}
 
-  protected String getAsPrimitiveMethod() {
-    return  asPrimitiveMethod;
-  }
+	protected String getAsPrimitiveMethod() {
+		return asPrimitiveMethod;
+	}
 
-  protected String getReturnDescription() {
-    return RETURN_DESCRIPTION;
-  }
+	protected String getReturnDescription() {
+		return RETURN_DESCRIPTION;
+	}
 
-  protected int getOpCode() {
-    return OPCODE;
-  }
+	protected int getOpCode() {
+		return OPCODE;
+	}
+
+	/**
+	 * Creates an instance ready to use.
+	 */
+	public BooleanReturnTypeMethodHandler() {
+	}
 }

@@ -18,7 +18,7 @@
 
 package com.openpojo.reflection.filters;
 
-import org.testng.Assert;
+import org.junit.jupiter.api.Assertions;
 
 /**
  * @author oshoukry
@@ -34,24 +34,24 @@ public class IdentitiesAreEqual {
 	}
 
 	private void twoInstancesShouldBeEqual(Object instanceOne, Object instanceTwo) {
-		Assert.assertNotSame(instanceOne, instanceTwo);
-		Assert.assertEquals(instanceOne, instanceTwo);
+		Assertions.assertNotSame(instanceOne, instanceTwo);
+		Assertions.assertEquals(instanceOne, instanceTwo);
 	}
 
 	private void twoInstanceShouldHaveTheSameHashCode(Object instanceOne, Object instanceTwo) {
-		Assert.assertNotSame(instanceOne, instanceTwo);
-		Assert.assertEquals(instanceOne.hashCode(), instanceTwo.hashCode());
+		Assertions.assertNotSame(instanceOne, instanceTwo);
+		Assertions.assertEquals(instanceOne.hashCode(), instanceTwo.hashCode());
 	}
 
 	private void sameInstanceShouldBeEqualToItself(Object instanceOne) {
-		Assert.assertEquals(instanceOne, instanceOne);
+		Assertions.assertEquals(instanceOne, instanceOne);
 	}
 
 	private void instanceEqualsReturnsFalseWithObject(Object instanceOne) {
-		Assert.assertTrue(!instanceOne.equals(new Object()));
+		Assertions.assertTrue(!instanceOne.equals(new Object()));
 	}
 
 	private void instanceEqualsNullIsFalse(Object instanceOne) {
-		Assert.assertTrue(!instanceOne.equals(instanceOne.getClass().cast(null)));
+		Assertions.assertTrue(!instanceOne.equals(instanceOne.getClass().cast(null)));
 	}
 }

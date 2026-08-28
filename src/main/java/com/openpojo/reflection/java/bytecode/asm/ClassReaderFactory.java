@@ -18,26 +18,36 @@
 
 package com.openpojo.reflection.java.bytecode.asm;
 
-import com.openpojo.reflection.exception.ReflectionException;
-import com.openpojo.reflection.java.Java;
 import org.objectweb.asm.ClassReader;
 
+import com.openpojo.reflection.exception.ReflectionException;
+import com.openpojo.reflection.java.Java;
+
 /**
+ * Creates the ASM {@code ClassReader} from the .class resource of a class.
+ *
  * @author oshoukry
  */
 public class ClassReaderFactory {
 
-  private ClassReaderFactory() {
-    throw new UnsupportedOperationException(ClassReaderFactory.class.getName() + " should not be constructed!");
-  }
+	private ClassReaderFactory() {
+		throw new UnsupportedOperationException(ClassReaderFactory.class.getName() + " should not be constructed!");
+	}
 
-  public static ClassReader getClassReader(Class clazz) {
-    try {
-      return new ClassReader(clazz.getResourceAsStream(Java.PATH_DELIMITER + clazz.getName().replace(Java.PACKAGE_DELIMITER,
-          Java.PATH_DELIMITER) + Java.CLASS_EXTENSION));
-    } catch (Throwable t) {
-      throw ReflectionException.getInstance("Failed to create ClassReader for class [" + clazz + "]", t);
-    }
-  }
+	/**
+	 * Opens the bytecode of a class so that ASM can read it.
+	 *
+	 * @param clazz
+	 *     The class whose bytecode is to be read.
+	 * @return the reader positioned on that class.
+	 */
+	public static ClassReader getClassReader(Class<?> clazz) {
+		try {
+			return new ClassReader(clazz.getResourceAsStream(Java.PATH_DELIMITER
+					+ clazz.getName().replace(Java.PACKAGE_DELIMITER, Java.PATH_DELIMITER) + Java.CLASS_EXTENSION));
+		} catch (Throwable t) {
+			throw ReflectionException.getInstance("Failed to create ClassReader for class [" + clazz + "]", t);
+		}
+	}
 
 }

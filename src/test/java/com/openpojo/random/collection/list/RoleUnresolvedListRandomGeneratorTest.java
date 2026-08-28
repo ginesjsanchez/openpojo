@@ -18,8 +18,6 @@
 
 package com.openpojo.random.collection.list;
 
-import static org.junit.jupiter.api.Assertions.fail;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -36,6 +34,8 @@ import com.openpojo.random.util.SomeRoleUnresolved;
 import com.openpojo.reflection.PojoClass;
 import com.openpojo.reflection.PojoMethod;
 import com.openpojo.reflection.impl.PojoClassFactory;
+
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author oshoukry
@@ -94,7 +94,7 @@ public class RoleUnresolvedListRandomGeneratorTest {
 
 	@Test
 	public void shouldGenerateCorrectTypeCollectionForRequestedCollection() {
-		Collection someObject = randomGenerator.doGenerate(expectedTypeClass);
+		Collection<?> someObject = randomGenerator.doGenerate(expectedTypeClass);
 		Assertions.assertNotNull(someObject);
 		Assertions.assertEquals(expectedTypeClass, someObject.getClass());
 		Assertions.assertTrue(someObject.size() > 0);

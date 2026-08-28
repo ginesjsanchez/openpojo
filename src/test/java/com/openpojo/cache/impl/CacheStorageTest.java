@@ -20,7 +20,7 @@ package com.openpojo.cache.impl;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.testng.Assert;
+import org.junit.jupiter.api.Assertions;
 
 import com.openpojo.cache.CacheStorage;
 
@@ -38,11 +38,11 @@ public abstract class CacheStorageTest {
 	@Test
 	public void canAddAndGetItem() {
 		String key = "key";
-		Assert.assertNull(cache.get(key));
+		Assertions.assertNull(cache.get(key));
 		String value = "value";
 
 		cache.add(key, value);
-		Assert.assertEquals(value, cache.get(key));
+		Assertions.assertEquals(value, cache.get(key));
 	}
 
 	@Test
@@ -50,9 +50,9 @@ public abstract class CacheStorageTest {
 		String key = "key";
 		String value = "value";
 		cache.add(key, value);
-		Assert.assertEquals(value, cache.get(key));
+		Assertions.assertEquals(value, cache.get(key));
 		cache.clear();
-		Assert.assertNull(cache.get(key));
+		Assertions.assertNull(cache.get(key));
 	}
 
 	public abstract CacheStorage<String> getCacheStorage();

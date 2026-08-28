@@ -19,7 +19,7 @@
 package com.openpojo.reflection.impl.sample.classes;
 
 public final class OnePrivateNoParamsConstructor {
-  private OnePrivateNoParamsConstructor() {
+	private OnePrivateNoParamsConstructor() {
 
-  }
+	}
 }

@@ -26,22 +26,21 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class AClassWithNestedClass {
 
-  public class NestedClass {
+	public class NestedClass {
 
-  }
+	}
 
-  public class NestedClassWithOneParamConstructor {
-    private NestedClassWithOneParamConstructor(int someParam) {
-    }
-  }
+	public class NestedClassWithOneParamConstructor {
+		private NestedClassWithOneParamConstructor(int someParam) {
+		}
+	}
 
-  public class NestedClassWithOneGenericParamConstructor {
-    private NestedClassWithOneGenericParamConstructor(List<String> someParam) {
-    }
-  }
+	public class NestedClassWithOneGenericParamConstructor {
+		private NestedClassWithOneGenericParamConstructor(List<String> someParam) {
+		}
+	}
 
-  public static class NestedStaticClass {
+	public static class NestedStaticClass {
 
-
-  }
+	}
 }

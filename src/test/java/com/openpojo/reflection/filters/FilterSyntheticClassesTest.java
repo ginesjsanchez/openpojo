@@ -61,7 +61,7 @@ public class FilterSyntheticClassesTest {
 
 		public static PojoClass getStubPojoClass(boolean isSynthetic) {
 			return (PojoClass) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
-					new Class<?>[] { PojoClass.class }, new StubInvocationHandler(isSynthetic));
+					new Class<?>[]{PojoClass.class}, new StubInvocationHandler(isSynthetic));
 		}
 	}
 

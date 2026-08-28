@@ -23,38 +23,33 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.CoreMatchers.sameInstance;
-import static org.hamcrest.MatcherAssert.assertThat;
-
 /**
  * @author oshoukry
  */
 public class MapHelperTest {
-  @Test
-  public void shouldReturnWithoutGenerationIfTypeOrKeyAreNull() {
-    Map emptyMap = new HashMap();
-    Map actual = MapHelper.buildMap(emptyMap, null, null);
-    //assertThat(actual.size(), is(0));
-    //assertThat(actual, sameInstance(emptyMap));
+	@Test
+	public void shouldReturnWithoutGenerationIfTypeOrKeyAreNull() {
+		Map emptyMap = new HashMap();
+		Map actual = MapHelper.buildMap(emptyMap, null, null);
+		//assertThat(actual.size(), is(0));
+		//assertThat(actual, sameInstance(emptyMap));
 
-    actual = MapHelper.buildMap(emptyMap, this.getClass(), null);
-    //assertThat(actual.size(), is(0));
-    //assertThat(actual, sameInstance(emptyMap));
+		actual = MapHelper.buildMap(emptyMap, this.getClass(), null);
+		//assertThat(actual.size(), is(0));
+		//assertThat(actual, sameInstance(emptyMap));
 
-    actual = MapHelper.buildMap(emptyMap, null, this.getClass());
-    //assertThat(actual.size(), is(0));
-    //assertThat(actual, sameInstance(emptyMap));
+		actual = MapHelper.buildMap(emptyMap, null, this.getClass());
+		//assertThat(actual.size(), is(0));
+		//assertThat(actual, sameInstance(emptyMap));
 
-  }
+	}
 
-  @Test
-  public void shouldReturnNullIfMapIsNull() {
-    //assertThat(MapHelper.buildMap(null, null, null), nullValue());
-    //assertThat(MapHelper.buildMap(null, this.getClass(), null), nullValue());
-    //assertThat(MapHelper.buildMap(null, null, this.getClass()), nullValue());
-    //assertThat(MapHelper.buildMap(null, this.getClass(), this.getClass()), nullValue());
-  }
+	@Test
+	public void shouldReturnNullIfMapIsNull() {
+		//assertThat(MapHelper.buildMap(null, null, null), nullValue());
+		//assertThat(MapHelper.buildMap(null, this.getClass(), null), nullValue());
+		//assertThat(MapHelper.buildMap(null, null, this.getClass()), nullValue());
+		//assertThat(MapHelper.buildMap(null, this.getClass(), this.getClass()), nullValue());
+	}
 
 }

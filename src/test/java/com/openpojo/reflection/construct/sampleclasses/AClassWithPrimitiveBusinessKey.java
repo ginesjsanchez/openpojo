@@ -25,10 +25,10 @@ import com.openpojo.business.annotation.BusinessKey;
  */
 public class AClassWithPrimitiveBusinessKey {
 
-  @BusinessKey
-  private int someInt;
+	@BusinessKey
+	private int someInt;
 
-  public int getSomeInt() {
-    return someInt;
-  }
+	public int getSomeInt() {
+		return someInt;
+	}
 }

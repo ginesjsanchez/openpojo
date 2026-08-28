@@ -22,5 +22,5 @@ package com.openpojo.reflection.java.bytecode.sample;
  * @author oshoukry
  */
 public abstract class AnAbstractClassWithOneAbstraceMethod {
-  public abstract void aPublicAbstractMethod();
+	public abstract void aPublicAbstractMethod();
 }

@@ -18,8 +18,9 @@
 
 package com.openpojo.reflection.java.bytecode.asm.method.impl;
 
-import com.openpojo.reflection.java.bytecode.asm.method.MethodHandler;
 import org.objectweb.asm.MethodVisitor;
+
+import com.openpojo.reflection.java.bytecode.asm.method.MethodHandler;
 
 import static org.objectweb.asm.Opcodes.*;
 
@@ -28,38 +29,58 @@ import static org.objectweb.asm.Opcodes.*;
  */
 abstract class AbstractReturnTypeMethodHandler implements MethodHandler {
 
-  public void generateMethod(MethodVisitor methodVisitor,
-                             String abstractClassName,
-                             String generatedClassName,
-                             int access,
-                             String name,
-                             String desc,
-                             String signature,
-                             String[] exceptions) {
-    methodVisitor.visitFieldInsn(GETSTATIC, getInternalName(), "TYPE", "Ljava/lang/Class;");
+	public void generateMethod(MethodVisitor methodVisitor,
+			String abstractClassName,
+			String generatedClassName,
+			int access,
+			String name,
+			String desc,
+			String signature,
+			String[] exceptions) {
+		methodVisitor.visitFieldInsn(GETSTATIC, getInternalName(), "TYPE", "Ljava/lang/Class;");
 
-    methodVisitor.visitMethodInsn(INVOKESTATIC,
-        "com/openpojo/random/RandomFactory",
-        "getRandomValue",
-        "(Ljava/lang/Class;)Ljava/lang/Object;",
-        false);
+		methodVisitor.visitMethodInsn(INVOKESTATIC,
+				"com/openpojo/random/RandomFactory",
+				"getRandomValue",
+				"(Ljava/lang/Class;)Ljava/lang/Object;",
+				false);
 
-    methodVisitor.visitTypeInsn(CHECKCAST, getInternalName());
-    methodVisitor.visitMethodInsn(INVOKEVIRTUAL,
-        getInternalName(),
-        getAsPrimitiveMethod(),
-        getReturnDescription(),
-        false);
-    methodVisitor.visitInsn(getOpCode());
-    methodVisitor.visitMaxs(0, 0);
-    methodVisitor.visitEnd();
-  }
+		methodVisitor.visitTypeInsn(CHECKCAST, getInternalName());
+		methodVisitor.visitMethodInsn(INVOKEVIRTUAL,
+				getInternalName(),
+				getAsPrimitiveMethod(),
+				getReturnDescription(),
+				false);
+		methodVisitor.visitInsn(getOpCode());
+		methodVisitor.visitMaxs(0, 0);
+		methodVisitor.visitEnd();
+	}
 
-  protected abstract String getInternalName();
+	/**
+	 * Internal name of the wrapper, in ASM notation.
+	 *
+	 * @return that name.
+	 */
+	protected abstract String getInternalName();
 
-  protected abstract String getAsPrimitiveMethod();
+	/**
+	 * The wrapper method returning the primitive, for instance {@code intValue}.
+	 *
+	 * @return the name of that method.
+	 */
+	protected abstract String getAsPrimitiveMethod();
 
-  protected abstract String getReturnDescription();
+	/**
+	 * The descriptor of the return type, in ASM notation.
+	 *
+	 * @return that descriptor.
+	 */
+	protected abstract String getReturnDescription();
 
-  protected abstract int getOpCode();
+	/**
+	 * The return opcode for this primitive type.
+	 *
+	 * @return the ASM opcode.
+	 */
+	protected abstract int getOpCode();
 }

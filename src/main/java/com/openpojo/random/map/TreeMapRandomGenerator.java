@@ -29,26 +29,35 @@ import com.openpojo.random.util.Helper;
 import com.openpojo.random.util.SerializableComparableObject;
 
 /**
+ * Generates a {@code TreeMap} holding between 1 and 5 random entries.
+ *
  * @author oshoukry
  */
 public class TreeMapRandomGenerator extends BaseMapRandomGenerator {
-  private static final Class<?>[] TYPES = new Class<?>[] { TreeMap.class };
-  private static final TreeMapRandomGenerator INSTANCE = new TreeMapRandomGenerator();
+	private static final Class<?>[] TYPES = new Class<?>[]{TreeMap.class};
+	private static final TreeMapRandomGenerator INSTANCE = new TreeMapRandomGenerator();
 
-  public static TreeMapRandomGenerator getInstance() {
-    return INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared generator.
+	 */
+	public static TreeMapRandomGenerator getInstance() {
+		return INSTANCE;
+	}
 
-  public Collection<Class<?>> getTypes() {
-    return Arrays.asList(TYPES);
-  }
+	public Collection<Class<?>> getTypes() {
+		return Arrays.asList(TYPES);
+	}
 
-  @Override
-  protected Map getBasicInstance(Class<?> type) {
-    Helper.assertIsAssignableTo(type, getTypes());
-    return MapHelper.buildMap(new TreeMap(), SerializableComparableObject.class, SerializableComparableObject.class);
-  }
+	@Override
+	protected Map<Object, Object> getBasicInstance(Class<?> type) {
+		Helper.assertIsAssignableTo(type, getTypes());
+		return MapHelper.buildMap(new TreeMap<>(), SerializableComparableObject.class,
+				SerializableComparableObject.class);
+	}
 
-  private TreeMapRandomGenerator() {
-  }
+	private TreeMapRandomGenerator() {
+	}
 }

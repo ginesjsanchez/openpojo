@@ -26,26 +26,35 @@ import com.openpojo.random.collection.util.BaseCollectionRandomGenerator;
 import com.openpojo.random.util.Helper;
 
 /**
+ * Generates a {@code LinkedHashSet} holding between 1 and 5 random elements.
+ *
  * @author oshoukry
  */
 public class LinkedHashSetRandomGenerator extends BaseCollectionRandomGenerator {
-  private static final Class<?>[] TYPES = new Class<?>[] { LinkedHashSet.class };
-  private static final LinkedHashSetRandomGenerator INSTANCE = new LinkedHashSetRandomGenerator();
+	private static final Class<?>[] TYPES = new Class<?>[]{LinkedHashSet.class};
+	private static final LinkedHashSetRandomGenerator INSTANCE = new LinkedHashSetRandomGenerator();
 
-  public static LinkedHashSetRandomGenerator getInstance() {
-    return INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared generator.
+	 */
+	public static LinkedHashSetRandomGenerator getInstance() {
+		return INSTANCE;
+	}
 
-  public Collection<Class<?>> getTypes() {
-    return Arrays.asList(TYPES);
-  }
+	@Override
+	public Collection<Class<?>> getTypes() {
+		return Arrays.asList(TYPES);
+	}
 
-  @Override
-  protected Collection getBasicInstance(Class<?> type) {
-    Helper.assertIsAssignableTo(type, getTypes());
-    return new LinkedHashSet();
-  }
+	@Override
+	protected Collection<Object> getBasicInstance(Class<?> type) {
+		Helper.assertIsAssignableTo(type, getTypes());
+		return new LinkedHashSet<>();
+	}
 
-  private LinkedHashSetRandomGenerator() {
-  }
+	private LinkedHashSetRandomGenerator() {
+	}
 }

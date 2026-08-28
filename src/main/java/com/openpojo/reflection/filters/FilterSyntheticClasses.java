@@ -22,21 +22,29 @@ import com.openpojo.reflection.PojoClass;
 import com.openpojo.reflection.PojoClassFilter;
 
 /**
+ * Discards synthetic classes, the ones the compiler generates that are not in the source code.
+ *
  * @author oshoukry
  */
 public class FilterSyntheticClasses implements PojoClassFilter {
 
-  public boolean include(PojoClass pojoClass) {
-    return !pojoClass.isSynthetic();
-  }
+	public boolean include(PojoClass pojoClass) {
+		return !pojoClass.isSynthetic();
+	}
 
-  @Override
-  public boolean equals(Object o) {
-    return this == o || !(o == null || getClass() != o.getClass());
-  }
+	@Override
+	public boolean equals(Object o) {
+		return this == o || !(o == null || getClass() != o.getClass());
+	}
 
-  @Override
-  public int hashCode() {
-    return this.getClass().hashCode();
-  }
+	@Override
+	public int hashCode() {
+		return this.getClass().hashCode();
+	}
+
+	/**
+	 * Creates an instance ready to use.
+	 */
+	public FilterSyntheticClasses() {
+	}
 }

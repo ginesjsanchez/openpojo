@@ -22,6 +22,7 @@ import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.GregorianCalendar;
+
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -31,33 +32,42 @@ import com.openpojo.random.RandomGenerator;
 import com.openpojo.random.exception.RandomGeneratorException;
 
 /**
+ * Generates a {@code javax.xml.datatype.XMLGregorianCalendar} from a random date.
+ *
  * @author oshoukry
  */
 public class XMLGregorianCalendarRandomGenerator implements RandomGenerator {
-  private static final Class<?>[] TYPES = new Class<?>[] { XMLGregorianCalendar.class };
-  private static final XMLGregorianCalendarRandomGenerator INSTANCE = new XMLGregorianCalendarRandomGenerator();
+	private static final Class<?>[] TYPES = new Class<?>[]{XMLGregorianCalendar.class};
+	private static final XMLGregorianCalendarRandomGenerator INSTANCE = new XMLGregorianCalendarRandomGenerator();
 
-  private XMLGregorianCalendarRandomGenerator() {}
+	private XMLGregorianCalendarRandomGenerator() {
+	}
 
-  public static RandomGenerator getInstance() {
-    return INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared generator.
+	 */
+	public static RandomGenerator getInstance() {
+		return INSTANCE;
+	}
 
-  public Collection<Class<?>> getTypes() {
-    return Arrays.asList(TYPES);
-  }
+	public Collection<Class<?>> getTypes() {
+		return Arrays.asList(TYPES);
+	}
 
-  public Object doGenerate(final Class<?> type) {
-    GregorianCalendar gregorianCalendar = new GregorianCalendar();
+	public Object doGenerate(final Class<?> type) {
+		GregorianCalendar gregorianCalendar = new GregorianCalendar();
 
-    //noinspection ConstantConditions
-    gregorianCalendar.setTime(RandomFactory.getRandomValue(Timestamp.class));
+		//noinspection ConstantConditions
+		gregorianCalendar.setTime(RandomFactory.getRandomValue(Timestamp.class));
 
-    try {
-      return DatatypeFactory.newInstance().newXMLGregorianCalendar(gregorianCalendar);
-    } catch (DatatypeConfigurationException e) {
-      throw RandomGeneratorException.getInstance(e.getMessage(), e);
-    }
-  }
+		try {
+			return DatatypeFactory.newInstance().newXMLGregorianCalendar(gregorianCalendar);
+		} catch (DatatypeConfigurationException e) {
+			throw RandomGeneratorException.getInstance(e.getMessage(), e);
+		}
+	}
 
 }

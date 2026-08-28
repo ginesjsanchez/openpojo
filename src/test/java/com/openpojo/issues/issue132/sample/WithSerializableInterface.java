@@ -22,13 +22,13 @@ import java.io.Serializable;
 
 @SuppressWarnings("unused")
 public class WithSerializableInterface implements Serializable {
-  private SerializableInterface someInterface;
+	private SerializableInterface someInterface;
 
-  public SerializableInterface getSomeInterface() {
-    return someInterface;
-  }
+	public SerializableInterface getSomeInterface() {
+		return someInterface;
+	}
 
-  public void setSomeInterface(SerializableInterface someInterface) {
-    this.someInterface = someInterface;
-  }
+	public void setSomeInterface(SerializableInterface someInterface) {
+		this.someInterface = someInterface;
+	}
 }

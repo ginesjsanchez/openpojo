@@ -24,54 +24,62 @@ import com.openpojo.reflection.java.version.Version;
 import com.openpojo.reflection.java.version.VersionParser;
 
 /**
+ * Default implementation of {@code Version}.
+ *
  * @author oshoukry
  */
 public class VersionImp implements Version {
 
-  private final String version;
-  private final List<Integer> parts;
+	private final String version;
+	private final List<Integer> parts;
 
-  public VersionImp(String version) {
-    this.version = version;
-    parts = VersionParser.getVersionParts(version);
-  }
+	/**
+	 * Builds the version by breaking down the given string.
+	 *
+	 * @param version
+	 *     The version text; {@code null} is accepted.
+	 */
+	public VersionImp(String version) {
+		this.version = version;
+		parts = VersionParser.getVersionParts(version);
+	}
 
-  public String getVersion() {
-    return version;
-  }
+	public String getVersion() {
+		return version;
+	}
 
-  @SuppressWarnings("ReturnOfNull")
-  public Integer getPart(int idx) {
-    if (idx < 0 || idx >= parts.size())
-      return null;
-    return parts.get(idx);
-  }
+	@SuppressWarnings("ReturnOfNull")
+	public Integer getPart(int idx) {
+		if (idx < 0 || idx >= parts.size())
+			return null;
+		return parts.get(idx);
+	}
 
-  public int compareTo(Version right) {
-    int idx = 0;
-    Integer leftPart;
-    Integer rightPart;
+	public int compareTo(Version right) {
+		int idx = 0;
+		Integer leftPart;
+		Integer rightPart;
 
-    do {
-      leftPart = this.getPart(idx);
-      rightPart = right.getPart(idx);
-      idx++;
+		do {
+			leftPart = this.getPart(idx);
+			rightPart = right.getPart(idx);
+			idx++;
 
-      if (leftPart == null && rightPart == null)
-        return 0;
+			if (leftPart == null && rightPart == null)
+				return 0;
 
-      if (leftPart == null)
-        return -1;
+			if (leftPart == null)
+				return -1;
 
-      if (rightPart == null)
-        return 1;
+			if (rightPart == null)
+				return 1;
 
-      if (leftPart < rightPart)
-        return -1;
+			if (leftPart < rightPart)
+				return -1;
 
-      if (leftPart > rightPart)
-        return 1;
+			if (leftPart > rightPart)
+				return 1;
 
-    } while (true);
-  }
+		} while (true);
+	}
 }

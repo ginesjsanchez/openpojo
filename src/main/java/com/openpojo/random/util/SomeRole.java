@@ -20,6 +20,7 @@ package com.openpojo.random.util;
 
 import java.util.Collections;
 import java.util.List;
+
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 import javax.management.relation.Role;
@@ -28,25 +29,31 @@ import com.openpojo.random.RandomFactory;
 import com.openpojo.random.exception.RandomGeneratorException;
 
 /**
+ * Filler instance of {@code javax.management.relation.Role} with a random name and value.
+ *
  * @author oshoukry
  */
 public class SomeRole extends Role {
+	private static final long serialVersionUID = 4383631297834498402L;
 
-  @SuppressWarnings("ConstantConditions")
-  public SomeRole() {
-    super(anyString(), anyRoleValue());
-  }
+	/**
+	 * Creates an instance with a random name and value.
+	 */
+	@SuppressWarnings("ConstantConditions")
+	public SomeRole() {
+		super(anyString(), anyRoleValue());
+	}
 
-  private static String anyString() {
-    return RandomFactory.getRandomValue(String.class);
-  }
+	private static String anyString() {
+		return RandomFactory.getRandomValue(String.class);
+	}
 
-  @SuppressWarnings("ConstantConditions")
-  private static List<ObjectName> anyRoleValue() {
-    try {
-      return Collections.singletonList(new ObjectName("*:type=" + anyString() + ",name=" + anyString()));
-    } catch (MalformedObjectNameException e) {
-      throw RandomGeneratorException.getInstance("Failed to create Role", e);
-    }
-  }
+	@SuppressWarnings("ConstantConditions")
+	private static List<ObjectName> anyRoleValue() {
+		try {
+			return Collections.singletonList(new ObjectName("*:type=" + anyString() + ",name=" + anyString()));
+		} catch (MalformedObjectNameException e) {
+			throw RandomGeneratorException.getInstance("Failed to create Role", e);
+		}
+	}
 }

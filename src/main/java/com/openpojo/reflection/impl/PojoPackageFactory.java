@@ -21,15 +21,24 @@ package com.openpojo.reflection.impl;
 import com.openpojo.reflection.PojoPackage;
 
 /**
+ * Creates {@code PojoPackage} instances, caching them by name.
+ *
  * @author oshoukry
  */
 public class PojoPackageFactory {
 
-  public static PojoPackage getPojoPackage(final String packageName) {
-    return new PojoPackageImpl(packageName);
-  }
+	/**
+	 * Returns the abstraction of a package, cached by name.
+	 *
+	 * @param packageName
+	 *     The fully qualified package name.
+	 * @return its {@code PojoPackage}.
+	 */
+	public static PojoPackage getPojoPackage(final String packageName) {
+		return new PojoPackageImpl(packageName);
+	}
 
-  private PojoPackageFactory() {
-    throw new UnsupportedOperationException(PojoPackageFactory.class.getName() + " should not be constructed!");
-  }
+	private PojoPackageFactory() {
+		throw new UnsupportedOperationException(PojoPackageFactory.class.getName() + " should not be constructed!");
+	}
 }

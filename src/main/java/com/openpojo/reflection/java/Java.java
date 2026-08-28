@@ -21,13 +21,37 @@ package com.openpojo.reflection.java;
 import java.io.File;
 
 /**
+ * Constants of the Java naming and path format: separators, class extension and the name of the package descriptor.
+ *
  * @author oshoukry
  */
-public interface Java {
-  char PACKAGE_DELIMITER = '.';
-  char PATH_DELIMITER = '/';
-  char JAR_FILE_PATH_SEPARATOR = '!';
-  String CLASS_EXTENSION = ".class";
-  String PACKAGE_INFO = "package-info";
-  String CLASSPATH_DELIMITER = File.pathSeparator;
+public final class Java {
+	/**
+	 * Separator between the segments of a package name.
+	 */
+	public static final char PACKAGE_DELIMITER = '.';
+	/**
+	 * Path separator inside a jar and in resources.
+	 */
+	public static final char PATH_DELIMITER = '/';
+	/**
+	 * Separates the jar from the inner path in a {@code jar:} URL.
+	 */
+	public static final char JAR_FILE_PATH_SEPARATOR = '!';
+	/**
+	 * Extension of bytecode files.
+	 */
+	public static final String CLASS_EXTENSION = ".class";
+	/**
+	 * Name of the file that documents a package.
+	 */
+	public static final String PACKAGE_INFO = "package-info";
+	/**
+	 * Separator between classpath entries, platform dependent.
+	 */
+	public static final String CLASSPATH_DELIMITER = File.pathSeparator;
+
+	private Java() {
+		throw new UnsupportedOperationException(Java.class.getName() + " should not be constructed!");
+	}
 }

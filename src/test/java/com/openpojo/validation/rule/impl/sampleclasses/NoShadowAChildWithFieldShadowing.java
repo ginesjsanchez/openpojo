@@ -22,6 +22,6 @@ package com.openpojo.validation.rule.impl.sampleclasses;
  * @author oshoukry
  */
 public class NoShadowAChildWithFieldShadowing extends NoShadowAParentClassWithOneField {
-  @SuppressWarnings("unused")
-  private String aField;
+	@SuppressWarnings("unused")
+	private String aField;
 }

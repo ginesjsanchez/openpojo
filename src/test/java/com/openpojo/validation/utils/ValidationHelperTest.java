@@ -20,6 +20,8 @@ package com.openpojo.validation.utils;
 
 import java.util.List;
 
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.spi.ILoggingEvent;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -27,9 +29,7 @@ import com.openpojo.reflection.PojoClass;
 import com.openpojo.reflection.PojoField;
 import com.openpojo.reflection.impl.PojoClassFactory;
 import com.openpojo.reflection.java.bytecode.asm.ASMNotLoadedException;
-import com.openpojo.utils.log.LogEvent;
-import com.openpojo.utils.log.LogHelper;
-import com.openpojo.utils.log.MockAppenderLog4J;
+import com.openpojo.utils.log.SpyAppender;
 import com.openpojo.validation.Validator;
 import com.openpojo.validation.ValidatorBuilder;
 import com.openpojo.validation.impl.DefaultValidator;
@@ -70,13 +70,18 @@ public class ValidationHelperTest {
 			}
 		}).build();
 
-		LogHelper.initialize(MockAppenderLog4J.class);
-		validator.validate(PojoClassFactory.getPojoClass(this.getClass()));
-		List<LogEvent> warnEvents = LogHelper.getWarnEvents(MockAppenderLog4J.class, DefaultValidator.class.getName());
-		Assertions.assertEquals(1, warnEvents.size());
-		String expectedMessage = "ASM not loaded while attempting to execute behavioural tests on non-constructable class["
-				+ this.getClass() + "], either filter abstract classes or add asm to your classpath.";
-		Assertions.assertEquals(expectedMessage, warnEvents.get(0).getMessage());
+		SpyAppender spyAppender = new SpyAppender();
+		spyAppender.startCaptureForLogger(DefaultValidator.class);
+		try {
+			validator.validate(PojoClassFactory.getPojoClass(this.getClass()));
+			List<ILoggingEvent> warnEvents = spyAppender.getEventsForLogger(DefaultValidator.class, Level.WARN);
+			Assertions.assertEquals(1, warnEvents.size());
+			String expectedMessage = "ASM not loaded while attempting to execute behavioural tests on non-constructable class["
+					+ this.getClass() + "], either filter abstract classes or add asm to your classpath.";
+			Assertions.assertEquals(expectedMessage, warnEvents.get(0).getFormattedMessage());
+		} finally {
+			spyAppender.stopCaptureForLogger(DefaultValidator.class);
+		}
 	}
 
 	private static class StaticFinalData {

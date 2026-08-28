@@ -18,8 +18,9 @@
 
 package com.openpojo.reflection.coverage.service;
 
-import com.openpojo.log.Logger;
-import com.openpojo.log.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.openpojo.reflection.coverage.CoverageDetector;
 import com.openpojo.reflection.coverage.impl.Clover3;
 import com.openpojo.reflection.coverage.impl.Clover4;
@@ -28,35 +29,52 @@ import com.openpojo.reflection.coverage.impl.Jacoco;
 import com.openpojo.reflection.coverage.service.impl.DefaultPojoCoverageFilterService;
 
 /**
+ * Builds the {@code PojoCoverageFilterService} by walking the known detectors and keeping those whose tools are
+ * present.
+ *
  * @author oshoukry
  */
 public class PojoCoverageFilterServiceFactory {
-  private static final CoverageDetector[] KNOWN_COVERAGE_DETECTORS = new CoverageDetector[] {
-      Clover3.getInstance(),
-      Clover4.getInstance(),
-      Cobertura.getInstance(),
-      Jacoco.getInstance()
-    };
+	private static final CoverageDetector[] KNOWN_COVERAGE_DETECTORS = new CoverageDetector[]{
+			Clover3.getInstance(),
+			Clover4.getInstance(),
+			Cobertura.getInstance(),
+			Jacoco.getInstance()
+	};
 
-  public static PojoCoverageFilterService configureAndGetPojoCoverageFilterService() {
-    PojoCoverageFilterService pojoCoverageFilterService = new DefaultPojoCoverageFilterService();
-    for (CoverageDetector coverageDetector : KNOWN_COVERAGE_DETECTORS) {
-      if (coverageDetector.isLoaded()) {
-        Logger logger = LoggerFactory.getLogger(PojoCoverageFilterServiceFactory.class);
-        logger.info(coverageDetector.getName() + " detected, auto-configuring OpenPojo to ignore its structures.");
-        pojoCoverageFilterService.registerCoverageDetector(coverageDetector);
-      }
-    }
-    return pojoCoverageFilterService;
-  }
+	/**
+	 * Builds the service registering the detectors of the tools that are present.
+	 *
+	 * @return the configured service.
+	 */
+	public static PojoCoverageFilterService configureAndGetPojoCoverageFilterService() {
+		PojoCoverageFilterService pojoCoverageFilterService = new DefaultPojoCoverageFilterService();
+		for (CoverageDetector coverageDetector : KNOWN_COVERAGE_DETECTORS) {
+			if (coverageDetector.isLoaded()) {
+				Logger logger = LoggerFactory.getLogger(PojoCoverageFilterServiceFactory.class);
+				logger.info(
+						coverageDetector.getName() + " detected, auto-configuring OpenPojo to ignore its structures.");
+				pojoCoverageFilterService.registerCoverageDetector(coverageDetector);
+			}
+		}
+		return pojoCoverageFilterService;
+	}
 
-  public static PojoCoverageFilterService createPojoCoverageFilterServiceWith(CoverageDetector coverageDetector) {
-    PojoCoverageFilterService pojoCoverageFilterService = new DefaultPojoCoverageFilterService();
-    pojoCoverageFilterService.registerCoverageDetector(coverageDetector);
-    return pojoCoverageFilterService;
-  }
+	/**
+	 * Builds a service with the given detector, without looking at the classpath.
+	 *
+	 * @param coverageDetector
+	 *     The detector to register.
+	 * @return the configured service.
+	 */
+	public static PojoCoverageFilterService createPojoCoverageFilterServiceWith(CoverageDetector coverageDetector) {
+		PojoCoverageFilterService pojoCoverageFilterService = new DefaultPojoCoverageFilterService();
+		pojoCoverageFilterService.registerCoverageDetector(coverageDetector);
+		return pojoCoverageFilterService;
+	}
 
-  private PojoCoverageFilterServiceFactory() {
-    throw new UnsupportedOperationException(PojoCoverageFilterServiceFactory.class.getName() +  " should not be constructed!");
-  }
+	private PojoCoverageFilterServiceFactory() {
+		throw new UnsupportedOperationException(
+				PojoCoverageFilterServiceFactory.class.getName() + " should not be constructed!");
+	}
 }

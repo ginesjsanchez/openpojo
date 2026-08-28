@@ -20,51 +20,54 @@ package com.openpojo.issues.issue123;
 
 import java.net.URL;
 
+import org.junit.jupiter.api.Test;
+
 import com.openpojo.reflection.PojoClass;
 import com.openpojo.reflection.impl.PojoClassFactory;
 import com.openpojo.reflection.java.Java;
 import com.openpojo.reflection.java.load.ClassUtil;
-import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class IssueTest {
 
-  @Test
-  public void preRequisiteCondition_ShouldGetPathAsFileColonWithoutDoubleSlashes() {
-    Class<?> aClass = ClassUtil.loadClass(TestingClassData.className);
-    ClassLoader cl = aClass.getClassLoader();
-    String classNameAsPath = aClass.getName().replace(Java.PACKAGE_DELIMITER, Java.PATH_DELIMITER) + Java.CLASS_EXTENSION;
-    URL resource = cl.getResource(classNameAsPath);
+	@Test
+	public void preRequisiteCondition_ShouldGetPathAsFileColonWithoutDoubleSlashes() {
+		Class<?> aClass = ClassUtil.loadClass(TestingClassData.className);
+		ClassLoader cl = aClass.getClassLoader();
+		String classNameAsPath = aClass.getName().replace(Java.PACKAGE_DELIMITER, Java.PATH_DELIMITER)
+				+ Java.CLASS_EXTENSION;
+		URL resource = cl.getResource(classNameAsPath);
 
-    //assertThat(resource, notNullValue());
-    String location = resource.toString();
+		//assertThat(resource, notNullValue());
+		String location = resource.toString();
 
-    //assertThat(location, startsWith("jar:file:/"));
-    //assertThat(location, endsWith(classNameAsPath));
+		//assertThat(location, startsWith("jar:file:/"));
+		//assertThat(location, endsWith(classNameAsPath));
 
-    //assertThat(location, not(containsString("//")));
-  }
+		//assertThat(location, not(containsString("//")));
+	}
 
-  @Test
-  public void shouldFixProtocolForJarIfJarDoesNotHaveColonDoubleSlashes() {
-    PojoClass pojoClass = PojoClassFactory.getPojoClass(ClassUtil.loadClass(TestingClassData.className));
-    String sourcePath = pojoClass.getSourcePath();
+	@Test
+	public void shouldFixProtocolForJarIfJarDoesNotHaveColonDoubleSlashes() {
+		PojoClass pojoClass = PojoClassFactory.getPojoClass(ClassUtil.loadClass(TestingClassData.className));
+		String sourcePath = pojoClass.getSourcePath();
 
-    //assertThat(sourcePath, startsWith(TestingClassData.expectedPathStartsWith));
-    //assertThat(sourcePath, containsString(TestingClassData.expectedPathContains1));
-    //assertThat(sourcePath, containsString(TestingClassData.expectedPathContains2));
-    //assertThat(sourcePath, endsWith(TestingClassData.expectedPathEndsWith));
-  }
+		//assertThat(sourcePath, startsWith(TestingClassData.expectedPathStartsWith));
+		//assertThat(sourcePath, containsString(TestingClassData.expectedPathContains1));
+		//assertThat(sourcePath, containsString(TestingClassData.expectedPathContains2));
+		//assertThat(sourcePath, endsWith(TestingClassData.expectedPathEndsWith));
+	}
 
-  private static class TestingClassData {
-    static String className = "org.objectweb.asm.ClassWriter";
+	private static class TestingClassData {
+		static String className = "org.objectweb.asm.ClassWriter";
 
-    static String expectedPathStartsWith = "file:/";
-    static String expectedPathContains1 = "/.m2/repository/org/ow2/asm/asm/";
-    static String expectedPathContains2 = ".jar";
-    static String expectedPathEndsWith = className.replace(Java.PACKAGE_DELIMITER, Java.PATH_DELIMITER) + Java.CLASS_EXTENSION;
-  }
+		static String expectedPathStartsWith = "file:/";
+		static String expectedPathContains1 = "/.m2/repository/org/ow2/asm/asm/";
+		static String expectedPathContains2 = ".jar";
+		static String expectedPathEndsWith = className.replace(Java.PACKAGE_DELIMITER, Java.PATH_DELIMITER)
+				+ Java.CLASS_EXTENSION;
+	}
 
 }

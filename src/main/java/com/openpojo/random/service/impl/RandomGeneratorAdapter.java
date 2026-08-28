@@ -20,44 +20,58 @@ package com.openpojo.random.service.impl;
 
 import java.util.Collection;
 
-import com.openpojo.log.Logger;
-import com.openpojo.log.LoggerFactory;
-import com.openpojo.log.utils.MessageFormatter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.openpojo.random.ParameterizableRandomGenerator;
 import com.openpojo.random.RandomGenerator;
 import com.openpojo.random.exception.RandomGeneratorException;
 import com.openpojo.reflection.Parameterizable;
 
 /**
+ * Wraps a generator registered for a type other than the one requested, when the requested type is assignable from
+ * it. Used by {@code DefaultRandomGeneratorService}.
+ *
  * @author oshoukry
  */
 public final class RandomGeneratorAdapter implements RandomGenerator, ParameterizableRandomGenerator {
 
-  private final Class<?> fromType;
-  private final Class<?> toType;
-  private final RandomGenerator adaptedRandomGenerator;
-  private final static Logger LOGGER = LoggerFactory.getLogger(RandomGeneratorAdapter.class);
+	private final Class<?> fromType;
+	private final Class<?> toType;
+	private final RandomGenerator adaptedRandomGenerator;
+	private final static Logger LOGGER = LoggerFactory.getLogger(RandomGeneratorAdapter.class);
 
-  public RandomGeneratorAdapter(final Class<?> fromType, final Class<?> toType, final RandomGenerator adaptedRandomGenerator) {
-    this.fromType = fromType;
-    this.toType = toType;
-    this.adaptedRandomGenerator = adaptedRandomGenerator;
-    LOGGER.debug("Mapping [{0}] to [{1}] for generator [{2}]", fromType, toType, adaptedRandomGenerator);
-  }
+	/**
+	 * Wraps a generator registered for another type, so it can serve the requested type.
+	 *
+	 * @param fromType
+	 *     The type being asked for.
+	 * @param toType
+	 *     The type a generator is registered for.
+	 * @param adaptedRandomGenerator
+	 *     The generator to reuse.
+	 */
+	public RandomGeneratorAdapter(final Class<?> fromType, final Class<?> toType,
+			final RandomGenerator adaptedRandomGenerator) {
+		this.fromType = fromType;
+		this.toType = toType;
+		this.adaptedRandomGenerator = adaptedRandomGenerator;
+		LOGGER.debug("Mapping [{}] to [{}] for generator [{}]", fromType, toType, adaptedRandomGenerator);
+	}
 
-  public Collection<Class<?>> getTypes() {
-    throw RandomGeneratorException.getInstance(MessageFormatter.format("Illegal use of RandomGeneratorAdapter([{0}] to [{1}]",
-        fromType, toType));
-  }
+	public Collection<Class<?>> getTypes() {
+		throw RandomGeneratorException.getInstance("Illegal use of RandomGeneratorAdapter([" + fromType + "] to ["
+				+ toType + "]");
+	}
 
-  public Object doGenerate(final Class<?> type) {
-    if (type == fromType) {
-      return adaptedRandomGenerator.doGenerate(toType);
-    }
-    throw RandomGeneratorException.getInstance(MessageFormatter.format("Unsupported type requested [{0}]", type));
-  }
+	public Object doGenerate(final Class<?> type) {
+		if (type == fromType) {
+			return adaptedRandomGenerator.doGenerate(toType);
+		}
+		throw RandomGeneratorException.getInstance("Unsupported type requested [" + type + "]");
+	}
 
-  public Object doGenerate(Parameterizable parameterizedType) {
-    return ((ParameterizableRandomGenerator) adaptedRandomGenerator).doGenerate(parameterizedType);
-  }
+	public Object doGenerate(Parameterizable parameterizedType) {
+		return ((ParameterizableRandomGenerator) adaptedRandomGenerator).doGenerate(parameterizedType);
+	}
 }

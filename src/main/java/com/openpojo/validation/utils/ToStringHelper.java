@@ -19,18 +19,28 @@
 package com.openpojo.validation.utils;
 
 /**
+ * Invokes {@code toString()} safely: if the implementation fails, it returns the error text instead of propagating
+ * the exception.
+ *
  * @author oshoukry
  */
 public final class ToStringHelper {
-  public static String safeToString(Object o) {
-    try {
-      return "" + o;
-    } catch (Exception e) {
-      return "Error calling toString: '" + e.toString() + "'";
-    }
-  }
+	/**
+	 * Invokes {@code toString()} without letting a failure in the implementation break the validation.
+	 *
+	 * @param o
+	 *     The object to render.
+	 * @return its text, or the error description if {@code toString()} fails.
+	 */
+	public static String safeToString(Object o) {
+		try {
+			return "" + o;
+		} catch (Exception e) {
+			return "Error calling toString: '" + e.toString() + "'";
+		}
+	}
 
-  private ToStringHelper() {
-    throw new UnsupportedOperationException(ToStringHelper.class.getName() +  " should not be constructed!");
-  }
+	private ToStringHelper() {
+		throw new UnsupportedOperationException(ToStringHelper.class.getName() + " should not be constructed!");
+	}
 }

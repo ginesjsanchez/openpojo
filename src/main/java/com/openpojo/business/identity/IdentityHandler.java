@@ -19,52 +19,55 @@
 package com.openpojo.business.identity;
 
 /**
+ * Contract for computing {@code hashCode}, {@code equals} and {@code toString} of an object from its fields marked as
+ * business keys.
+ *
  * @author oshoukry
  */
 public interface IdentityHandler {
-  /**
-   * This method will calculate hash code based on the BusinessKey.
-   *
-   * @param object
-   *     Object to generate hashCode for.
-   * @return generated hash code.
-   */
-  int generateHashCode(Object object);
+	/**
+	 * This method will calculate hash code based on the BusinessKey.
+	 *
+	 * @param object
+	 *     Object to generate hashCode for.
+	 * @return generated hash code.
+	 */
+	int generateHashCode(Object object);
 
-  /**
-   * This method is responsible for evaluating two objects as equal using the identity.
-   *
-   * @param first
-   *     First object in the equality.
-   * @param second
-   *     Second object in the equality.
-   * @return True if both objects are equal.
-   */
-  boolean areEqual(final Object first, final Object second);
+	/**
+	 * This method is responsible for evaluating two objects as equal using the identity.
+	 *
+	 * @param first
+	 *     First object in the equality.
+	 * @param second
+	 *     Second object in the equality.
+	 * @return True if both objects are equal.
+	 */
+	boolean areEqual(final Object first, final Object second);
 
-  /**
-   * This method is responsible for stringanizing fields in an object.
-   * @param object
-   *     The Object to be flattened into a string.
-   * @return string representation of the object being passed in, "null" if object is null.
-   */
-  String toString(Object object);
+	/**
+	 * This method is responsible for stringanizing fields in an object.
+	 * @param object
+	 *     The Object to be flattened into a string.
+	 * @return string representation of the object being passed in, "null" if object is null.
+	 */
+	String toString(Object object);
 
-  /**
-   * This method validates an object to comply with the BusinessKey annotation rules.
-   * If an object fails the validation, a BusinessException will be thrown.
-   *
-   * @param object
-   *     The Business Object to be validated.
-   */
-  void validate(Object object);
+	/**
+	 * This method validates an object to comply with the BusinessKey annotation rules.
+	 * If an object fails the validation, a BusinessException will be thrown.
+	 *
+	 * @param object
+	 *     The Business Object to be validated.
+	 */
+	void validate(Object object);
 
-  /**
-   * This method returns true or false depending on whether this IdentityHandler handles identity for this object
-   *
-   * @param object
-   *     Object to handle.
-   * @return true if all identity calls for this object should go through this IdentityHandler.
-   */
-  boolean handlerFor(Object object);
+	/**
+	 * This method returns true or false depending on whether this IdentityHandler handles identity for this object
+	 *
+	 * @param object
+	 *     Object to handle.
+	 * @return true if all identity calls for this object should go through this IdentityHandler.
+	 */
+	boolean handlerFor(Object object);
 }

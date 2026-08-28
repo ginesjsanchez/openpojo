@@ -26,7 +26,7 @@ import java.io.Serializable;
  * @author oshoukry
  */
 public class SerializerTest_SerializableThatThrowsExceptionOnWriteObject implements Serializable {
-  private void writeObject(ObjectOutputStream out) throws IOException {
-    throw new IOException("Can't write object");
-  }
+	private void writeObject(ObjectOutputStream out) throws IOException {
+		throw new IOException("Can't write object");
+	}
 }

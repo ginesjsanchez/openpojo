@@ -25,10 +25,10 @@ import java.io.Serializable;
  */
 public class SerializationTest_SimpleSerializable implements Serializable {
 
-  @SuppressWarnings("unused")
-  private String name;
+	@SuppressWarnings("unused")
+	private String name;
 
-  public void setName(String name) {
-    this.name = name;
-  }
+	public void setName(String name) {
+		this.name = name;
+	}
 }

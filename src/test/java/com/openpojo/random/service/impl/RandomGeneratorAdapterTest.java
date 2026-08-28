@@ -18,11 +18,11 @@
 
 package com.openpojo.random.service.impl;
 
-import static org.junit.jupiter.api.Assertions.fail;
-
 import org.junit.jupiter.api.Test;
 
 import com.openpojo.random.exception.RandomGeneratorException;
+
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author oshoukry

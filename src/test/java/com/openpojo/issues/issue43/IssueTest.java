@@ -25,7 +25,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 
 import org.junit.jupiter.api.Test;
-import org.testng.Assert;
+import org.junit.jupiter.api.Assertions;
 
 import com.openpojo.reflection.java.packageloader.impl.URLToFileSystemAdapter;
 
@@ -46,6 +46,6 @@ public class IssueTest {
 
 		URLToFileSystemAdapter urlToFileSystemAdapter = new URLToFileSystemAdapter(url);
 
-		Assert.assertEquals(expectedFile, urlToFileSystemAdapter.getAsFile());
+		Assertions.assertEquals(expectedFile, urlToFileSystemAdapter.getAsFile());
 	}
 }

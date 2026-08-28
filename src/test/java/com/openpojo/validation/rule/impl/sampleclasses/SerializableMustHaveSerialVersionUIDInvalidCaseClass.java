@@ -25,6 +25,6 @@ import java.io.Serializable;
  */
 @SuppressWarnings("serial")
 public class SerializableMustHaveSerialVersionUIDInvalidCaseClass implements Serializable {
-  @SuppressWarnings("unused")
-  private static final long SerialVersionUID = 1L;
+	@SuppressWarnings("unused")
+	private static final long SerialVersionUID = 1L;
 }

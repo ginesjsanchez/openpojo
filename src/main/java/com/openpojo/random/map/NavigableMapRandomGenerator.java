@@ -31,29 +31,38 @@ import com.openpojo.random.util.SerializableComparableObject;
 import com.openpojo.reflection.java.load.ClassUtil;
 
 /**
+ * Generates values for {@code NavigableMap}, returning a {@code TreeMap} holding between 1 and 5 random entries.
+ *
  * @author oshoukry
  */
 public class NavigableMapRandomGenerator extends BaseMapRandomGenerator {
-  private static final String TYPE = "java.util.NavigableMap";
-  private static final NavigableMapRandomGenerator INSTANCE = new NavigableMapRandomGenerator();
+	private static final String TYPE = "java.util.NavigableMap";
+	private static final NavigableMapRandomGenerator INSTANCE = new NavigableMapRandomGenerator();
 
-  public static NavigableMapRandomGenerator getInstance() {
-    return INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared generator.
+	 */
+	public static NavigableMapRandomGenerator getInstance() {
+		return INSTANCE;
+	}
 
-  public Collection<Class<?>> getTypes() {
-    List<Class<?>> types = new ArrayList<Class<?>>();
-    if (ClassUtil.isClassLoaded(TYPE))
-      types.add(ClassUtil.loadClass(TYPE));
-    return types;
-  }
+	public Collection<Class<?>> getTypes() {
+		List<Class<?>> types = new ArrayList<>();
+		if (ClassUtil.isClassLoaded(TYPE))
+			types.add(ClassUtil.loadClass(TYPE));
+		return types;
+	}
 
-  @Override
-  protected Map getBasicInstance(Class<?> type) {
-    Helper.assertIsAssignableTo(type, getTypes());
-    return MapHelper.buildMap(new TreeMap(), SerializableComparableObject.class, SerializableComparableObject.class);
-  }
+	@Override
+	protected Map<Object, Object> getBasicInstance(Class<?> type) {
+		Helper.assertIsAssignableTo(type, getTypes());
+		return MapHelper.buildMap(new TreeMap<>(), SerializableComparableObject.class,
+				SerializableComparableObject.class);
+	}
 
-  private NavigableMapRandomGenerator() {
-  }
+	private NavigableMapRandomGenerator() {
+	}
 }

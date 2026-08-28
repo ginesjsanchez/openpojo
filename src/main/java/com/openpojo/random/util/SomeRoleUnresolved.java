@@ -20,6 +20,7 @@ package com.openpojo.random.util;
 
 import java.util.Collections;
 import java.util.List;
+
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 import javax.management.relation.RoleStatus;
@@ -29,29 +30,39 @@ import com.openpojo.random.RandomFactory;
 import com.openpojo.random.exception.RandomGeneratorException;
 
 /**
+ * Filler instance of {@code javax.management.relation.RoleUnresolved} with a random name, value and status.
+ *
  * @author oshoukry
  */
 public class SomeRoleUnresolved extends RoleUnresolved {
+	private static final long serialVersionUID = 6829782498683326442L;
 
+	/**
+	 * Creates an instance with a random name, value and status.
+	 */
+	public SomeRoleUnresolved() {
+		super(anyString(), anyRoleValue(), anyProblemRoleStatus());
+	}
 
-  public SomeRoleUnresolved() {
-    super(anyString(), anyRoleValue(), anyProblemRoleStatus());
-  }
+	/**
+	 * Generates random text for the role name.
+	 *
+	 * @return the generated text.
+	 */
+	protected static String anyString() {
+		return RandomFactory.getRandomValue(String.class);
+	}
 
-  protected static String anyString() {
-    return RandomFactory.getRandomValue(String.class);
-  }
+	@SuppressWarnings("ConstantConditions")
+	private static List<ObjectName> anyRoleValue() {
+		try {
+			return Collections.singletonList(new ObjectName("*:type=" + anyString() + ",name=" + anyString()));
+		} catch (MalformedObjectNameException e) {
+			throw RandomGeneratorException.getInstance("Failed to create Role", e);
+		}
+	}
 
-  @SuppressWarnings("ConstantConditions")
-  private static List<ObjectName> anyRoleValue() {
-    try {
-      return Collections.singletonList(new ObjectName("*:type=" + anyString() + ",name=" + anyString()));
-    } catch (MalformedObjectNameException e) {
-      throw RandomGeneratorException.getInstance("Failed to create Role", e);
-    }
-  }
-
-  private static int anyProblemRoleStatus() {
-    return RoleStatus.NO_ROLE_WITH_NAME;
-  }
+	private static int anyProblemRoleStatus() {
+		return RoleStatus.NO_ROLE_WITH_NAME;
+	}
 }

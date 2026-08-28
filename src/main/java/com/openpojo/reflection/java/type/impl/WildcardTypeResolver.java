@@ -26,35 +26,43 @@ import com.openpojo.reflection.exception.ReflectionException;
 import com.openpojo.reflection.java.type.TypeResolver;
 
 /**
+ * Resolves a wildcard, such as the one in {@code List<? extends Something>}, to its bound.
+ *
  * @author oshoukry
  */
 public class WildcardTypeResolver implements TypeResolver<WildcardType> {
 
-  public Type getEnclosingType(WildcardType type) {
-    return resolveType(type);
-  }
+	public Type getEnclosingType(WildcardType type) {
+		return resolveType(type);
+	}
 
-  public Type resolveType(WildcardType wildcardType) {
+	public Type resolveType(WildcardType wildcardType) {
 
-    Type[] lowerBounds = wildcardType.getLowerBounds();
-    Type[] upperBounds = wildcardType.getUpperBounds();
+		Type[] lowerBounds = wildcardType.getLowerBounds();
+		Type[] upperBounds = wildcardType.getUpperBounds();
 
-    ensureAValidBoundaryExists(lowerBounds, upperBounds);
+		ensureAValidBoundaryExists(lowerBounds, upperBounds);
 
-    return getParameterTypes(wildcardType)[0];
-  }
+		return getParameterTypes(wildcardType)[0];
+	}
 
-  public Type[] getParameterTypes(WildcardType wildcardType) {
-    Type[] bounds = wildcardType.getLowerBounds();
-    if (bounds == null || bounds.length == 0)
-      return wildcardType.getUpperBounds();
-    return bounds;
-  }
+	public Type[] getParameterTypes(WildcardType wildcardType) {
+		Type[] bounds = wildcardType.getLowerBounds();
+		if (bounds == null || bounds.length == 0)
+			return wildcardType.getUpperBounds();
+		return bounds;
+	}
 
-  private void ensureAValidBoundaryExists(Type[] lowerBounds, Type[] upperBounds) {
-    if (lowerBounds.length > 1 || upperBounds.length > 1 || (upperBounds.length == 0 && lowerBounds.length == 0))
-      throw ReflectionException.getInstance("Unable to identify proper resolution for type, " +
-          "multiple UpperBounds[" + Arrays.toString(upperBounds) + "] Or LowerBounds[" + Arrays.toString(lowerBounds) + "]");
-  }
+	private void ensureAValidBoundaryExists(Type[] lowerBounds, Type[] upperBounds) {
+		if (lowerBounds.length > 1 || upperBounds.length > 1 || (upperBounds.length == 0 && lowerBounds.length == 0))
+			throw ReflectionException.getInstance("Unable to identify proper resolution for type, " +
+					"multiple UpperBounds[" + Arrays.toString(upperBounds) + "] Or LowerBounds["
+					+ Arrays.toString(lowerBounds) + "]");
+	}
 
+	/**
+	 * Creates an instance ready to use.
+	 */
+	public WildcardTypeResolver() {
+	}
 }

@@ -24,9 +24,8 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.slf4j.LoggerFactory;
 
-import com.openpojo.log.LoggerFactory;
-import com.openpojo.log.utils.MessageFormatter;
 import com.openpojo.random.RandomGenerator;
 import com.openpojo.reflection.PojoClass;
 import com.openpojo.reflection.PojoClassFilter;
@@ -39,8 +38,8 @@ import com.openpojo.validation.affirm.Affirm;
 
 public class CollectionAndMapPackageRandomGeneratorsTest {
 	private static final List<PojoClass> collectionRandomGenerators = new LinkedList<PojoClass>();
-	private static final String[] packages = new String[] { "com.openpojo.random.collection",
-			"com.openpojo.random.map" };
+	private static final String[] packages = new String[]{"com.openpojo.random.collection",
+			"com.openpojo.random.map"};
 	private static final int EXPECTED_COUNT = 53;
 
 	@BeforeAll
@@ -50,10 +49,9 @@ public class CollectionAndMapPackageRandomGeneratorsTest {
 					new FilterChain(new RandomGeneratorFilter(), new FilterNestedClasses(), new FilterNonConcrete())));
 		}
 		Affirm.affirmEquals(
-				MessageFormatter.format(
-						"Invalid number of Collection/Map RandomGenerators added/removed? " + "expected: "
-								+ "[{0}], found: [{1}] which were [{2}] ",
-						EXPECTED_COUNT, collectionRandomGenerators.size(), collectionRandomGenerators),
+				"Invalid number of Collection/Map RandomGenerators added/removed? expected: [" + EXPECTED_COUNT
+						+ "], found: [" + collectionRandomGenerators.size() + "] which were ["
+						+ collectionRandomGenerators + "] ",
 				EXPECTED_COUNT, collectionRandomGenerators.size());
 	}
 
@@ -71,12 +69,12 @@ public class CollectionAndMapPackageRandomGeneratorsTest {
 				LoggerFactory.getLogger(this.getClass()).debug("Generating Type [" + type + "]");
 				Object firstInstance = randomGenerator.doGenerate(type);
 				Affirm.affirmNotNull(
-						MessageFormatter.format("[{0}] returned null for type [{1}]", randomGenerator.getClass(), type),
+						"[" + randomGenerator.getClass() + "] returned null for type [" + type + "]",
 						firstInstance);
 
 				Affirm.affirmTrue(
-						MessageFormatter.format("[{0}] returned incompatible type [{1}] when requesting type [{2}]",
-								randomGenerator.getClass(), firstInstance.getClass(), type),
+						"[" + randomGenerator.getClass() + "] returned incompatible type [" + firstInstance.getClass()
+								+ "] when requesting type [" + type + "]",
 						type.isAssignableFrom(firstInstance.getClass()));
 
 				int counter = 10;
@@ -90,8 +88,8 @@ public class CollectionAndMapPackageRandomGeneratorsTest {
 					counter--;
 				}
 
-				Affirm.affirmFalse(MessageFormatter.format("[{0}] returned identical instances for type [{1}]",
-						randomGenerator.getClass(), type), firstInstance.equals(secondInstance));
+				Affirm.affirmFalse("[" + randomGenerator.getClass() + "] returned identical instances for type ["
+						+ type + "]", firstInstance.equals(secondInstance));
 
 			}
 		}

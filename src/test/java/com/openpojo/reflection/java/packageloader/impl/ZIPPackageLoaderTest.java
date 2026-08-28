@@ -21,6 +21,8 @@ package com.openpojo.reflection.java.packageloader.impl;
 import java.net.MalformedURLException;
 import java.net.URLClassLoader;
 
+import org.junit.jupiter.api.Test;
+
 import com.openpojo.random.RandomFactory;
 import com.openpojo.reflection.PojoClass;
 import com.openpojo.reflection.PojoMethod;
@@ -29,54 +31,55 @@ import com.openpojo.reflection.impl.PojoClassFactory;
 import com.openpojo.reflection.java.Java;
 import com.openpojo.utils.samplejar.SampleJar;
 import com.openpojo.validation.affirm.Affirm;
-import org.junit.jupiter.api.Test;
 
 /**
  * @author oshoukry
  */
 public class ZIPPackageLoaderTest {
 
-  @Test
-  public void canLoadZipFile() throws MalformedURLException, ClassNotFoundException {
+	@Test
+	public void canLoadZipFile() throws MalformedURLException, ClassNotFoundException {
 
-    URLClassLoader urlClassLoader = SampleJar.getURLClassLoader();
+		URLClassLoader urlClassLoader = SampleJar.getURLClassLoader();
 
-    String[] classNames = new String[] { "com.openpojotest.AClass", "com.openpojotest.AndAnotherClass" };
+		String[] classNames = new String[]{"com.openpojotest.AClass", "com.openpojotest.AndAnotherClass"};
 
-    boolean saidHello = false;
-    boolean gotGreetingMessage = false;
+		boolean saidHello = false;
+		boolean gotGreetingMessage = false;
 
-    for (String className : classNames) {
-      Class entry = urlClassLoader.loadClass(className);
-      PojoClass pojoClass = PojoClassFactory.getPojoClass(entry);
+		for (String className : classNames) {
+			Class<?> entry = urlClassLoader.loadClass(className);
+			PojoClass pojoClass = PojoClassFactory.getPojoClass(entry);
 
-      Affirm.affirmEquals("Should be equal", SampleJar.getJarURLPath() + className.replace(Java.PACKAGE_DELIMITER, Java.PATH_DELIMITER) +
-          Java.CLASS_EXTENSION, "jar:" + pojoClass.getSourcePath());
+			Affirm.affirmEquals(
+					"Should be equal", SampleJar.getJarURLPath()
+							+ className.replace(Java.PACKAGE_DELIMITER, Java.PATH_DELIMITER) + Java.CLASS_EXTENSION,
+					"jar:" + pojoClass.getSourcePath());
 
-      if (pojoClass.getName().equals("com.openpojotest.AClass")) {
-        for (PojoMethod pojoMethod : pojoClass.getPojoMethods()) {
-          if (pojoMethod.getName().equals("sayHello")) {
-            Object instance = InstanceFactory.getInstance(pojoClass);
-            String hello = (String) pojoMethod.invoke(instance);
-            Affirm.affirmEquals("sayHello failed!!", "Hello World!", hello);
-            saidHello = true;
-          }
-        }
-      } else {
-        String randomString = RandomFactory.getRandomValue(String.class);
-        for (PojoMethod pojoMethod : pojoClass.getPojoMethods()) {
-          if (pojoMethod.getName().equals("getGreetingMessage")) {
-            Object instance = InstanceFactory.getInstance(pojoClass);
-            String greetingMessage = (String) pojoMethod.invoke(instance, randomString);
-            Affirm.affirmEquals("getGreetingMessage failed!!", "Hello " + randomString + ", so good to meet you",
-                greetingMessage);
-            gotGreetingMessage = true;
-          }
-        }
-      }
-    }
+			if (pojoClass.getName().equals("com.openpojotest.AClass")) {
+				for (PojoMethod pojoMethod : pojoClass.getPojoMethods()) {
+					if (pojoMethod.getName().equals("sayHello")) {
+						Object instance = InstanceFactory.getInstance(pojoClass);
+						String hello = (String) pojoMethod.invoke(instance);
+						Affirm.affirmEquals("sayHello failed!!", "Hello World!", hello);
+						saidHello = true;
+					}
+				}
+			} else {
+				String randomString = RandomFactory.getRandomValue(String.class);
+				for (PojoMethod pojoMethod : pojoClass.getPojoMethods()) {
+					if (pojoMethod.getName().equals("getGreetingMessage")) {
+						Object instance = InstanceFactory.getInstance(pojoClass);
+						String greetingMessage = (String) pojoMethod.invoke(instance, randomString);
+						Affirm.affirmEquals("getGreetingMessage failed!!",
+								"Hello " + randomString + ", so good to meet you", greetingMessage);
+						gotGreetingMessage = true;
+					}
+				}
+			}
+		}
 
-    Affirm.affirmTrue("Should have saidHello & gotGreetingMessage", saidHello && gotGreetingMessage);
-  }
+		Affirm.affirmTrue("Should have saidHello & gotGreetingMessage", saidHello && gotGreetingMessage);
+	}
 
 }

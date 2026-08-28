@@ -18,8 +18,9 @@
 
 package com.openpojo.issues.issue95;
 
-import com.openpojo.reflection.utils.AttributeHelper;
 import org.junit.jupiter.api.Test;
+
+import com.openpojo.reflection.utils.AttributeHelper;
 
 import static com.openpojo.random.RandomFactory.getRandomValue;
 import static com.openpojo.reflection.java.load.ClassUtil.loadClass;
@@ -28,10 +29,10 @@ import static com.openpojo.reflection.java.load.ClassUtil.loadClass;
  * @author oshoukry
  */
 public class IssueTest {
-  @Test
-  public void shouldGenerateConcurrentSkipListSet() {
-    String className = "java.util.concurrent.ConcurrentSkipListSet";
-    AttributeHelper.registerFieldPrefix("m");
-    getRandomValue(loadClass(className));
-  }
+	@Test
+	public void shouldGenerateConcurrentSkipListSet() {
+		String className = "java.util.concurrent.ConcurrentSkipListSet";
+		AttributeHelper.registerFieldPrefix("m");
+		getRandomValue(loadClass(className));
+	}
 }

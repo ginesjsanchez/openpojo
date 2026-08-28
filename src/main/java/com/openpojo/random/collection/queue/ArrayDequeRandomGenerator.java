@@ -30,30 +30,40 @@ import com.openpojo.reflection.impl.PojoClassFactory;
 import com.openpojo.reflection.java.load.ClassUtil;
 
 /**
+ * Generates a {@code ArrayDeque} holding between 1 and 5 random elements.
+ *
  * @author oshoukry
  */
 public class ArrayDequeRandomGenerator extends BaseCollectionRandomGenerator {
-  private static final String TYPE = "java.util.ArrayDeque";
-  private static final ArrayDequeRandomGenerator INSTANCE = new ArrayDequeRandomGenerator();
+	private static final String TYPE = "java.util.ArrayDeque";
+	private static final ArrayDequeRandomGenerator INSTANCE = new ArrayDequeRandomGenerator();
 
-  public static ArrayDequeRandomGenerator getInstance() {
-    return INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared generator.
+	 */
+	public static ArrayDequeRandomGenerator getInstance() {
+		return INSTANCE;
+	}
 
-  public Collection<Class<?>> getTypes() {
-    List<Class<?>> types = new ArrayList<Class<?>>();
-    if (ClassUtil.isClassLoaded(TYPE))
-      types.add(ClassUtil.loadClass(TYPE));
-    return types;
-  }
+	@Override
+	public Collection<Class<?>> getTypes() {
+		List<Class<?>> types = new ArrayList<>();
+		if (ClassUtil.isClassLoaded(TYPE))
+			types.add(ClassUtil.loadClass(TYPE));
+		return types;
+	}
 
-  @Override
-  protected Collection getBasicInstance(Class<?> type) {
-    Helper.assertIsAssignableTo(type, getTypes());
-    return (Collection) InstanceFactory.getInstance(PojoClassFactory.getPojoClass(ClassUtil.loadClass(TYPE)), CollectionHelper
-        .MAX_RANDOM_ELEMENTS);
-  }
+	@Override
+	protected Collection<Object> getBasicInstance(Class<?> type) {
+		Helper.assertIsAssignableTo(type, getTypes());
+		return CollectionHelper.asCollection(
+				(Collection<?>) InstanceFactory.getInstance(PojoClassFactory.getPojoClass(ClassUtil.loadClass(TYPE)),
+						CollectionHelper.MAX_RANDOM_ELEMENTS));
+	}
 
-  private ArrayDequeRandomGenerator() {
-  }
+	private ArrayDequeRandomGenerator() {
+	}
 }

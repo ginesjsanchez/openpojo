@@ -29,15 +29,15 @@ import com.openpojo.reflection.impl.PojoClassFactory;
  * @author oshoukry
  */
 public class XMLGregorianCalendarTest extends AbstractGeneratorTest {
-  protected PojoClass getPojoClass() {
-    return PojoClassFactory.getPojoClass(XMLGregorianCalendarRandomGenerator.class);
-  }
+	protected PojoClass getPojoClass() {
+		return PojoClassFactory.getPojoClass(XMLGregorianCalendarRandomGenerator.class);
+	}
 
-  protected String getTypeName() {
-    return XMLGregorianCalendar.class.getName();
-  }
+	protected String getTypeName() {
+		return XMLGregorianCalendar.class.getName();
+	}
 
-  protected RandomGenerator getRandomGenerator() {
-    return XMLGregorianCalendarRandomGenerator.getInstance();
-  }
+	protected RandomGenerator getRandomGenerator() {
+		return XMLGregorianCalendarRandomGenerator.getInstance();
+	}
 }

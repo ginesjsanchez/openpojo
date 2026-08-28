@@ -23,6 +23,6 @@ package com.openpojo.validation.rule.impl.sampleclasses;
  */
 public final class NoPrimitivesDoesClass {
 
-  // Okay
-  public String string;
+	// Okay
+	public String string;
 }

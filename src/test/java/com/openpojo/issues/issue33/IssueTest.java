@@ -18,6 +18,9 @@
 
 package com.openpojo.issues.issue33;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import com.openpojo.issues.issue33.sample.AbstractClassRandomGenerator;
 import com.openpojo.issues.issue33.sample.ClassAggregatingAbstractClass;
 import com.openpojo.random.service.RandomGeneratorService;
@@ -28,35 +31,32 @@ import com.openpojo.validation.Validator;
 import com.openpojo.validation.ValidatorBuilder;
 import com.openpojo.validation.test.impl.GetterTester;
 import com.openpojo.validation.test.impl.SetterTester;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 /**
  * @author oshoukry
  */
 public class IssueTest {
 
-  private Validator pojoValidator;
-  private PojoClass pojoClass;
+	private Validator pojoValidator;
+	private PojoClass pojoClass;
 
-  @BeforeEach
-  public void setUp() {
-    pojoClass = PojoClassFactory.getPojoClass(ClassAggregatingAbstractClass.class);
-    RandomGeneratorService randomGeneratorService = ServiceRegistrar.getInstance().getRandomGeneratorService();
-    randomGeneratorService.registerRandomGenerator(new AbstractClassRandomGenerator());
-  }
+	@BeforeEach
+	public void setUp() {
+		pojoClass = PojoClassFactory.getPojoClass(ClassAggregatingAbstractClass.class);
+		RandomGeneratorService randomGeneratorService = ServiceRegistrar.getInstance().getRandomGeneratorService();
+		randomGeneratorService.registerRandomGenerator(new AbstractClassRandomGenerator());
+	}
 
-  @Test
-  public void testGetter() {
-    pojoValidator = ValidatorBuilder.create().with(new GetterTester()).build();
-    pojoValidator.validate(pojoClass);
-  }
+	@Test
+	public void testGetter() {
+		pojoValidator = ValidatorBuilder.create().with(new GetterTester()).build();
+		pojoValidator.validate(pojoClass);
+	}
 
-  @Test
-  public void testSetter() {
-    pojoValidator = ValidatorBuilder.create().with(new SetterTester()).build();
-    pojoValidator.validate(pojoClass);
-  }
-
+	@Test
+	public void testSetter() {
+		pojoValidator = ValidatorBuilder.create().with(new SetterTester()).build();
+		pojoValidator.validate(pojoClass);
+	}
 
 }

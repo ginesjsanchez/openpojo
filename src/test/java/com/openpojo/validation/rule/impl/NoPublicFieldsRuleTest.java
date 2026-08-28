@@ -18,24 +18,25 @@
 
 package com.openpojo.validation.rule.impl;
 
+import org.junit.jupiter.api.Test;
+
 import com.openpojo.validation.CommonCode;
 import com.openpojo.validation.rule.Rule;
 import com.openpojo.validation.rule.impl.sampleclasses.NoPublicFieldsDoesClass;
 import com.openpojo.validation.rule.impl.sampleclasses.NoPublicFieldsDoesntClass;
-import org.junit.jupiter.api.Test;
 
 /**
  * @author oshoukry
  */
 public class NoPublicFieldsRuleTest {
-  private Class<?>[] failClasses = new Class<?>[] { NoPublicFieldsDoesntClass.class };
-  private Class<?>[] passClasses = new Class<?>[] { NoPublicFieldsDoesClass.class };
-  private Rule rule = new NoPublicFieldsRule();
+	private Class<?>[] failClasses = new Class<?>[]{NoPublicFieldsDoesntClass.class};
+	private Class<?>[] passClasses = new Class<?>[]{NoPublicFieldsDoesClass.class};
+	private Rule rule = new NoPublicFieldsRule();
 
-  @Test
-  public void testEvaluate() {
-    CommonCode.shouldPassRuleValidation(rule, passClasses);
-    CommonCode.shouldFailRuleValidation(rule, failClasses);
-  }
+	@Test
+	public void testEvaluate() {
+		CommonCode.shouldPassRuleValidation(rule, passClasses);
+		CommonCode.shouldFailRuleValidation(rule, failClasses);
+	}
 
 }

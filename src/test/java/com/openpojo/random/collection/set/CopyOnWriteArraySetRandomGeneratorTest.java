@@ -30,28 +30,30 @@ import com.openpojo.random.collection.util.BaseCollectionRandomGeneratorTest;
  */
 public class CopyOnWriteArraySetRandomGeneratorTest extends BaseCollectionRandomGeneratorTest {
 
-  @Override
-  protected ParameterizableRandomGenerator getInstance() {
-    return CopyOnWriteArraySetRandomGenerator.getInstance();
-  }
+	@Override
+	protected ParameterizableRandomGenerator getInstance() {
+		return CopyOnWriteArraySetRandomGenerator.getInstance();
+	}
 
-  @Override
-  protected Class<? extends ParameterizableRandomGenerator> getGeneratorClass() {
-    return CopyOnWriteArraySetRandomGenerator.class;
-  }
+	@Override
+	protected Class<? extends ParameterizableRandomGenerator> getGeneratorClass() {
+		return CopyOnWriteArraySetRandomGenerator.class;
+	}
 
-  @Override
-  protected Class<? extends Collection> getExpectedTypeClass() {
-    return CopyOnWriteArraySet.class;
-  }
+	@SuppressWarnings("unchecked")
+	@Override
+	protected Class<? extends Collection<?>> getExpectedTypeClass() {
+		return (Class<? extends Collection<?>>) (Class<?>) CopyOnWriteArraySet.class;
+	}
 
-  @Override
-  protected Class<? extends Collection> getGeneratedTypeClass() {
-    return CopyOnWriteArraySet.class;
-  }
+	@SuppressWarnings("unchecked")
+	@Override
+	protected Class<? extends Collection<?>> getGeneratedTypeClass() {
+		return (Class<? extends Collection<?>>) (Class<?>) CopyOnWriteArraySet.class;
+	}
 
-  @Override
-  protected Class<?> getGenericType() {
-    return SimpleType.class;
-  }
+	@Override
+	protected Class<?> getGenericType() {
+		return SimpleType.class;
+	}
 }

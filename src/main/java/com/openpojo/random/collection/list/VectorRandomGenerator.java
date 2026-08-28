@@ -26,26 +26,34 @@ import com.openpojo.random.collection.util.BaseCollectionRandomGenerator;
 import com.openpojo.random.util.Helper;
 
 /**
+ * Generates a {@code Vector} holding between 1 and 5 random elements.
+ *
  * @author oshoukry
  */
 public class VectorRandomGenerator extends BaseCollectionRandomGenerator {
-  private static final Class<?>[] TYPES = new Class<?>[] { Vector.class };
-  private static final VectorRandomGenerator INSTANCE = new VectorRandomGenerator();
+	private static final Class<?>[] TYPES = new Class<?>[]{Vector.class};
+	private static final VectorRandomGenerator INSTANCE = new VectorRandomGenerator();
 
-  public static VectorRandomGenerator getInstance() {
-    return INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared generator.
+	 */
+	public static VectorRandomGenerator getInstance() {
+		return INSTANCE;
+	}
 
-  public Collection<Class<?>> getTypes() {
-    return Arrays.asList(TYPES);
-  }
+	public Collection<Class<?>> getTypes() {
+		return Arrays.asList(TYPES);
+	}
 
-  @Override
-  protected Collection getBasicInstance(Class<?> type) {
-    Helper.assertIsAssignableTo(type, getTypes());
-    return new Vector();
-  }
+	@Override
+	protected Collection<Object> getBasicInstance(Class<?> type) {
+		Helper.assertIsAssignableTo(type, getTypes());
+		return new Vector<>();
+	}
 
-  private VectorRandomGenerator() {
-  }
+	private VectorRandomGenerator() {
+	}
 }

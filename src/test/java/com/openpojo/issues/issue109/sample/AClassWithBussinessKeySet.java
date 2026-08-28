@@ -20,20 +20,19 @@ package com.openpojo.issues.issue109.sample;
 
 import java.util.Set;
 
-
 /**
  * @author oshoukry
  */
 public class AClassWithBussinessKeySet {
-  private Set<AClassWithBusinessKey> myChildren;
+	private Set<AClassWithBusinessKey> myChildren;
 
-  @SuppressWarnings("unused")
-  public Set<AClassWithBusinessKey> getMyChildren() {
-    return myChildren;
-  }
+	@SuppressWarnings("unused")
+	public Set<AClassWithBusinessKey> getMyChildren() {
+		return myChildren;
+	}
 
-  @SuppressWarnings("unused")
-  public void setMyChildren(Set<AClassWithBusinessKey> myChildren) {
-    this.myChildren = myChildren;
-  }
+	@SuppressWarnings("unused")
+	public void setMyChildren(Set<AClassWithBusinessKey> myChildren) {
+		this.myChildren = myChildren;
+	}
 }

@@ -26,23 +26,33 @@ import com.openpojo.reflection.java.packageloader.PackageLoader;
 import com.openpojo.reflection.java.packageloader.reader.JarFileReader;
 
 /**
+ * Loads the classes of a package that lives inside a jar.
+ *
  * @author oshoukry
  */
 public final class JARPackageLoader extends PackageLoader {
-  private final JarFileReader jarFileReader;
+	private final JarFileReader jarFileReader;
 
-  public JARPackageLoader(final URL packageURL, final String packageName) {
-    super(packageURL, packageName);
-    jarFileReader = JarFileReader.getInstance(packageURL);
-  }
+	/**
+	 * Creates the loader for a package that lives inside a jar.
+	 *
+	 * @param packageURL
+	 *     A {@code jar:} URL pointing at the package.
+	 * @param packageName
+	 *     The fully qualified package name.
+	 */
+	public JARPackageLoader(final URL packageURL, final String packageName) {
+		super(packageURL, packageName);
+		jarFileReader = JarFileReader.getInstance(packageURL);
+	}
 
-  @Override
-  public Set<Type> getTypes() {
-    return jarFileReader.getTypesInPackage(packageName);
-  }
+	@Override
+	public Set<Type> getTypes() {
+		return jarFileReader.getTypesInPackage(packageName);
+	}
 
-  @Override
-  public Set<String> getSubPackages() {
-    return jarFileReader.getSubPackagesOfPackage(packageName);
-  }
+	@Override
+	public Set<String> getSubPackages() {
+		return jarFileReader.getSubPackagesOfPackage(packageName);
+	}
 }

@@ -26,7 +26,7 @@
  * <br>
  * Eclipse on the other hand will compile package-info in the class path without any problems.
  */
-@SomeAnnotation package com.openpojo.reflection.impl.sample.classes;
+@SomeAnnotation
+package com.openpojo.reflection.impl.sample.classes;
 
 import com.openpojo.reflection.impl.sample.annotation.SomeAnnotation;
-

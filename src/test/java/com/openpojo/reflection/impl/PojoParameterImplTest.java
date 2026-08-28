@@ -18,9 +18,6 @@
 
 package com.openpojo.reflection.impl;
 
-import static java.lang.annotation.ElementType.PARAMETER;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.util.ArrayList;
@@ -35,6 +32,9 @@ import org.junit.jupiter.api.Test;
 import com.openpojo.reflection.PojoClass;
 import com.openpojo.reflection.PojoMethod;
 import com.openpojo.reflection.PojoParameter;
+
+import static java.lang.annotation.ElementType.PARAMETER;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * @author oshoukry
@@ -61,7 +61,7 @@ public class PojoParameterImplTest {
 
 	@SuppressWarnings("unused")
 	private class AClassWithParameterizedConstructors {
-		public AClassWithParameterizedConstructors(List<? extends Collection> aWildType) {
+		public AClassWithParameterizedConstructors(List<? extends Collection<?>> aWildType) {
 		}
 
 		public AClassWithParameterizedConstructors(Map<? super Collection, ?> aWildType) {

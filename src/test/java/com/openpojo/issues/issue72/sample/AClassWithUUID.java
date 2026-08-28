@@ -24,13 +24,13 @@ import java.util.UUID;
  * @author oshoukry
  */
 public class AClassWithUUID {
-  private UUID userUuid;
+	private UUID userUuid;
 
-  public UUID getUserUuid() {
-    return userUuid;
-  }
+	public UUID getUserUuid() {
+		return userUuid;
+	}
 
-  public void setUserUuid(UUID userUuid) {
-    this.userUuid = userUuid;
-  }
+	public void setUserUuid(UUID userUuid) {
+		this.userUuid = userUuid;
+	}
 }

@@ -20,7 +20,7 @@ package com.openpojo.reflection.impl.sample.classes;
 
 @SuppressWarnings("unused")
 public class AClassWithoutMethods {
-  private int privateIntField;
-  public String publicStringField;
-  protected Boolean protectedBoolean;
+	private int privateIntField;
+	public String publicStringField;
+	protected Boolean protectedBoolean;
 }

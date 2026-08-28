@@ -21,14 +21,34 @@ package com.openpojo.reflection.java.bytecode.asm;
 import org.objectweb.asm.ClassReader;
 
 /**
+ * Contract of a generated subclass: its name and the class it derives from.
+ *
  * @author oshoukry
  */
 public interface SubClassDefinition {
-  String GENERATED_CLASS_POSTFIX = "__Generated_OpenPojo";
+	/**
+	 * Suffix appended to the name of the generated subclasses.
+	 */
+	String GENERATED_CLASS_POSTFIX = "__Generated_OpenPojo";
 
-  ClassReader getClassReader();
+	/**
+	 * Reader over the bytecode of the parent class.
+	 *
+	 * @return the {@code ClassReader} for the base class.
+	 */
+	ClassReader getClassReader();
 
-  String getGeneratedClassNameAsJDKPath();
+	/**
+	 * The same name in path notation, which is what ASM uses.
+	 *
+	 * @return the name with slashes instead of dots.
+	 */
+	String getGeneratedClassNameAsJDKPath();
 
-  String getGeneratedClassName();
+	/**
+	 * Name the generated subclass will carry.
+	 *
+	 * @return the fully qualified name.
+	 */
+	String getGeneratedClassName();
 }

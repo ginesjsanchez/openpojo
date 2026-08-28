@@ -19,121 +19,87 @@
 package com.openpojo.utils.log;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Appender;
-import org.apache.log4j.Layout;
-import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.spi.ErrorHandler;
-import org.apache.log4j.spi.Filter;
-import org.apache.log4j.spi.LoggingEvent;
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.read.ListAppender;
+import org.slf4j.LoggerFactory;
 
 /**
+ * Captures the events openpojo emits through SLF4J, so tests can assert on them.
+ * <p>
+ * It relies on the logback binding, which is only present on the test classpath:
+ * openpojo does not impose any log implementation on its consumers.
+ *
  * @author oshoukry
  */
-@SuppressWarnings("ReturnOfNull")
-public class SpyAppender implements Appender {
-  private Map<String, Level> priorLevels = new HashMap<String, Level>();
-  private Map<String, List<LoggingEvent>> eventMap = new LinkedHashMap<String, List<LoggingEvent>>();
+public class SpyAppender {
 
-  public List<LoggingEvent> getEventsForLogger(Class<?> clazz) {
-    return getEventsForLogger(clazz.getName());
-  }
+	private final Map<String, ListAppender<ILoggingEvent>> appenders = new HashMap<>();
+	private final Map<String, Level> originalLevels = new HashMap<>();
 
-  public List<LoggingEvent> getEventsForLogger(String loggerName) {
-    List<LoggingEvent> events = new ArrayList<LoggingEvent>();
-    final List<LoggingEvent> loggingEvents = eventMap.get(loggerName);
-    if (loggingEvents != null)
-     for (LoggingEvent event: loggingEvents)
-         events.add(event);
-    return events;
-  }
+	public void startCaptureForLogger(final Class<?> clazz) {
+		startCaptureForLogger(clazz.getName());
+	}
 
-  public void startCaptureForLogger(Class<?> clazz) {
-    startCaptureForLogger(clazz.getName());
-  }
+	public void startCaptureForLogger(final String loggerName) {
+		final Logger logger = logger(loggerName);
 
-  public void startCaptureForLogger(String loggerName) {
-    priorLevels.put(loggerName, getLogLevel(loggerName));
-    setLogLevel(loggerName, Level.ALL);
-    LogManager.getLogger(loggerName).addAppender(this);
-  }
+		originalLevels.put(loggerName, logger.getLevel());
+		logger.setLevel(Level.TRACE);
 
-  public void stopCaptureForLogger(Class<?> clazz) {
-    stopCaptureForLogger(clazz.getName());
-  }
+		final ListAppender<ILoggingEvent> appender = new ListAppender<>();
+		appender.setContext(logger.getLoggerContext());
+		appender.start();
+		logger.addAppender(appender);
 
-  public void stopCaptureForLogger(String loggerName) {
-    final Level priorLevel = priorLevels.get(loggerName);
-    setLogLevel(loggerName, priorLevel);
-    LogManager.getLogger(loggerName).removeAppender(this);
-  }
+		appenders.put(loggerName, appender);
+	}
 
-  private Level getLogLevel(String loggerName) {
-    return LogManager.getLogger(loggerName).getLevel();
-  }
+	public void stopCaptureForLogger(final Class<?> clazz) {
+		stopCaptureForLogger(clazz.getName());
+	}
 
-  private void setLogLevel(String loggerName, Level level) {
-    LogManager.getLogger(loggerName).setLevel(level);
-  }
+	public void stopCaptureForLogger(final String loggerName) {
+		final ListAppender<ILoggingEvent> appender = appenders.remove(loggerName);
+		if (appender == null)
+			return;
 
-  public void doAppend(LoggingEvent event) {
-    synchronized (this) {
-      String loggerName = event.getLoggerName();
-      if (eventMap.get(loggerName) != null)
-        eventMap.get(loggerName).add(event);
-      else {
-        List<LoggingEvent> events = new ArrayList<LoggingEvent>();
-        events.add(event);
-        eventMap.put(loggerName, events);
-      }
-    }
-  }
+		final Logger logger = logger(loggerName);
+		logger.detachAppender(appender);
+		appender.stop();
+		logger.setLevel(originalLevels.remove(loggerName));
+	}
 
-  public void addFilter(Filter newFilter) {
+	public List<ILoggingEvent> getEventsForLogger(final Class<?> clazz) {
+		return getEventsForLogger(clazz.getName());
+	}
 
-  }
+	public List<ILoggingEvent> getEventsForLogger(final String loggerName) {
+		final ListAppender<ILoggingEvent> appender = appenders.get(loggerName);
+		if (appender == null)
+			return Collections.emptyList();
+		return Collections.unmodifiableList(new ArrayList<>(appender.list));
+	}
 
-  public Filter getFilter() {
-    return null;
-  }
+	public List<ILoggingEvent> getEventsForLogger(final Class<?> clazz, final Level level) {
+		return getEventsForLogger(clazz.getName(), level);
+	}
 
-  public void clearFilters() {
+	public List<ILoggingEvent> getEventsForLogger(final String loggerName, final Level level) {
+		final List<ILoggingEvent> matching = new ArrayList<>();
+		for (final ILoggingEvent event : getEventsForLogger(loggerName))
+			if (event.getLevel() == level)
+				matching.add(event);
+		return matching;
+	}
 
-  }
-
-  public void close() {
-
-  }
-
-  public String getName() {
-    return null;
-  }
-
-  public void setErrorHandler(ErrorHandler errorHandler) {
-
-  }
-
-  public ErrorHandler getErrorHandler() {
-    return null;
-  }
-
-  public void setLayout(Layout layout) {
-
-  }
-
-  public Layout getLayout() {
-    return null;
-  }
-
-  public void setName(String name) {
-  }
-
-  public boolean requiresLayout() {
-    return false;
-  }
+	private static Logger logger(final String loggerName) {
+		return (Logger) LoggerFactory.getLogger(loggerName);
+	}
 }

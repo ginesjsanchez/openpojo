@@ -18,6 +18,8 @@
 
 package com.openpojo.issues.issue42;
 
+import org.junit.jupiter.api.Test;
+
 import com.openpojo.issues.issue42.sample.AClassWithArrayField;
 import com.openpojo.reflection.PojoClass;
 import com.openpojo.reflection.construct.InstanceFactory;
@@ -29,34 +31,33 @@ import com.openpojo.validation.affirm.Affirmation;
 import com.openpojo.validation.affirm.AffirmationFactory;
 import com.openpojo.validation.affirm.JUnitAssertAffirmation;
 import com.openpojo.validation.test.impl.GetterTester;
-import org.junit.jupiter.api.Test;
 
 /**
  * @author oshoukry
  */
 public class IssueTest {
 
-  @Test
-  public void testByteArrayEquality() {
+	@Test
+	public void testByteArrayEquality() {
 
-    byte[] first = new byte[] { (byte) 0xaa, (byte) 0xab, (byte) 0xac };
-    byte[] second = first.clone();
+		byte[] first = new byte[]{(byte) 0xaa, (byte) 0xab, (byte) 0xac};
+		byte[] second = first.clone();
 
-    Affirm.affirmEquals("A clone failed to be seen as equal", first, second);
-  }
+		Affirm.affirmEquals("A clone failed to be seen as equal", first, second);
+	}
 
-  @Test
-  public void testAClassWithArrayField() {
-    Affirmation jUnitAffirmation = (Affirmation) InstanceFactory.getInstance(
-        PojoClassFactory.getPojoClass(JUnitAssertAffirmation.class));
+	@Test
+	public void testAClassWithArrayField() {
+		Affirmation jUnitAffirmation = (Affirmation) InstanceFactory.getInstance(
+				PojoClassFactory.getPojoClass(JUnitAssertAffirmation.class));
 
-    AffirmationFactory.getInstance().setActiveAffirmation(jUnitAffirmation);
-    PojoClass classWithArrayField = PojoClassFactory.getPojoClass(AClassWithArrayField.class);
+		AffirmationFactory.getInstance().setActiveAffirmation(jUnitAffirmation);
+		PojoClass classWithArrayField = PojoClassFactory.getPojoClass(AClassWithArrayField.class);
 
-    Validator pojoValidator = ValidatorBuilder.create()
-        .with(new GetterTester())
-        .build();
+		Validator pojoValidator = ValidatorBuilder.create()
+				.with(new GetterTester())
+				.build();
 
-    pojoValidator.validate(classWithArrayField);
-  }
+		pojoValidator.validate(classWithArrayField);
+	}
 }

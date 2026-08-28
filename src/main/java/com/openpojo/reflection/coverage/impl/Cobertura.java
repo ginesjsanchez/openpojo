@@ -23,35 +23,43 @@ import com.openpojo.reflection.adapt.PojoClassAdapter;
 import com.openpojo.reflection.adapt.impl.CoberturaPojoClassAdapter;
 
 /**
+ * Detector for Cobertura instrumentation.
+ *
  * @author oshoukry
  */
 public class Cobertura extends AbstractCoverageDetector {
-  private static final Cobertura INSTANCE = new Cobertura();
+	private static final Cobertura INSTANCE = new Cobertura();
 
-  private Cobertura() {
-  }
+	private Cobertura() {
+	}
 
-  public static Cobertura getInstance() {
-    return INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared instance.
+	 */
+	public static Cobertura getInstance() {
+		return INSTANCE;
+	}
 
-  @Override
-  public String getName() {
-    return "Cobertura";
-  }
+	@Override
+	public String getName() {
+		return "Cobertura";
+	}
 
-  @Override
-  public String getCoverageClassName() {
-    return "net.sourceforge.cobertura.coveragedata.LightClassmapListener";
-  }
+	@Override
+	public String getCoverageClassName() {
+		return "net.sourceforge.cobertura.coveragedata.LightClassmapListener";
+	}
 
-  @Override
-  public PojoClassFilter getPojoClassFilter() {
-    return null;
-  }
+	@Override
+	public PojoClassFilter getPojoClassFilter() {
+		return null;
+	}
 
-  @Override
-  public PojoClassAdapter getPojoClassAdapter() {
-    return CoberturaPojoClassAdapter.getInstance();
-  }
+	@Override
+	public PojoClassAdapter getPojoClassAdapter() {
+		return CoberturaPojoClassAdapter.getInstance();
+	}
 }

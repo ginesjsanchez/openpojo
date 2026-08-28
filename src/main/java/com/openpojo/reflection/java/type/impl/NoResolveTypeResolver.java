@@ -23,19 +23,27 @@ import java.lang.reflect.Type;
 import com.openpojo.reflection.java.type.TypeResolver;
 
 /**
+ * Resolver for the types that need no resolution: it returns them unchanged.
+ *
  * @author oshoukry
  */
 public class NoResolveTypeResolver implements TypeResolver<Type> {
 
-  public Type getEnclosingType(Type type) {
-    return type;
-  }
+	public Type getEnclosingType(Type type) {
+		return type;
+	}
 
-  public Type resolveType(Type type) {
-    return type;
-  }
+	public Type resolveType(Type type) {
+		return type;
+	}
 
-  public Type[] getParameterTypes(Type type) {
-    return new Type[] { type };
-  }
+	public Type[] getParameterTypes(Type type) {
+		return new Type[]{type};
+	}
+
+	/**
+	 * Creates an instance ready to use.
+	 */
+	public NoResolveTypeResolver() {
+	}
 }

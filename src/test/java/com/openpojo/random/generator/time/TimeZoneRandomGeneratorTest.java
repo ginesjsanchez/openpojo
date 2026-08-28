@@ -18,38 +18,37 @@
 
 package com.openpojo.random.generator.time;
 
+import org.junit.jupiter.api.BeforeEach;
+
 import com.openpojo.random.RandomGenerator;
 import com.openpojo.random.generator.AbstractGeneratorTest;
 import com.openpojo.reflection.PojoClass;
 import com.openpojo.reflection.impl.PojoClassFactory;
-import com.openpojo.reflection.java.load.ClassUtil;
-//import org.junit.Assume;
-import org.junit.jupiter.api.BeforeEach;
 
 /**
  * @author oshoukry
  */
 public class TimeZoneRandomGeneratorTest extends AbstractGeneratorTest {
-  private static final String JAVA_UTIL_TIMEZONE = "java.util.TimeZone";
-  private PojoClass pojoClass;
-  private TimeZoneRandomGenerator randomGenerator;
+	private static final String JAVA_UTIL_TIMEZONE = "java.util.TimeZone";
+	private PojoClass pojoClass;
+	private TimeZoneRandomGenerator randomGenerator;
 
-  @BeforeEach
-  public void setup() {
-    //Assume.assumeTrue(ClassUtil.isClassLoaded(JAVA_UTIL_TIMEZONE));
-    pojoClass = PojoClassFactory.getPojoClass(TimeZoneRandomGenerator.class);
-    randomGenerator = TimeZoneRandomGenerator.getInstance();
-  }
+	@BeforeEach
+	public void setup() {
+		//Assume.assumeTrue(ClassUtil.isClassLoaded(JAVA_UTIL_TIMEZONE));
+		pojoClass = PojoClassFactory.getPojoClass(TimeZoneRandomGenerator.class);
+		randomGenerator = TimeZoneRandomGenerator.getInstance();
+	}
 
-  protected PojoClass getPojoClass() {
-    return pojoClass;
-  }
+	protected PojoClass getPojoClass() {
+		return pojoClass;
+	}
 
-  protected String getTypeName() {
-    return JAVA_UTIL_TIMEZONE;
-  }
+	protected String getTypeName() {
+		return JAVA_UTIL_TIMEZONE;
+	}
 
-  protected RandomGenerator getRandomGenerator() {
-    return randomGenerator;
-  }
+	protected RandomGenerator getRandomGenerator() {
+		return randomGenerator;
+	}
 }

@@ -22,5 +22,5 @@ package com.openpojo.random.collection.support;
  * @author oshoukry
  */
 public enum EnumType {
-  VALUE1, VALUE2
+	VALUE1, VALUE2
 }

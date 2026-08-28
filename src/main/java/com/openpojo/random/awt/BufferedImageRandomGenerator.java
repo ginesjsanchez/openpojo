@@ -33,53 +33,63 @@ import static com.openpojo.reflection.java.load.ClassUtil.isClassLoaded;
 import static com.openpojo.reflection.java.load.ClassUtil.loadClass;
 
 /**
+ * Generates a {@code java.awt.image.BufferedImage} of random dimensions. It is only registered if AWT is available at
+ * runtime.
+ *
  * @author oshoukry
  */
 public class BufferedImageRandomGenerator implements RandomGenerator {
-  private static final String TYPE = "java.awt.image.BufferedImage";
-  private static final Random RANDOM = new Random(System.currentTimeMillis());
-  private static final BufferedImageRandomGenerator INSTANCE = new BufferedImageRandomGenerator();
+	private static final String TYPE = "java.awt.image.BufferedImage";
+	private static final Random RANDOM = new Random(System.currentTimeMillis());
+	private static final BufferedImageRandomGenerator INSTANCE = new BufferedImageRandomGenerator();
 
-  public static RandomGenerator getInstance() {
-    return INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared generator.
+	 */
+	public static RandomGenerator getInstance() {
+		return INSTANCE;
+	}
 
-  public Collection<Class<?>> getTypes() {
-    List<Class<?>> types = new ArrayList<Class<?>>();
-    if (isClassLoaded(TYPE)) {
-      types.add(loadClass(TYPE));
-    }
-    return types;
-  }
+	public Collection<Class<?>> getTypes() {
+		List<Class<?>> types = new ArrayList<>();
+		if (isClassLoaded(TYPE)) {
+			types.add(loadClass(TYPE));
+		}
+		return types;
+	}
 
-  public Object doGenerate(Class<?> type) {
-    int width = RANDOM.nextInt(10) + 1;
-    int height = RANDOM.nextInt(10) + 1;
-    int imageType = getRandomImageType();
-    return InstanceFactory.getInstance(getPojoClass(loadClass(TYPE)), width, height, imageType);
-  }
+	public Object doGenerate(Class<?> type) {
+		int width = RANDOM.nextInt(10) + 1;
+		int height = RANDOM.nextInt(10) + 1;
+		int imageType = getRandomImageType();
+		return InstanceFactory.getInstance(getPojoClass(loadClass(TYPE)), width, height, imageType);
+	}
 
-  private int getRandomImageType() {
-    //public static final int TYPE
-    List<Integer> availableTypes = new ArrayList<Integer>();
+	private int getRandomImageType() {
+		//public static final int TYPE
+		List<Integer> availableTypes = new ArrayList<>();
 
-    PojoClass bufferedImagePojoClass = getPojoClass(loadClass(TYPE));
+		PojoClass bufferedImagePojoClass = getPojoClass(loadClass(TYPE));
 
-    for (PojoField field : bufferedImagePojoClass.getPojoFields()) {
-      if(isPublicStaticFinalIntNamedTypeAndNotTypeCustom(field))
-        availableTypes.add((Integer) field.get(null));
-    }
-    return availableTypes.get(RANDOM.nextInt(availableTypes.size()));
-  }
+		for (PojoField field : bufferedImagePojoClass.getPojoFields()) {
+			if (isPublicStaticFinalIntNamedTypeAndNotTypeCustom(field))
+				availableTypes.add((Integer) field.get(null));
+		}
+		return availableTypes.get(RANDOM.nextInt(availableTypes.size()));
+	}
 
-  private boolean isPublicStaticFinalIntNamedTypeAndNotTypeCustom(PojoField field) {
-    return field.isPublic()
-        && field.isStatic()
-        && field.isFinal()
-        && field.getType().equals(int.class)
-        && field.getName().startsWith("TYPE_")
-        && !field.getName().equals("TYPE_CUSTOM");
-  }
+	private boolean isPublicStaticFinalIntNamedTypeAndNotTypeCustom(PojoField field) {
+		return field.isPublic()
+				&& field.isStatic()
+				&& field.isFinal()
+				&& field.getType().equals(int.class)
+				&& field.getName().startsWith("TYPE_")
+				&& !field.getName().equals("TYPE_CUSTOM");
+	}
 
-  private BufferedImageRandomGenerator() {}
+	private BufferedImageRandomGenerator() {
+	}
 }

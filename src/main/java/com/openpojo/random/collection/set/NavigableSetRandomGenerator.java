@@ -28,29 +28,38 @@ import com.openpojo.random.util.Helper;
 import com.openpojo.reflection.java.load.ClassUtil;
 
 /**
+ * Generates values for {@code NavigableSet}, returning a {@code TreeSet} holding between 1 and 5 random elements.
+ *
  * @author oshoukry
  */
 public class NavigableSetRandomGenerator extends BaseCollectionRandomGenerator {
-  private static final String TYPE = "java.util.NavigableSet";
-  private static final NavigableSetRandomGenerator INSTANCE = new NavigableSetRandomGenerator();
+	private static final String TYPE = "java.util.NavigableSet";
+	private static final NavigableSetRandomGenerator INSTANCE = new NavigableSetRandomGenerator();
 
-  public static NavigableSetRandomGenerator getInstance() {
-    return INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared generator.
+	 */
+	public static NavigableSetRandomGenerator getInstance() {
+		return INSTANCE;
+	}
 
-  public Collection<Class<?>> getTypes() {
-    List<Class<?>> types = new ArrayList<Class<?>>();
-    if (ClassUtil.isClassLoaded(TYPE))
-      types.add(ClassUtil.loadClass(TYPE));
-    return types;
-  }
+	@Override
+	public Collection<Class<?>> getTypes() {
+		List<Class<?>> types = new ArrayList<>();
+		if (ClassUtil.isClassLoaded(TYPE))
+			types.add(ClassUtil.loadClass(TYPE));
+		return types;
+	}
 
-  @Override
-  protected Collection getBasicInstance(Class<?> type) {
-    Helper.assertIsAssignableTo(type, getTypes());
-    return new TreeSet();
-  }
+	@Override
+	protected Collection<Object> getBasicInstance(Class<?> type) {
+		Helper.assertIsAssignableTo(type, getTypes());
+		return new TreeSet<>();
+	}
 
-  private NavigableSetRandomGenerator() {
-  }
+	private NavigableSetRandomGenerator() {
+	}
 }

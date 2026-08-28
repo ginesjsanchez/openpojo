@@ -25,7 +25,7 @@ import com.openpojo.validation.test.Tester;
  */
 public class GetterTesterTest extends LoggingTesterTest {
 
-  protected Tester getTester() {
-    return new GetterTester();
-  }
+	protected Tester getTester() {
+		return new GetterTester();
+	}
 }

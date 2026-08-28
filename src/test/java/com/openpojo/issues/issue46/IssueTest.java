@@ -20,29 +20,30 @@ package com.openpojo.issues.issue46;
 
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import com.openpojo.reflection.PojoClass;
 import com.openpojo.reflection.impl.PojoClassFactory;
 import com.openpojo.validation.Validator;
 import com.openpojo.validation.ValidatorBuilder;
 import com.openpojo.validation.test.impl.DefaultValuesNullTester;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 /**
  * @author oshoukry
  */
 public class IssueTest {
-  private List<PojoClass> pojoClasses;
-  private Validator pojoValidator;
+	private List<PojoClass> pojoClasses;
+	private Validator pojoValidator;
 
-  @BeforeEach
-  public void setup() {
-    pojoClasses = PojoClassFactory.getPojoClassesRecursively("com.openpojo.issues.issue46.sample", null);
-    pojoValidator = ValidatorBuilder.create().with(new DefaultValuesNullTester()).build();
-  }
+	@BeforeEach
+	public void setup() {
+		pojoClasses = PojoClassFactory.getPojoClassesRecursively("com.openpojo.issues.issue46.sample", null);
+		pojoValidator = ValidatorBuilder.create().with(new DefaultValuesNullTester()).build();
+	}
 
-  @Test
-  public void getAllClasses() {
-    pojoValidator.validate(pojoClasses);
-  }
+	@Test
+	public void getAllClasses() {
+		pojoValidator.validate(pojoClasses);
+	}
 }

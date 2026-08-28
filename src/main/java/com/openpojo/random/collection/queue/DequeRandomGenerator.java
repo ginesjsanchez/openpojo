@@ -28,29 +28,37 @@ import com.openpojo.random.util.Helper;
 import com.openpojo.reflection.java.load.ClassUtil;
 
 /**
+ * Generates values for {@code Deque}, returning a {@code LinkedList} holding between 1 and 5 random elements.
+ *
  * @author oshoukry
  */
 public class DequeRandomGenerator extends BaseCollectionRandomGenerator {
-  private static final String TYPE = "java.util.Deque";
-  private static final DequeRandomGenerator INSTANCE = new DequeRandomGenerator();
+	private static final String TYPE = "java.util.Deque";
+	private static final DequeRandomGenerator INSTANCE = new DequeRandomGenerator();
 
-  public static DequeRandomGenerator getInstance() {
-    return INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared generator.
+	 */
+	public static DequeRandomGenerator getInstance() {
+		return INSTANCE;
+	}
 
-  public Collection<Class<?>> getTypes() {
-    List<Class<?>> types = new ArrayList<Class<?>>();
-    if (ClassUtil.isClassLoaded(TYPE))
-      types.add(ClassUtil.loadClass(TYPE));
-    return types;
-  }
+	public Collection<Class<?>> getTypes() {
+		List<Class<?>> types = new ArrayList<>();
+		if (ClassUtil.isClassLoaded(TYPE))
+			types.add(ClassUtil.loadClass(TYPE));
+		return types;
+	}
 
-  @Override
-  protected Collection getBasicInstance(Class<?> type) {
-    Helper.assertIsAssignableTo(type, getTypes());
-    return new LinkedList();
-  }
+	@Override
+	protected Collection<Object> getBasicInstance(Class<?> type) {
+		Helper.assertIsAssignableTo(type, getTypes());
+		return new LinkedList<>();
+	}
 
-  private DequeRandomGenerator() {
-  }
+	private DequeRandomGenerator() {
+	}
 }

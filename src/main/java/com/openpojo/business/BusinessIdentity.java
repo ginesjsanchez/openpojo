@@ -44,42 +44,49 @@ import com.openpojo.business.utils.BusinessIdentityUtils;
  */
 public final class BusinessIdentity {
 
-  /**
-   * This method is responsibly for handling equality between two objects.
-   *
-   * @param first
-   *     The first object to compare with.
-   * @param second
-   *     The second object to compare with.
-   * @return True if both objects are equal, false otherwise.  if either of those objects is null, equality is false.
-   */
-  public static boolean areEqual(final Object first, final Object second) {
-    if (BusinessIdentityUtils.anyNull(first, second) || !BusinessIdentityUtils.sameClass(first, second)) {
-      return false;
-    }
+	/**
+	 * This method is responsibly for handling equality between two objects.
+	 *
+	 * @param first
+	 *     The first object to compare with.
+	 * @param second
+	 *     The second object to compare with.
+	 * @return True if both objects are equal, false otherwise.  if either of those objects is null, equality is false.
+	 */
+	public static boolean areEqual(final Object first, final Object second) {
+		if (BusinessIdentityUtils.anyNull(first, second) || !BusinessIdentityUtils.sameClass(first, second)) {
+			return false;
+		}
 
-    IdentityFactory.getIdentityHandler(first).validate(first);
-    IdentityFactory.getIdentityHandler(second).validate(second);
-    return IdentityFactory.getIdentityHandler(first).areEqual(first, second);
-  }
+		IdentityFactory.getIdentityHandler(first).validate(first);
+		IdentityFactory.getIdentityHandler(second).validate(second);
+		return IdentityFactory.getIdentityHandler(first).areEqual(first, second);
+	}
 
-  /**
-   * This method handles generation of the hashCode for a given object.
-   *
-   * @param object
-   *     Object to generate hashCode for.
-   * @return Generated hash code.
-   */
-  public static int getHashCode(final Object object) {
-    IdentityFactory.getIdentityHandler(object).validate(object);
-    return IdentityFactory.getIdentityHandler(object).generateHashCode(object);
-  }
+	/**
+	 * This method handles generation of the hashCode for a given object.
+	 *
+	 * @param object
+	 *     Object to generate hashCode for.
+	 * @return Generated hash code.
+	 */
+	public static int getHashCode(final Object object) {
+		IdentityFactory.getIdentityHandler(object).validate(object);
+		return IdentityFactory.getIdentityHandler(object).generateHashCode(object);
+	}
 
-  public static String toString(final Object instance) {
-    return IdentityFactory.getIdentityHandler(instance).toString(instance);
-  }
+	/**
+	 * Builds the text representation from the fields marked as business keys.
+	 *
+	 * @param instance
+	 *     The object to render.
+	 * @return its text representation.
+	 */
+	public static String toString(final Object instance) {
+		return IdentityFactory.getIdentityHandler(instance).toString(instance);
+	}
 
-  private BusinessIdentity() {
-    throw new UnsupportedOperationException(BusinessIdentity.class.getName() + " should not be constructed!");
-  }
+	private BusinessIdentity() {
+		throw new UnsupportedOperationException(BusinessIdentity.class.getName() + " should not be constructed!");
+	}
 }

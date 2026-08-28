@@ -25,8 +25,8 @@ import java.util.List;
  */
 public class AClassWithGenericParameterMethod {
 
-  @SuppressWarnings("unused")
-  public void parameterizedMethod(List<Integer> parameterizedList) {
-  }
+	@SuppressWarnings("unused")
+	public void parameterizedMethod(List<Integer> parameterizedList) {
+	}
 
 }

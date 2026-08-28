@@ -33,36 +33,48 @@ import com.openpojo.reflection.impl.PojoClassFactory;
  */
 public class RandomInstanceFromInterfaceRandomGenerator {
 
-  public static RandomInstanceFromInterfaceRandomGenerator getInstance() {
-    return Instance.INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared generator.
+	 */
+	public static RandomInstanceFromInterfaceRandomGenerator getInstance() {
+		return Instance.INSTANCE;
+	}
 
-  /**
-   * This method returns a random instance for a given interface.
-   * The instance will return random values upon method invocations.
-   *
-   * @param <T>
-   *     The type to generate an instance of.
-   * @param clazz
-   *     The interface to generate the implementations on.
-   * @return An instance of the interface.
-   */
-  @SuppressWarnings("unchecked")
-  public <T> T doGenerate(final Class<T> clazz) {
-    PojoClass pojoClass = PojoClassFactory.getPojoClass(clazz);
-    if (!pojoClass.isInterface()) {
-      throw ReflectionException.getInstance(
-          String.format("[%s] is not an interface, can't create a proxy for concrete or abstract types.", pojoClass.getName()));
-    }
+	/**
+	 * This method returns a random instance for a given interface.
+	 * The instance will return random values upon method invocations.
+	 *
+	 * @param <T>
+	 *     The type to generate an instance of.
+	 * @param clazz
+	 *     The interface to generate the implementations on.
+	 * @return An instance of the interface.
+	 */
+	@SuppressWarnings("unchecked")
+	public <T> T doGenerate(final Class<T> clazz) {
+		PojoClass pojoClass = PojoClassFactory.getPojoClass(clazz);
+		if (!pojoClass.isInterface()) {
+			throw ReflectionException.getInstance(
+					String.format("[%s] is not an interface, can't create a proxy for concrete or abstract types.",
+							pojoClass.getName()));
+		}
 
-    InvocationHandler handler = RandomReturnInvocationHandler.getInstance();
+		InvocationHandler handler = RandomReturnInvocationHandler.getInstance();
 
-    return (T) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
-        new Class<?>[] { pojoClass.getClazz() }, handler);
-  }
+		return (T) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
+				new Class<?>[]{pojoClass.getClazz()}, handler);
+	}
 
-  private static class Instance {
-    private static final RandomInstanceFromInterfaceRandomGenerator INSTANCE = new RandomInstanceFromInterfaceRandomGenerator();
-  }
+	private static class Instance {
+		private static final RandomInstanceFromInterfaceRandomGenerator INSTANCE = new RandomInstanceFromInterfaceRandomGenerator();
+	}
 
+	/**
+	 * Creates an instance ready to use.
+	 */
+	public RandomInstanceFromInterfaceRandomGenerator() {
+	}
 }

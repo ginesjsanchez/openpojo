@@ -31,28 +31,30 @@ import com.openpojo.random.collection.util.BaseCollectionRandomGeneratorTest;
  */
 public class ListRandomGeneratorTest extends BaseCollectionRandomGeneratorTest {
 
-  @Override
-  protected ParameterizableRandomGenerator getInstance() {
-    return ListRandomGenerator.getInstance();
-  }
+	@Override
+	protected ParameterizableRandomGenerator getInstance() {
+		return ListRandomGenerator.getInstance();
+	}
 
-  @Override
-  protected Class<? extends ParameterizableRandomGenerator> getGeneratorClass() {
-    return ListRandomGenerator.class;
-  }
+	@Override
+	protected Class<? extends ParameterizableRandomGenerator> getGeneratorClass() {
+		return ListRandomGenerator.class;
+	}
 
-  @Override
-  protected Class<? extends Collection> getExpectedTypeClass() {
-    return List.class;
-  }
+	@SuppressWarnings("unchecked")
+	@Override
+	protected Class<? extends Collection<?>> getExpectedTypeClass() {
+		return (Class<? extends Collection<?>>) (Class<?>) List.class;
+	}
 
-  @Override
-  protected Class<? extends Collection> getGeneratedTypeClass() {
-    return ArrayList.class;
-  }
+	@SuppressWarnings("unchecked")
+	@Override
+	protected Class<? extends Collection<?>> getGeneratedTypeClass() {
+		return (Class<? extends Collection<?>>) (Class<?>) ArrayList.class;
+	}
 
-  @Override
-  protected Class<?> getGenericType() {
-    return SimpleType.class;
-  }
+	@Override
+	protected Class<?> getGenericType() {
+		return SimpleType.class;
+	}
 }

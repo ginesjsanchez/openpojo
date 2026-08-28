@@ -22,13 +22,13 @@ package com.openpojo.reflection.impl.sample.classes;
  * @author oshoukry
  */
 public class AClassWithFieldsNotPrefixed {
-  private String fullName;
+	private String fullName;
 
-  public String getFullName() {
-    return fullName;
-  }
+	public String getFullName() {
+		return fullName;
+	}
 
-  public void setFullName(String fullName) {
-    this.fullName = fullName;
-  }
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
 }

@@ -18,21 +18,23 @@
 
 package com.openpojo.validation.test.impl;
 
+import org.junit.jupiter.api.Test;
+
 import com.openpojo.validation.CommonCode;
 import com.openpojo.validation.test.Tester;
 import com.openpojo.validation.test.impl.sampleclasses.ABusinessPojoDispatchingHashCodeAndEquals;
 import com.openpojo.validation.test.impl.sampleclasses.ABusinessPojoNotDispatchingEquals;
 import com.openpojo.validation.test.impl.sampleclasses.ABusinessPojoNotDispatchingHashCode;
-import org.junit.jupiter.api.Test;
 
 public class BusinessIdentityTesterTest {
-  private Class<?>[] failClasses = new Class<?>[] { ABusinessPojoNotDispatchingHashCode.class, ABusinessPojoNotDispatchingEquals.class };
-  private Class<?>[] passClasses = new Class<?>[] { ABusinessPojoDispatchingHashCodeAndEquals.class };
-  private Tester test = new BusinessIdentityTester();
+	private Class<?>[] failClasses = new Class<?>[]{ABusinessPojoNotDispatchingHashCode.class,
+			ABusinessPojoNotDispatchingEquals.class};
+	private Class<?>[] passClasses = new Class<?>[]{ABusinessPojoDispatchingHashCodeAndEquals.class};
+	private Tester test = new BusinessIdentityTester();
 
-  @Test
-  public void testEvaluate() {
-    CommonCode.shouldPassTesterValidation(test, passClasses);
-    CommonCode.shouldFailTesterValidation(test, failClasses);
-  }
+	@Test
+	public void testEvaluate() {
+		CommonCode.shouldPassTesterValidation(test, passClasses);
+		CommonCode.shouldFailTesterValidation(test, failClasses);
+	}
 }

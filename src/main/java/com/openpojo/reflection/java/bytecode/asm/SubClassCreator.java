@@ -18,23 +18,23 @@
 
 package com.openpojo.reflection.java.bytecode.asm;
 
-import static org.objectweb.asm.Opcodes.ACC_ABSTRACT;
-import static org.objectweb.asm.Opcodes.ACC_PROTECTED;
-import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
-import static org.objectweb.asm.Opcodes.ACC_SUPER;
-import static org.objectweb.asm.Opcodes.ASM9;
-
 import java.util.Arrays;
 
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import com.openpojo.log.Logger;
-import com.openpojo.log.LoggerFactory;
 import com.openpojo.reflection.java.bytecode.asm.method.MethodHandler;
 import com.openpojo.reflection.java.bytecode.asm.method.MethodHandlerFactory;
+
+import static org.objectweb.asm.Opcodes.ACC_ABSTRACT;
+import static org.objectweb.asm.Opcodes.ACC_PROTECTED;
+import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
+import static org.objectweb.asm.Opcodes.ACC_SUPER;
+import static org.objectweb.asm.Opcodes.ASM9;
 
 /**
  * @author oshoukry

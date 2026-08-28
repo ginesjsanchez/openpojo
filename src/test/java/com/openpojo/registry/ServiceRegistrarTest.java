@@ -23,16 +23,16 @@ import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import com.openpojo.log.Logger;
-import com.openpojo.log.LoggerFactory;
 import com.openpojo.random.RandomGenerator;
 import com.openpojo.random.service.RandomGeneratorService;
 import com.openpojo.validation.affirm.Affirm;
 
 public class ServiceRegistrarTest {
 
-	private final String[] expectedDefaultTypeNames = new String[] {
+	private final String[] expectedDefaultTypeNames = new String[]{
 		// @formatter:off
             "java.awt.image.BufferedImage"
             ,"java.lang.Boolean"
@@ -120,8 +120,6 @@ public class ServiceRegistrarTest {
             ,"javax.management.relation.RoleUnresolvedList"
 
             ,"javax.xml.datatype.XMLGregorianCalendar"
-            
-            ,"org.springframework.security.crypto.password.PasswordEncoder"
     };
     // @formatter:on
 
@@ -147,7 +145,7 @@ public class ServiceRegistrarTest {
 			try {
 				expectedDefaultTypes.add(Class.forName(type));
 			} catch (final ClassNotFoundException e) {
-				LoggerFactory.getLogger(this.getClass()).warn("Failed for: [{0}]", e.getMessage(), e);
+				LoggerFactory.getLogger(this.getClass()).warn("Failed for: [{}]", e.getMessage(), e);
 			}
 		}
 
@@ -164,7 +162,7 @@ public class ServiceRegistrarTest {
 
 	private void reportDifferences() {
 		Logger logger = LoggerFactory.getLogger(this.getClass());
-		logger.info("Found that many types: [{0}]", expectedDefaultTypes.size());
+		logger.info("Found that many types: [{}]", expectedDefaultTypes.size());
 		logger.info("List of Entries in the expected List but not in the registered list:");
 		for (Class<?> expectedEntry : expectedDefaultTypes) {
 			if (!randomGeneratorService.getRegisteredTypes().contains(expectedEntry))

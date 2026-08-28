@@ -24,35 +24,43 @@ import com.openpojo.reflection.adapt.impl.CloverPojoClassAdapter;
 import com.openpojo.reflection.filters.FilterCloverClasses;
 
 /**
+ * Detector for Clover 4 instrumentation.
+ *
  * @author oshoukry
  */
 public class Clover4 extends AbstractCoverageDetector {
-  private static final Clover4 INSTANCE = new Clover4();
+	private static final Clover4 INSTANCE = new Clover4();
 
-  private Clover4() {
-  }
+	private Clover4() {
+	}
 
-  public static Clover4 getInstance() {
-    return INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared instance.
+	 */
+	public static Clover4 getInstance() {
+		return INSTANCE;
+	}
 
-  @Override
-  public String getName() {
-    return "Clover 4";
-  }
+	@Override
+	public String getName() {
+		return "Clover 4";
+	}
 
-  @Override
-  public String getCoverageClassName() {
-    return "com_atlassian_clover.TestNameSniffer";
-  }
+	@Override
+	public String getCoverageClassName() {
+		return "com_atlassian_clover.TestNameSniffer";
+	}
 
-  @Override
-  public PojoClassFilter getPojoClassFilter() {
-    return FilterCloverClasses.getInstance();
-  }
+	@Override
+	public PojoClassFilter getPojoClassFilter() {
+		return FilterCloverClasses.getInstance();
+	}
 
-  @Override
-  public PojoClassAdapter getPojoClassAdapter() {
-    return CloverPojoClassAdapter.getInstance();
-  }
+	@Override
+	public PojoClassAdapter getPojoClassAdapter() {
+		return CloverPojoClassAdapter.getInstance();
+	}
 }

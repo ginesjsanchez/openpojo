@@ -56,26 +56,80 @@ public class Affirm {
 		getAffirmation().affirmTrue(message, condition);
 	}
 
+	/**
+	 * Fails if the condition is true.
+	 *
+	 * @param message
+	 *     Text to show if it fails.
+	 * @param condition
+	 *     The condition expected to be false.
+	 */
 	public static void affirmFalse(final String message, final boolean condition) {
 		getAffirmation().affirmFalse(message, condition);
 	}
 
+	/**
+	 * Fails if the object is {@code null}.
+	 *
+	 * @param message
+	 *     Text to show if it fails.
+	 * @param object
+	 *     The object that must not be null.
+	 */
 	public static void affirmNotNull(final String message, final Object object) {
 		getAffirmation().affirmNotNull(message, object);
 	}
 
+	/**
+	 * Fails if the object is not {@code null}.
+	 *
+	 * @param message
+	 *     Text to show if it fails.
+	 * @param object
+	 *     The object that must be null.
+	 */
 	public static void affirmNull(final String message, final Object object) {
 		getAffirmation().affirmNull(message, object);
 	}
 
+	/**
+	 * Fails if the two values are not equal.
+	 *
+	 * @param message
+	 *     Text to show if it fails.
+	 * @param first
+	 *     The expected value.
+	 * @param second
+	 *     The actual value.
+	 */
 	public static void affirmEquals(final String message, final Object first, final Object second) {
 		getAffirmation().affirmEquals(message, first, second);
 	}
 
+	/**
+	 * Fails if they are not the same instance, comparing by reference.
+	 *
+	 * @param message
+	 *     Text to show if it fails.
+	 * @param first
+	 *     The first reference.
+	 * @param second
+	 *     The second reference.
+	 */
 	public static void affirmSame(final String message, final Object first, final Object second) {
 		getAffirmation().affirmSame(message, first, second);
 	}
 
+	/**
+	 * Fails if the collection does not hold the expected value.
+	 *
+	 * @param message
+	 *     Text to show if it fails.
+	 * @param expected
+	 *     The value that must be present.
+	 * @param collection
+	 *     The collection to look into.
+	 */
 	public static void affirmContains(final String message, final Object expected, final Collection<?> collection) {
 		for (Object entry : collection) {
 			if (expected == null) {

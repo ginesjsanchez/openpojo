@@ -23,8 +23,8 @@ package com.openpojo.validation.rule.impl.sampleclasses;
  */
 public final class NoPublicFieldsDoesClass {
 
-  // Okay
-  @SuppressWarnings("unused")
-  private String privateString;
-  protected String protectedString;
+	// Okay
+	@SuppressWarnings("unused")
+	private String privateString;
+	protected String protectedString;
 }

@@ -38,37 +38,43 @@ import com.openpojo.validation.utils.ValidationHelper;
  */
 public final class BusinessIdentityTester implements Tester {
 
-  public void run(final PojoClass pojoClass) {
-    Object instance1 = ValidationHelper.getMostCompleteInstance(pojoClass);
-    Object instance2 = ValidationHelper.getMostCompleteInstance(pojoClass);
+	public void run(final PojoClass pojoClass) {
+		Object instance1 = ValidationHelper.getMostCompleteInstance(pojoClass);
+		Object instance2 = ValidationHelper.getMostCompleteInstance(pojoClass);
 
-    IdentityHandlerStub identityHandlerStub = new IdentityHandlerStub(instance1, instance2);
-    IdentityFactory.registerIdentityHandler(identityHandlerStub);
+		IdentityHandlerStub identityHandlerStub = new IdentityHandlerStub(instance1, instance2);
+		IdentityFactory.registerIdentityHandler(identityHandlerStub);
 
-    // check one way
-    identityHandlerStub.setAreEqualReturn(RandomFactory.getRandomValue(Boolean.class));
-    checkEquality(instance1, instance2, identityHandlerStub);
+		// check one way
+		identityHandlerStub.setAreEqualReturn(RandomFactory.getRandomValue(Boolean.class));
+		checkEquality(instance1, instance2, identityHandlerStub);
 
-    identityHandlerStub.setAreEqualReturn(!identityHandlerStub.getAreEqualReturn());
-    checkEquality(instance1, instance2, identityHandlerStub);
+		identityHandlerStub.setAreEqualReturn(!identityHandlerStub.getAreEqualReturn());
+		checkEquality(instance1, instance2, identityHandlerStub);
 
-    identityHandlerStub.setHashCodeReturn(RandomFactory.getRandomValue(Integer.class));
-    checkHashCode(instance1, identityHandlerStub);
+		identityHandlerStub.setHashCodeReturn(RandomFactory.getRandomValue(Integer.class));
+		checkHashCode(instance1, identityHandlerStub);
 
-    identityHandlerStub.setHashCodeReturn(RandomFactory.getRandomValue(Integer.class));
-    checkHashCode(instance1, identityHandlerStub);
+		identityHandlerStub.setHashCodeReturn(RandomFactory.getRandomValue(Integer.class));
+		checkHashCode(instance1, identityHandlerStub);
 
-    IdentityFactory.unregisterIdentityHandler(identityHandlerStub);
-  }
+		IdentityFactory.unregisterIdentityHandler(identityHandlerStub);
+	}
 
-  private void checkHashCode(Object firstPojoClassInstance, IdentityHandlerStub identityHandlerStub) {
-    Affirm.affirmTrue(String.format("Class=[%s] not dispatching 'hashCode()' calls to BusinessIdentity",
-        firstPojoClassInstance.getClass()), identityHandlerStub.getHashCodeReturn() == firstPojoClassInstance.hashCode());
-  }
+	private void checkHashCode(Object firstPojoClassInstance, IdentityHandlerStub identityHandlerStub) {
+		Affirm.affirmTrue(String.format("Class=[%s] not dispatching 'hashCode()' calls to BusinessIdentity",
+				firstPojoClassInstance.getClass()),
+				identityHandlerStub.getHashCodeReturn() == firstPojoClassInstance.hashCode());
+	}
 
-  private void checkEquality(Object instance1, Object instance2, IdentityHandlerStub identityHandlerStub) {
-    Affirm.affirmTrue(String.format("Class=[%s] not dispatching 'equals()' calls to BusinessIdentity",
-        instance1.getClass()), identityHandlerStub.getAreEqualReturn() == instance1.equals(instance2));
-  }
+	private void checkEquality(Object instance1, Object instance2, IdentityHandlerStub identityHandlerStub) {
+		Affirm.affirmTrue(String.format("Class=[%s] not dispatching 'equals()' calls to BusinessIdentity",
+				instance1.getClass()), identityHandlerStub.getAreEqualReturn() == instance1.equals(instance2));
+	}
 
+	/**
+	 * Creates an instance ready to use.
+	 */
+	public BusinessIdentityTester() {
+	}
 }

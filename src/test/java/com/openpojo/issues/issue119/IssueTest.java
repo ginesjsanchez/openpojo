@@ -20,6 +20,8 @@ package com.openpojo.issues.issue119;
 
 import java.util.List;
 
+import org.junit.jupiter.api.Test;
+
 import com.openpojo.reflection.PojoClass;
 import com.openpojo.validation.Validator;
 import com.openpojo.validation.ValidatorBuilder;
@@ -27,26 +29,23 @@ import com.openpojo.validation.rule.impl.GetterMustExistRule;
 import com.openpojo.validation.rule.impl.SetterMustExistRule;
 import com.openpojo.validation.test.impl.GetterTester;
 import com.openpojo.validation.test.impl.SetterTester;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 import static com.openpojo.reflection.impl.PojoClassFactory.*;
-import static org.hamcrest.CoreMatchers.is;
 
 public class IssueTest {
 
-  @Test
-  public void shouldTestAllClasses() {
-    Validator validator = ValidatorBuilder.create()
-        .with(new GetterMustExistRule())
-        .with(new SetterMustExistRule())
-        .with(new GetterTester())
-        .with(new SetterTester())
-        .build();
+	@Test
+	public void shouldTestAllClasses() {
+		Validator validator = ValidatorBuilder.create()
+				.with(new GetterMustExistRule())
+				.with(new SetterMustExistRule())
+				.with(new GetterTester())
+				.with(new SetterTester())
+				.build();
 
-    List<PojoClass> classes = getPojoClassesRecursively(this.getClass().getPackage().getName() + ".sample", null);
+		List<PojoClass> classes = getPojoClassesRecursively(this.getClass().getPackage().getName() + ".sample", null);
 
-    ////Assert.//assertThat(classes.size(), is(3));
-    validator.validate(classes);
-  }
+		////Assert.//assertThat(classes.size(), is(3));
+		validator.validate(classes);
+	}
 }

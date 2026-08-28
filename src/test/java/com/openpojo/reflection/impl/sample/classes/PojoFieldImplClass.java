@@ -23,69 +23,69 @@ package com.openpojo.reflection.impl.sample.classes;
  */
 public class PojoFieldImplClass {
 
-  @SuppressWarnings("unused")
-  private static final String STATICFINALFIELD = "Static Final Field";
-  private String nonStaticNonFinal;
+	@SuppressWarnings("unused")
+	private static final String STATICFINALFIELD = "Static Final Field";
+	private String nonStaticNonFinal;
 
-  @SuppressWarnings("unused")
-  private int primitiveIntField;
+	@SuppressWarnings("unused")
+	private int primitiveIntField;
 
-  @SuppressWarnings("unused")
-  private int privateIntField;
-  protected int protectedIntField;
-  public int publicIntField;
-  int packagePrivateIntField;
+	@SuppressWarnings("unused")
+	private int privateIntField;
+	protected int protectedIntField;
+	public int publicIntField;
+	int packagePrivateIntField;
 
-  private Boolean booleanField;
+	private Boolean booleanField;
 
-  private String privateString;
+	private String privateString;
 
-  public transient String transientString;
+	public transient String transientString;
 
-  public volatile String volatileString;
+	public volatile String volatileString;
 
-  /**
-   * @return the nonStaticNonFinal
-   */
-  public String getNonStaticNonFinal() {
-    return nonStaticNonFinal;
-  }
+	/**
+	 * @return the nonStaticNonFinal
+	 */
+	public String getNonStaticNonFinal() {
+		return nonStaticNonFinal;
+	}
 
-  /**
-   * @param nonStaticNonFinal
-   *     the nonStaticNonFinal to set
-   */
-  public void setNonStaticNonFinal(final String nonStaticNonFinal) {
-    this.nonStaticNonFinal = nonStaticNonFinal;
-  }
+	/**
+	 * @param nonStaticNonFinal
+	 *     the nonStaticNonFinal to set
+	 */
+	public void setNonStaticNonFinal(final String nonStaticNonFinal) {
+		this.nonStaticNonFinal = nonStaticNonFinal;
+	}
 
-  /**
-   * @return the booleanField
-   */
-  public Boolean isBooleanField() {
-    return booleanField;
-  }
+	/**
+	 * @return the booleanField
+	 */
+	public Boolean isBooleanField() {
+		return booleanField;
+	}
 
-  /**
-   * @param booleanField
-   *     the booleanField to set
-   */
-  public void setBooleanField(final Boolean booleanField) {
-    this.booleanField = booleanField;
-  }
+	/**
+	 * @param booleanField
+	 *     the booleanField to set
+	 */
+	public void setBooleanField(final Boolean booleanField) {
+		this.booleanField = booleanField;
+	}
 
-  /**
-   * @return the privateString
-   */
-  public String getPrivateString() {
-    return privateString;
-  }
+	/**
+	 * @return the privateString
+	 */
+	public String getPrivateString() {
+		return privateString;
+	}
 
-  /**
-   * @param privateString
-   *     the privateString to set
-   */
-  public void setPrivateString(final String privateString) {
-    this.privateString = privateString;
-  }
+	/**
+	 * @param privateString
+	 *     the privateString to set
+	 */
+	public void setPrivateString(final String privateString) {
+		this.privateString = privateString;
+	}
 }

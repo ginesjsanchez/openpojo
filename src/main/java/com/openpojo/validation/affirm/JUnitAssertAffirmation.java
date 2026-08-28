@@ -18,6 +18,10 @@
 
 package com.openpojo.validation.affirm;
 
+import com.openpojo.business.BusinessIdentity;
+import com.openpojo.reflection.exception.ReflectionException;
+import com.openpojo.reflection.java.load.ClassUtil;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -25,11 +29,9 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.openpojo.business.BusinessIdentity;
-import com.openpojo.reflection.exception.ReflectionException;
-import com.openpojo.reflection.java.load.ClassUtil;
-
 /**
+ * Delegates the assertions to JUnit 5.
+ *
  * @author oshoukry
  */
 public class JUnitAssertAffirmation extends AbstractAffirmation implements Affirmation {

@@ -26,14 +26,14 @@ import javax.xml.datatype.XMLGregorianCalendar;
 @SuppressWarnings("unused")
 public class AClassWithXMLGregorianCalendar {
 
-  private XMLGregorianCalendar xmlGregorianCalendar;
+	private XMLGregorianCalendar xmlGregorianCalendar;
 
-  public XMLGregorianCalendar getXmlGregorianCalendar() {
-    return xmlGregorianCalendar;
-  }
+	public XMLGregorianCalendar getXmlGregorianCalendar() {
+		return xmlGregorianCalendar;
+	}
 
-  public void setXmlGregorianCalendar(XMLGregorianCalendar xmlGregorianCalendar) {
-    this.xmlGregorianCalendar = xmlGregorianCalendar;
-  }
+	public void setXmlGregorianCalendar(XMLGregorianCalendar xmlGregorianCalendar) {
+		this.xmlGregorianCalendar = xmlGregorianCalendar;
+	}
 
 }

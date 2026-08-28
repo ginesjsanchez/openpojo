@@ -58,102 +58,108 @@ import com.openpojo.reflection.java.type.Primitives;
  * @author oshoukry
  */
 public final class BasicRandomGenerator implements RandomGenerator {
-  private static final Random RANDOM = new Random(new Date().getTime());
-  private static final int MAX_RANDOM_STRING_LENGTH = 32;
+	private static final Random RANDOM = new Random(new Date().getTime());
+	private static final int MAX_RANDOM_STRING_LENGTH = 32;
 
-  private BasicRandomGenerator() {
-  }
+	private BasicRandomGenerator() {
+	}
 
-  public static RandomGenerator getInstance() {
-    return Instance.INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared generator.
+	 */
+	public static RandomGenerator getInstance() {
+		return Instance.INSTANCE;
+	}
 
-  private static final Class<?>[] TYPES = new Class<?>[] {
-      boolean.class, Boolean.class,
-      int.class, Integer.class,
-      float.class, Float.class,
-      double.class, Double.class,
-      long.class, Long.class,
-      short.class, Short.class,
-      byte.class, Byte.class,
-      char.class, Character.class,
-      String.class,
-      Date.class,
-      Calendar.class,
-      BigDecimal.class,
-      BigInteger.class };
+	private static final Class<?>[] TYPES = new Class<?>[]{
+			boolean.class, Boolean.class,
+			int.class, Integer.class,
+			float.class, Float.class,
+			double.class, Double.class,
+			long.class, Long.class,
+			short.class, Short.class,
+			byte.class, Byte.class,
+			char.class, Character.class,
+			String.class,
+			Date.class,
+			Calendar.class,
+			BigDecimal.class,
+			BigInteger.class};
 
-  private static final char[] CHARACTERS = new char[] {
-      'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
-      'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-      'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
-      'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-      '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
-  };
+	private static final char[] CHARACTERS = new char[]{
+			'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+			'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+			'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+			'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+			'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
+	};
 
-  public Object doGenerate(final Class<?> type) {
-    final Class<?> autoBoxedType = Primitives.getInstance().autoBox(type);
+	public Object doGenerate(final Class<?> type) {
+		final Class<?> autoBoxedType = Primitives.getInstance().autoBox(type);
 
-    if (autoBoxedType == Boolean.class)
-      return RANDOM.nextBoolean();
+		if (autoBoxedType == Boolean.class)
+			return RANDOM.nextBoolean();
 
-    if (autoBoxedType == Integer.class)
-      return RANDOM.nextInt();
+		if (autoBoxedType == Integer.class)
+			return RANDOM.nextInt();
 
-    if (autoBoxedType == BigInteger.class)
-      return BigInteger.valueOf(RANDOM.nextLong());
+		if (autoBoxedType == BigInteger.class)
+			return BigInteger.valueOf(RANDOM.nextLong());
 
-    if (autoBoxedType == Float.class)
-      return RANDOM.nextFloat();
+		if (autoBoxedType == Float.class)
+			return RANDOM.nextFloat();
 
-    if (autoBoxedType == Double.class)
-      return RANDOM.nextDouble();
+		if (autoBoxedType == Double.class)
+			return RANDOM.nextDouble();
 
-    if (autoBoxedType == BigDecimal.class)
-      return BigDecimal.valueOf(RANDOM.nextDouble());
+		if (autoBoxedType == BigDecimal.class)
+			return BigDecimal.valueOf(RANDOM.nextDouble());
 
-    if (autoBoxedType == Long.class)
-      return RANDOM.nextLong();
+		if (autoBoxedType == Long.class)
+			return RANDOM.nextLong();
 
-    if (autoBoxedType == Short.class)
-      return (short) (RANDOM.nextInt(Short.MAX_VALUE + 1) * (RANDOM.nextBoolean() ? 1 : -1));
+		if (autoBoxedType == Short.class)
+			return (short) (RANDOM.nextInt(Short.MAX_VALUE + 1) * (RANDOM.nextBoolean() ? 1 : -1));
 
-    if (autoBoxedType == Byte.class) {
-      final byte[] randomByte = new byte[1];
-      RANDOM.nextBytes(randomByte);
-      return randomByte[0];
-    }
+		if (autoBoxedType == Byte.class) {
+			final byte[] randomByte = new byte[1];
+			RANDOM.nextBytes(randomByte);
+			return randomByte[0];
+		}
 
-    if (autoBoxedType == Character.class)
-      return CHARACTERS[RANDOM.nextInt(CHARACTERS.length)];
+		if (autoBoxedType == Character.class)
+			return CHARACTERS[RANDOM.nextInt(CHARACTERS.length)];
 
-    if (autoBoxedType == String.class) {
-      String randomString = "";
+		if (autoBoxedType == String.class) {
+			String randomString = "";
 
-      /* prevent zero length string lengths */
-      for (int count = 0; count < RANDOM.nextInt(MAX_RANDOM_STRING_LENGTH + 1) + 1; count++) {
-        randomString += RandomFactory.getRandomValue(Character.class);
-      }
-      return randomString;
-    }
+			/* prevent zero length string lengths */
+			for (int count = 0; count < RANDOM.nextInt(MAX_RANDOM_STRING_LENGTH + 1) + 1; count++) {
+				randomString += RandomFactory.getRandomValue(Character.class);
+			}
+			return randomString;
+		}
 
-    if (autoBoxedType == Date.class)
-      return new Date(RANDOM.nextLong());
+		if (autoBoxedType == Date.class)
+			return new Date(RANDOM.nextLong());
 
-    if (autoBoxedType == Calendar.class) {
-      final Calendar calendar = Calendar.getInstance();
-      calendar.setTimeInMillis(RANDOM.nextLong());
-      return calendar;
-    }
+		if (autoBoxedType == Calendar.class) {
+			final Calendar calendar = Calendar.getInstance();
+			calendar.setTimeInMillis(RANDOM.nextLong());
+			return calendar;
+		}
 
-    return null;
-  }
+		return null;
+	}
 
-  public Collection<Class<?>> getTypes() {
-    return Arrays.asList(TYPES);
-  }
+	public Collection<Class<?>> getTypes() {
+		return Arrays.asList(TYPES);
+	}
 
-  private static class Instance {
-    private static final RandomGenerator INSTANCE = new BasicRandomGenerator();
-  }
+	private static class Instance {
+		private static final RandomGenerator INSTANCE = new BasicRandomGenerator();
+	}
 }

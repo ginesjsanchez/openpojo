@@ -23,7 +23,10 @@ import java.io.Serializable;
 /**
  * @author oshoukry
  */
-public class SerializableTest_SerializableChildForSerializableParentWithNonSerializableFieldClass extends
-    SerializableTest_SerializableParentWithNonSerializableFieldClass implements Serializable {
-  private String childName;
+public class SerializableTest_SerializableChildForSerializableParentWithNonSerializableFieldClass
+		extends
+			SerializableTest_SerializableParentWithNonSerializableFieldClass
+		implements
+			Serializable {
+	private String childName;
 }

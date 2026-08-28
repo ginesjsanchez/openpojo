@@ -39,7 +39,7 @@ import com.openpojo.random.util.SerializableComparableObject;
 /**
  * @author oshoukry
  */
-@SuppressWarnings({ "FieldCanBeLocal", "unused" })
+@SuppressWarnings({"FieldCanBeLocal", "unused"})
 public class AClassWithExhaustiveCollection {
 	private Collection collectionUndefined;
 	private Collection<?> collectionUnbounded;

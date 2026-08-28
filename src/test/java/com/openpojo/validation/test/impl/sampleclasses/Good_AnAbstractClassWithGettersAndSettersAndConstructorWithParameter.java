@@ -22,19 +22,19 @@ package com.openpojo.validation.test.impl.sampleclasses;
  * @author oshoukry
  */
 public abstract class Good_AnAbstractClassWithGettersAndSettersAndConstructorWithParameter {
-  private Object someObject;
+	private Object someObject;
 
-  public Good_AnAbstractClassWithGettersAndSettersAndConstructorWithParameter(Object someObject) {
-    this.someObject = someObject;
-  }
+	public Good_AnAbstractClassWithGettersAndSettersAndConstructorWithParameter(Object someObject) {
+		this.someObject = someObject;
+	}
 
-  @SuppressWarnings("unused")
-  public Object getSomeObject() {
-    return someObject;
-  }
+	@SuppressWarnings("unused")
+	public Object getSomeObject() {
+		return someObject;
+	}
 
-  @SuppressWarnings("unused")
-  public void setSomeObject(Object someObject) {
-    this.someObject = someObject;
-  }
+	@SuppressWarnings("unused")
+	public void setSomeObject(Object someObject) {
+		this.someObject = someObject;
+	}
 }

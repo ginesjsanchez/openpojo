@@ -28,15 +28,15 @@ import com.openpojo.reflection.impl.PojoClassFactory;
  */
 public class BufferedImageRandomGeneratorTest extends AbstractGeneratorTest {
 
-  protected PojoClass getPojoClass() {
-    return PojoClassFactory.getPojoClass(BufferedImageRandomGenerator.class);
-  }
+	protected PojoClass getPojoClass() {
+		return PojoClassFactory.getPojoClass(BufferedImageRandomGenerator.class);
+	}
 
-  protected String getTypeName() {
-    return "java.awt.image.BufferedImage";
-  }
+	protected String getTypeName() {
+		return "java.awt.image.BufferedImage";
+	}
 
-  protected RandomGenerator getRandomGenerator() {
-    return BufferedImageRandomGenerator.getInstance();
-  }
+	protected RandomGenerator getRandomGenerator() {
+		return BufferedImageRandomGenerator.getInstance();
+	}
 }

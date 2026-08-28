@@ -33,14 +33,21 @@ import com.openpojo.validation.utils.ValidationHelper;
  */
 public class DefaultValuesNullTester implements Tester {
 
-  public void run(final PojoClass pojoClass) {
-    final Object classInstance = ValidationHelper.getBasicInstance(pojoClass);
+	public void run(final PojoClass pojoClass) {
+		final Object classInstance = ValidationHelper.getBasicInstance(pojoClass);
 
-    for (final PojoField fieldEntry : pojoClass.getPojoFields()) {
-      if (!fieldEntry.isPrimitive() && !fieldEntry.isFinal() && fieldEntry.getAnnotation(BusinessKey.class) == null) {
-        Affirm.affirmNull(String.format("Expected null value for for field=[%s]", fieldEntry), fieldEntry.get(classInstance));
-      }
-    }
-  }
+		for (final PojoField fieldEntry : pojoClass.getPojoFields()) {
+			if (!fieldEntry.isPrimitive() && !fieldEntry.isFinal()
+					&& fieldEntry.getAnnotation(BusinessKey.class) == null) {
+				Affirm.affirmNull(String.format("Expected null value for for field=[%s]", fieldEntry),
+						fieldEntry.get(classInstance));
+			}
+		}
+	}
 
+	/**
+	 * Creates an instance ready to use.
+	 */
+	public DefaultValuesNullTester() {
+	}
 }

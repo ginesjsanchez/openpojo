@@ -18,39 +18,40 @@
 
 package com.openpojo.issues.genericconstructor;
 
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
+
 import com.openpojo.issues.genericconstructor.sample.ClassWithGenericListIntegerConstructor;
 import com.openpojo.issues.genericconstructor.sample.ClassWithGenericSetEnumConstructor;
 import com.openpojo.reflection.PojoClass;
 import com.openpojo.reflection.construct.InstanceFactory;
 import com.openpojo.reflection.impl.PojoClassFactory;
-import org.junit.jupiter.api.Test;
-import org.testng.Assert;
 
 /**
  * @author oshoukry
  */
 public class GenericConstructorsTest {
 
-  @Test
-  public void shouldConstructClassWithGenericListIntegerConstructor() {
-    PojoClass pojoClass = PojoClassFactory.getPojoClass(ClassWithGenericListIntegerConstructor.class);
-    ClassWithGenericListIntegerConstructor instance =
-        (ClassWithGenericListIntegerConstructor) InstanceFactory.getMostCompleteInstance(pojoClass);
-    Assert.assertNotNull(instance);
-    Assert.assertNotNull(instance.getIntegers());
-    Assert.assertTrue(instance.getIntegers().size() > 0);
+	@Test
+	public void shouldConstructClassWithGenericListIntegerConstructor() {
+		PojoClass pojoClass = PojoClassFactory.getPojoClass(ClassWithGenericListIntegerConstructor.class);
+		ClassWithGenericListIntegerConstructor instance = (ClassWithGenericListIntegerConstructor) InstanceFactory
+				.getMostCompleteInstance(pojoClass);
+		Assertions.assertNotNull(instance);
+		Assertions.assertNotNull(instance.getIntegers());
+		Assertions.assertTrue(instance.getIntegers().size() > 0);
 
-    Assert.assertNotNull(instance.getMymap());
-    Assert.assertNotNull(instance.getString());
-  }
+		Assertions.assertNotNull(instance.getMymap());
+		Assertions.assertNotNull(instance.getString());
+	}
 
-  @Test
-  public void shouldConstructClassWithGenericSetEnumConstructor() {
-    PojoClass pojoClass = PojoClassFactory.getPojoClass(ClassWithGenericSetEnumConstructor.class);
-    ClassWithGenericSetEnumConstructor instance =
-        (ClassWithGenericSetEnumConstructor) InstanceFactory.getMostCompleteInstance(pojoClass);
-    Assert.assertNotNull(instance);
-    Assert.assertNotNull(instance.getDaysOfTheWeek());
-  }
+	@Test
+	public void shouldConstructClassWithGenericSetEnumConstructor() {
+		PojoClass pojoClass = PojoClassFactory.getPojoClass(ClassWithGenericSetEnumConstructor.class);
+		ClassWithGenericSetEnumConstructor instance = (ClassWithGenericSetEnumConstructor) InstanceFactory
+				.getMostCompleteInstance(pojoClass);
+		Assertions.assertNotNull(instance);
+		Assertions.assertNotNull(instance.getDaysOfTheWeek());
+	}
 
 }

@@ -26,26 +26,38 @@ import com.openpojo.random.collection.util.BaseCollectionRandomGenerator;
 import com.openpojo.random.util.Helper;
 
 /**
+ * Generates a {@code LinkedBlockingQueue} holding between 1 and 5 random elements.
+ *
  * @author oshoukry
  */
 public class LinkedBlockingQueueRandomGenerator extends BaseCollectionRandomGenerator {
-  private final Class<?>[] TYPES = new Class<?>[] { LinkedBlockingQueue.class };
-  public static final LinkedBlockingQueueRandomGenerator INSTANCE = new LinkedBlockingQueueRandomGenerator();
+	private final Class<?>[] TYPES = new Class<?>[]{LinkedBlockingQueue.class};
+	/**
+	 * Instancia unica compartida.
+	 */
+	public static final LinkedBlockingQueueRandomGenerator INSTANCE = new LinkedBlockingQueueRandomGenerator();
 
-  public static LinkedBlockingQueueRandomGenerator getInstance() {
-    return INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared generator.
+	 */
+	public static LinkedBlockingQueueRandomGenerator getInstance() {
+		return INSTANCE;
+	}
 
-  public Collection<Class<?>> getTypes() {
-    return Arrays.asList(TYPES);
-  }
+	@Override
+	public Collection<Class<?>> getTypes() {
+		return Arrays.asList(TYPES);
+	}
 
-  @Override
-  protected Collection getBasicInstance(Class<?> type) {
-    Helper.assertIsAssignableTo(type, getTypes());
-    return new LinkedBlockingQueue();
-  }
+	@Override
+	protected Collection<Object> getBasicInstance(Class<?> type) {
+		Helper.assertIsAssignableTo(type, getTypes());
+		return new LinkedBlockingQueue<>();
+	}
 
-  private LinkedBlockingQueueRandomGenerator() {
-  }
+	private LinkedBlockingQueueRandomGenerator() {
+	}
 }

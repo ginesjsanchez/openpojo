@@ -26,34 +26,41 @@ import com.openpojo.reflection.impl.PojoClassFactory;
 import com.openpojo.reflection.java.load.ClassUtil;
 
 /**
- * This factory is responsible for looking up usable implementations of facade when multiple are possible.
+ * This factory is responsible for looking up usable implementations of facade
+ * when multiple are possible.
  *
  * @author oshoukry
  */
 public final class FacadeFactory {
-  /**
-   * This method returns the proper loaded facade PojoClass.
-   * This method will throw a runtime ReflectionException if non of the facades given are active.
-   *
-   * @param facadeNames
-   *     The fully qualified class names of the possible facades.
-   * @return A PojoClass wrapper around the correctly identified ClassName.
-   */
-  public static PojoClass getLoadedFacadePojoClass(final String[] facadeNames) {
-    return PojoClassFactory.getPojoClass(getLoadedFacadeClass(facadeNames));
-  }
+	/**
+	 * This method returns the proper loaded facade PojoClass. This method will
+	 * throw a runtime ReflectionException if non of the facades given are active.
+	 *
+	 * @param facadeNames The fully qualified class names of the possible facades.
+	 * @return A PojoClass wrapper around the correctly identified ClassName.
+	 */
+	public static PojoClass getLoadedFacadePojoClass(final String[] facadeNames) {
+		return PojoClassFactory.getPojoClass(getLoadedFacadeClass(facadeNames));
+	}
 
-  public static Class<?> getLoadedFacadeClass(final String[] facadeNames) {
-    for (String facadeName : facadeNames) {
-      Class clazz = ClassUtil.loadClass(facadeName);
-      if (clazz != null)
-        return clazz;
-    }
-    throw ReflectionException.getInstance(String.format("Unable to find suitable implementation among [%s]", Arrays.toString
-        (facadeNames)));
-  }
+	/**
+	 * Returns the first of the given classes that is available, in the order supplied.
+	 *
+	 * @param facadeNames
+	 *     Fully qualified names, in order of preference.
+	 * @return the first class that can be loaded.
+	 */
+	public static Class<?> getLoadedFacadeClass(final String[] facadeNames) {
+		for (String facadeName : facadeNames) {
+			Class<?> clazz = ClassUtil.loadClass(facadeName);
+			if (clazz != null)
+				return clazz;
+		}
+		throw ReflectionException.getInstance(
+				String.format("Unable to find suitable implementation among [%s]", Arrays.toString(facadeNames)));
+	}
 
-  private FacadeFactory() {
-    throw new UnsupportedOperationException(FacadeFactory.class.getName() +  " should not be constructed!");
-  }
+	private FacadeFactory() {
+		throw new UnsupportedOperationException(FacadeFactory.class.getName() + " should not be constructed!");
+	}
 }

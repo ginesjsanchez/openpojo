@@ -22,20 +22,20 @@ package com.openpojo.reflection.java.bytecode.asm.sample;
  * @author oshoukry
  */
 public abstract class AbstractClassWithPrivateConstructor {
-  private final String name;
+	private final String name;
 
-  private AbstractClassWithPrivateConstructor() {
-    this.name = "Default Name";
-  }
+	private AbstractClassWithPrivateConstructor() {
+		this.name = "Default Name";
+	}
 
-  public AbstractClassWithPrivateConstructor(String name) {
-    this.name = name;
-  }
+	public AbstractClassWithPrivateConstructor(String name) {
+		this.name = name;
+	}
 
-  @Override
-  public String toString() {
-    return "AbstractClassWithPrivateConstructor{" +
-        "name='" + name + '\'' +
-        '}';
-  }
+	@Override
+	public String toString() {
+		return "AbstractClassWithPrivateConstructor{" +
+				"name='" + name + '\'' +
+				'}';
+	}
 }

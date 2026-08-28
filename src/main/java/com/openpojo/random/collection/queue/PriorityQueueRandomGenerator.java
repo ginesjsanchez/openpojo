@@ -26,26 +26,38 @@ import com.openpojo.random.collection.util.BaseCollectionRandomGenerator;
 import com.openpojo.random.util.Helper;
 
 /**
+ * Generates a {@code PriorityQueue} holding between 1 and 5 random elements.
+ *
  * @author oshoukry
  */
 public class PriorityQueueRandomGenerator extends BaseCollectionRandomGenerator {
-  private final Class<?>[] TYPES = new Class<?>[] { PriorityQueue.class };
-  public static final PriorityQueueRandomGenerator INSTANCE = new PriorityQueueRandomGenerator();
+	private final Class<?>[] TYPES = new Class<?>[]{PriorityQueue.class};
+	/**
+	 * Instancia unica compartida.
+	 */
+	public static final PriorityQueueRandomGenerator INSTANCE = new PriorityQueueRandomGenerator();
 
-  public static PriorityQueueRandomGenerator getInstance() {
-    return INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared generator.
+	 */
+	public static PriorityQueueRandomGenerator getInstance() {
+		return INSTANCE;
+	}
 
-  public Collection<Class<?>> getTypes() {
-    return Arrays.asList(TYPES);
-  }
+	@Override
+	public Collection<Class<?>> getTypes() {
+		return Arrays.asList(TYPES);
+	}
 
-  @Override
-  protected Collection getBasicInstance(Class<?> type) {
-    Helper.assertIsAssignableTo(type, getTypes());
-    return new PriorityQueue();
-  }
+	@Override
+	protected Collection<Object> getBasicInstance(Class<?> type) {
+		Helper.assertIsAssignableTo(type, getTypes());
+		return new PriorityQueue<>();
+	}
 
-  private PriorityQueueRandomGenerator() {
-  }
+	private PriorityQueueRandomGenerator() {
+	}
 }

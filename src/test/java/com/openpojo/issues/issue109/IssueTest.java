@@ -18,27 +18,28 @@
 
 package com.openpojo.issues.issue109;
 
+import org.junit.jupiter.api.Test;
+
 import com.openpojo.issues.issue109.sample.AClassWithBussinessKeySet;
 import com.openpojo.reflection.impl.PojoClassFactory;
 import com.openpojo.validation.Validator;
 import com.openpojo.validation.ValidatorBuilder;
 import com.openpojo.validation.test.impl.GetterTester;
 import com.openpojo.validation.test.impl.SetterTester;
-import org.junit.jupiter.api.Test;
 
 /**
  * @author oshoukry
  */
 public class IssueTest {
 
-  @Test
-  public void shouldPassValidationIfChildBusinessKeysAreNotNull() {
-    Validator validator = ValidatorBuilder
-        .create()
-        .with(new SetterTester())
-        .with(new GetterTester())
-        .build();
+	@Test
+	public void shouldPassValidationIfChildBusinessKeysAreNotNull() {
+		Validator validator = ValidatorBuilder
+				.create()
+				.with(new SetterTester())
+				.with(new GetterTester())
+				.build();
 
-    validator.validate(PojoClassFactory.getPojoClass(AClassWithBussinessKeySet.class));
-  }
+		validator.validate(PojoClassFactory.getPojoClass(AClassWithBussinessKeySet.class));
+	}
 }

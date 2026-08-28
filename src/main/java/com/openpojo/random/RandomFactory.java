@@ -18,8 +18,9 @@
 
 package com.openpojo.random;
 
-import com.openpojo.log.Logger;
-import com.openpojo.log.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.openpojo.random.exception.RandomGeneratorException;
 import com.openpojo.random.service.RandomGeneratorService;
 import com.openpojo.random.thread.GeneratedRandomValues;
@@ -58,69 +59,78 @@ import com.openpojo.registry.ServiceRegistrar;
  * @author oshoukry
  */
 public class RandomFactory {
-  private static final Logger logger = LoggerFactory.getLogger(RandomFactory.class);
+	private static final Logger logger = LoggerFactory.getLogger(RandomFactory.class);
 
-  /**
-   * Add a random generator to the list of available generators. The latest random generator registered wins.
-   *
-   * @param generator
-   *     The generator to add.
-   */
-  public static synchronized void addRandomGenerator(final RandomGenerator generator) {
-    getRandomGeneratorService().registerRandomGenerator(generator);
-  }
+	/**
+	 * Add a random generator to the list of available generators. The latest random generator registered wins.
+	 *
+	 * @param generator
+	 *     The generator to add.
+	 */
+	public static synchronized void addRandomGenerator(final RandomGenerator generator) {
+		getRandomGeneratorService().registerRandomGenerator(generator);
+	}
 
-  /**
-   * This method generates a random value of the requested type.<br>
-   * If the requested type isn't registered in the factory, an RandomGeneratorException will be thrown.
-   *
-   * @param type
-   *     The type to get a random value of.
-   * @param <T>
-   *     The class type to generate an object for.
-   * @return Randomly created value.
-   */
-  @SuppressWarnings("unchecked")
-  public static <T> T getRandomValue(final Class<T> type) {
-    if (GeneratedRandomValues.contains(type)) {
-      logger.warn("Cyclic dependency on random generator for type=[{0}] detected, returning null", type);
-      return null; // seen before, break loop.
-    }
+	/**
+	 * This method generates a random value of the requested type.<br>
+	 * If the requested type isn't registered in the factory, an RandomGeneratorException will be thrown.
+	 *
+	 * @param type
+	 *     The type to get a random value of.
+	 * @param <T>
+	 *     The class type to generate an object for.
+	 * @return Randomly created value.
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T> T getRandomValue(final Class<T> type) {
+		if (GeneratedRandomValues.contains(type)) {
+			logger.warn("Cyclic dependency on random generator for type=[{}] detected, returning null", type);
+			return null; // seen before, break loop.
+		}
 
-    GeneratedRandomValues.add(type);
+		GeneratedRandomValues.add(type);
 
-    try {
-      final RandomGenerator randomGenerator = getRandomGeneratorService().getRandomGeneratorByType(type);
+		try {
+			final RandomGenerator randomGenerator = getRandomGeneratorService().getRandomGeneratorByType(type);
 
-      if (randomGenerator == null) {
-        throw RandomGeneratorException.getInstance("No randomGenerator Found for type " + type);
-      }
+			if (randomGenerator == null) {
+				throw RandomGeneratorException.getInstance("No randomGenerator Found for type " + type);
+			}
 
-      return (T) randomGenerator.doGenerate(type);
-    } finally {
-      GeneratedRandomValues.remove(type);
-    }
-  }
+			return (T) randomGenerator.doGenerate(type);
+		} finally {
+			GeneratedRandomValues.remove(type);
+		}
+	}
 
-  public static Object getRandomValue(final Parameterizable parameterizable) {
-    if (!parameterizable.isParameterized())
-      return getRandomValue(parameterizable.getType());
+	/**
+	 * Generates a random value for a type that may carry type parameters.
+	 *
+	 * @param parameterizable
+	 *     The type to generate, with its parameters if it has any.
+	 * @return the generated value.
+	 */
+	public static Object getRandomValue(final Parameterizable parameterizable) {
+		if (!parameterizable.isParameterized())
+			return getRandomValue(parameterizable.getType());
 
-    RandomGenerator randomGenerator = getRandomGeneratorService().getRandomGeneratorByParameterizable(parameterizable);
-    if (randomGenerator instanceof ParameterizableRandomGenerator) {
-      return ((ParameterizableRandomGenerator) randomGenerator).doGenerate(parameterizable);
-    }
+		RandomGenerator randomGenerator = getRandomGeneratorService()
+				.getRandomGeneratorByParameterizable(parameterizable);
+		if (randomGenerator instanceof ParameterizableRandomGenerator) {
+			return ((ParameterizableRandomGenerator) randomGenerator).doGenerate(parameterizable);
+		}
 
-    logger.warn("No ParametrizableRandomGenerator implementation found for parameterized type [" + parameterizable + "] " +
-        "creating non-parameterized instance ");
-    return getRandomValue(parameterizable.getType());
-  }
+		logger.warn("No ParametrizableRandomGenerator implementation found for parameterized type [" + parameterizable
+				+ "] " +
+				"creating non-parameterized instance ");
+		return getRandomValue(parameterizable.getType());
+	}
 
-  private static RandomGeneratorService getRandomGeneratorService() {
-    return ServiceRegistrar.getInstance().getRandomGeneratorService();
-  }
+	private static RandomGeneratorService getRandomGeneratorService() {
+		return ServiceRegistrar.getInstance().getRandomGeneratorService();
+	}
 
-  private RandomFactory() {
-    throw new UnsupportedOperationException(RandomFactory.class.getName() + " should not be constructed!");
-  }
+	private RandomFactory() {
+		throw new UnsupportedOperationException(RandomFactory.class.getName() + " should not be constructed!");
+	}
 }

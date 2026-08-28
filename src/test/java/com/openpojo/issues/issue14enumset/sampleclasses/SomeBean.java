@@ -20,20 +20,19 @@ package com.openpojo.issues.issue14enumset.sampleclasses;
 
 import java.util.EnumSet;
 
-
 /**
  * @author oshoukry
  */
 public class SomeBean {
 
-  private EnumSet<SomeEnum> someEnumSet;
+	private EnumSet<SomeEnum> someEnumSet;
 
-  public void setSomeEnumSet(final EnumSet<SomeEnum> someEnumSet) {
-    this.someEnumSet = someEnumSet;
-  }
+	public void setSomeEnumSet(final EnumSet<SomeEnum> someEnumSet) {
+		this.someEnumSet = someEnumSet;
+	}
 
-  public EnumSet<SomeEnum> getSomeEnumSet() {
-    return someEnumSet;
-  }
+	public EnumSet<SomeEnum> getSomeEnumSet() {
+		return someEnumSet;
+	}
 
 }

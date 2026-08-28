@@ -18,26 +18,27 @@
 
 package com.openpojo.issues.issue56;
 
+import org.junit.jupiter.api.Test;
+
 import com.openpojo.issues.issue56.sample.TestClass;
 import com.openpojo.reflection.PojoClass;
 import com.openpojo.reflection.impl.PojoClassFactory;
 import com.openpojo.validation.Validator;
 import com.openpojo.validation.ValidatorBuilder;
 import com.openpojo.validation.test.impl.SetterTester;
-import org.junit.jupiter.api.Test;
 
 /**
  * @author oshoukry
  */
 public class IssueTest {
-  @Test
-  public void testSetGenerator() {
-    Validator pojoValidator = ValidatorBuilder.create()
-        .with(new SetterTester())
-        .build();
+	@Test
+	public void testSetGenerator() {
+		Validator pojoValidator = ValidatorBuilder.create()
+				.with(new SetterTester())
+				.build();
 
-    PojoClass pojoClass = PojoClassFactory.getPojoClass(TestClass.class);
+		PojoClass pojoClass = PojoClassFactory.getPojoClass(TestClass.class);
 
-    pojoValidator.validate(pojoClass);
-  }
+		pojoValidator.validate(pojoClass);
+	}
 }

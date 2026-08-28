@@ -23,9 +23,18 @@ import com.openpojo.reflection.adapt.PojoClassAdapter;
 import com.openpojo.reflection.coverage.CoverageDetector;
 
 /**
+ * Service gathering the filter and the adapter of every detected coverage tool, so validation never sees the
+ * structures they inject.
+ *
  * @author oshoukry
  */
 public interface PojoCoverageFilterService extends PojoClassFilter, PojoClassAdapter {
-  void registerCoverageDetector(CoverageDetector coverageDetector);
+	/**
+	 * Adds the filter and the adapter of a coverage tool.
+	 *
+	 * @param coverageDetector
+	 *     The detector to register.
+	 */
+	void registerCoverageDetector(CoverageDetector coverageDetector);
 
 }

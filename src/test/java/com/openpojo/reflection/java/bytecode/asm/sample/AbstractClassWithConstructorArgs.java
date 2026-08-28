@@ -24,17 +24,17 @@ import java.util.List;
  * @author oshoukry
  */
 public abstract class AbstractClassWithConstructorArgs {
-  public AbstractClassWithConstructorArgs(String s,
-                                          boolean b,
-                                          byte by,
-                                          char ch,
-                                          double d,
-                                          float f,
-                                          int i,
-                                          long l,
-                                          short sh,
-                                          int[] intarray,
-                                          String[] strings,
-                                          List<AbstractClassWithVariousAbstractMethods> classes) {
-  }
+	public AbstractClassWithConstructorArgs(String s,
+			boolean b,
+			byte by,
+			char ch,
+			double d,
+			float f,
+			int i,
+			long l,
+			short sh,
+			int[] intarray,
+			String[] strings,
+			List<AbstractClassWithVariousAbstractMethods> classes) {
+	}
 }

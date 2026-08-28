@@ -18,8 +18,6 @@
 
 package com.openpojo.validation.test.impl;
 
-import static org.junit.jupiter.api.Assertions.fail;
-
 import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
@@ -30,6 +28,8 @@ import com.openpojo.reflection.PojoClassFilter;
 import com.openpojo.reflection.impl.PojoClassFactory;
 import com.openpojo.validation.test.Tester;
 import com.openpojo.validation.test.impl.sampleclasses.Good_AnAbstractClassWithAbstractSetterGetter;
+
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class GetterTesterAndSetterTesterTest {
 	private static final String TESTPACKAGE = GetterTesterAndSetterTesterTest.class.getPackage().getName()

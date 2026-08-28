@@ -18,7 +18,8 @@
 
 package com.openpojo.validation.test.impl;
 
-import com.openpojo.log.LoggerFactory;
+import org.slf4j.LoggerFactory;
+
 import com.openpojo.random.RandomFactory;
 import com.openpojo.reflection.PojoClass;
 import com.openpojo.reflection.PojoField;
@@ -36,26 +37,34 @@ import static com.openpojo.validation.utils.ToStringHelper.safeToString;
  */
 public class GetterTester implements Tester {
 
-  public void run(final PojoClass pojoClass) {
-    final Object classInstance = ValidationHelper.getBasicInstance(pojoClass);
-    for (final PojoField fieldEntry : pojoClass.getPojoFields()) {
-      if (fieldEntry.hasGetter()) {
-        Object value = fieldEntry.get(classInstance);
+	public void run(final PojoClass pojoClass) {
+		final Object classInstance = ValidationHelper.getBasicInstance(pojoClass);
+		for (final PojoField fieldEntry : pojoClass.getPojoFields()) {
+			if (fieldEntry.hasGetter()) {
+				Object value = fieldEntry.get(classInstance);
 
-        if (!fieldEntry.isFinal()) {
-          value = RandomFactory.getRandomValue(fieldEntry);
-          fieldEntry.set(classInstance, value);
-        }
+				if (!fieldEntry.isFinal()) {
+					value = RandomFactory.getRandomValue(fieldEntry);
+					fieldEntry.set(classInstance, value);
+				}
 
-        SameInstanceIdentityHandlerStub.registerIdentityHandlerStubForValue(value);
+				SameInstanceIdentityHandlerStub.registerIdentityHandlerStubForValue(value);
 
-        LoggerFactory.getLogger(this.getClass()).debug("Testing Field [{0}] with value [{1}]", fieldEntry, safeToString(value));
+				LoggerFactory.getLogger(this.getClass()).debug("Testing Field [{}] with value [{}]", fieldEntry,
+						safeToString(value));
 
-        Affirm.affirmEquals("Getter returned non equal value for field=[" + fieldEntry + "]", value, fieldEntry.invokeGetter(classInstance));
-        SameInstanceIdentityHandlerStub.unregisterIdentityHandlerStubForValue(value);
-      } else {
-        LoggerFactory.getLogger(this.getClass()).debug("Field [{0}] has no getter skipping", fieldEntry);
-      }
-    }
-  }
+				Affirm.affirmEquals("Getter returned non equal value for field=[" + fieldEntry + "]", value,
+						fieldEntry.invokeGetter(classInstance));
+				SameInstanceIdentityHandlerStub.unregisterIdentityHandlerStubForValue(value);
+			} else {
+				LoggerFactory.getLogger(this.getClass()).debug("Field [{}] has no getter skipping", fieldEntry);
+			}
+		}
+	}
+
+	/**
+	 * Creates an instance ready to use.
+	 */
+	public GetterTester() {
+	}
 }

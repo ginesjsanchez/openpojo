@@ -1,0 +1,30 @@
+# Line ending normalization.
+#
+# The repository stores LF; the working tree uses the platform's own.
+# Without this file the result depends on each machine's core.autocrlf, and editing
+# one file can sneak in a 200 line diff that is nothing but carriage returns.
+* text=auto
+
+# Code and configuration: always text
+*.java     text diff=java
+*.xml      text
+*.md       text
+*.txt      text
+*.properties text
+*.classpath text
+*.project  text
+*.prefs    text
+
+# Scripts: line endings matter to the interpreter
+*.sh       text eol=lf
+*.bat      text eol=crlf
+*.cmd      text eol=crlf
+
+# Binaries: keep git away from them
+*.jar      binary
+*.zip      binary
+*.class    binary
+*.png      binary
+*.jpg      binary
+*.gif      binary
+*.ico      binary

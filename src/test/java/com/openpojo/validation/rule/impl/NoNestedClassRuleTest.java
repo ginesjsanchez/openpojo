@@ -18,24 +18,24 @@
 
 package com.openpojo.validation.rule.impl;
 
+import org.junit.jupiter.api.Test;
+
 import com.openpojo.validation.CommonCode;
 import com.openpojo.validation.rule.Rule;
 import com.openpojo.validation.rule.impl.sampleclasses.NoNestedClassDoesClass;
 import com.openpojo.validation.rule.impl.sampleclasses.NoNestedClassDoesntClass;
-import org.junit.jupiter.api.Test;
-
 
 /**
  * @author oshoukry
  */
 public class NoNestedClassRuleTest {
-  private Class<?>[] failClasses = new Class<?>[] { NoNestedClassDoesntClass.NestedClass.class };
-  private Class<?>[] passClasses = new Class<?>[] { NoNestedClassDoesClass.class };
-  private Rule rule = new NoNestedClassRule();
+	private Class<?>[] failClasses = new Class<?>[]{NoNestedClassDoesntClass.NestedClass.class};
+	private Class<?>[] passClasses = new Class<?>[]{NoNestedClassDoesClass.class};
+	private Rule rule = new NoNestedClassRule();
 
-  @Test
-  public void testEvaluate() {
-    CommonCode.shouldPassRuleValidation(rule, passClasses);
-    CommonCode.shouldFailRuleValidation(rule, failClasses);
-  }
+	@Test
+	public void testEvaluate() {
+		CommonCode.shouldPassRuleValidation(rule, passClasses);
+		CommonCode.shouldFailRuleValidation(rule, failClasses);
+	}
 }

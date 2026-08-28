@@ -18,8 +18,6 @@
 
 package com.openpojo.reflection.impl;
 
-import static org.junit.jupiter.api.Assertions.fail;
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Modifier;
 import java.util.LinkedList;
@@ -63,6 +61,8 @@ import com.openpojo.reflection.impl.sample.classes.OnePublicNoParamConstructor;
 import com.openpojo.reflection.impl.sample.classes.SecondInterfaceForAClassWithInterfaces;
 import com.openpojo.reflection.java.Java;
 import com.openpojo.validation.affirm.Affirm;
+
+import static org.junit.jupiter.api.Assertions.fail;
 
 /*
  * TODO: This test class needs to be re-worked, to focus on just the PojoClassImpl not across services, i.e.
@@ -239,7 +239,7 @@ public class PojoClassImplTest {
 		try {
 			final PojoClass pojoClass = getPojoClassImplForClass(
 					MultiplePublicAndPrivateWithManyParamsConstructor.class);
-			InstanceFactory.getInstance(pojoClass, (new Object[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }));
+			InstanceFactory.getInstance(pojoClass, (new Object[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}));
 			fail("Exception expected");
 		} catch (ReflectionException e) {
 		} catch (Exception e) {
@@ -313,7 +313,7 @@ public class PojoClassImplTest {
 	@Test
 	public void shouldCreateInstanceOneNullParameterConstructor() {
 		final PojoClass pojoClass = getPojoClassImplForClass(MultiplePublicAndPrivateWithManyParamsConstructor.class);
-		final Object instance = InstanceFactory.getInstance(pojoClass, (new Object[] { null }));
+		final Object instance = InstanceFactory.getInstance(pojoClass, (new Object[]{null}));
 		Affirm.affirmNotNull(
 				String.format("Failed to create a new instance using single parameter constructor for " + "class=[%s]",
 						pojoClass),
@@ -440,7 +440,7 @@ public class PojoClassImplTest {
 
 	@Test
 	public void testIsArray() {
-		final Object[] objectArray = new Object[] { new Object() };
+		final Object[] objectArray = new Object[]{new Object()};
 		final PojoClass objectArrayPojoClass = getPojoClassImplForClass(objectArray.getClass());
 		Affirm.affirmTrue(String.format("PojoClassImpl isArray() failed on array[%s]", objectArray),
 				objectArrayPojoClass.isArray());

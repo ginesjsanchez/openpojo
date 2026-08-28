@@ -29,26 +29,35 @@ import com.openpojo.random.util.Helper;
 import com.openpojo.random.util.SerializableComparableObject;
 
 /**
+ * Generates a {@code Hashtable} holding between 1 and 5 random entries.
+ *
  * @author oshoukry
  */
 public class HashtableRandomGenerator extends BaseMapRandomGenerator {
-  private static final Class<?>[] TYPES = new Class<?>[] { Hashtable.class };
-  private static final HashtableRandomGenerator INSTANCE = new HashtableRandomGenerator();
+	private static final Class<?>[] TYPES = new Class<?>[]{Hashtable.class};
+	private static final HashtableRandomGenerator INSTANCE = new HashtableRandomGenerator();
 
-  public static HashtableRandomGenerator getInstance() {
-    return INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared generator.
+	 */
+	public static HashtableRandomGenerator getInstance() {
+		return INSTANCE;
+	}
 
-  public Collection<Class<?>> getTypes() {
-    return Arrays.asList(TYPES);
-  }
+	public Collection<Class<?>> getTypes() {
+		return Arrays.asList(TYPES);
+	}
 
-  @Override
-  protected Map getBasicInstance(Class<?> type) {
-    Helper.assertIsAssignableTo(type, getTypes());
-    return MapHelper.buildMap(new Hashtable(), SerializableComparableObject.class, SerializableComparableObject.class);
-  }
+	@Override
+	protected Map<Object, Object> getBasicInstance(Class<?> type) {
+		Helper.assertIsAssignableTo(type, getTypes());
+		return MapHelper.buildMap(new Hashtable<>(), SerializableComparableObject.class,
+				SerializableComparableObject.class);
+	}
 
-  private HashtableRandomGenerator() {
-  }
+	private HashtableRandomGenerator() {
+	}
 }

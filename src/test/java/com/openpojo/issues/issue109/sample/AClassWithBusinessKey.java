@@ -25,24 +25,24 @@ import com.openpojo.business.annotation.BusinessKey;
  * @author oshoukry
  */
 class AClassWithBusinessKey {
-  @BusinessKey
-  private String name;
+	@BusinessKey
+	private String name;
 
-  public void setName(String name) {
-    this.name = name;
-  }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-  public String getName() {
-    return name;
-  }
+	public String getName() {
+		return name;
+	}
 
-  @Override
-  public int hashCode() {
-    return BusinessIdentity.getHashCode(this);
-  }
+	@Override
+	public int hashCode() {
+		return BusinessIdentity.getHashCode(this);
+	}
 
-  @Override
-  public boolean equals(Object o) {
-    return BusinessIdentity.areEqual(this, o);
-  }
+	@Override
+	public boolean equals(Object o) {
+		return BusinessIdentity.areEqual(this, o);
+	}
 }

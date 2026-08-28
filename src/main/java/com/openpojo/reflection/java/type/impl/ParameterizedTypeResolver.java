@@ -24,19 +24,27 @@ import java.lang.reflect.Type;
 import com.openpojo.reflection.java.type.TypeResolver;
 
 /**
+ * Resolves a {@code ParameterizedType} to its raw type and exposes its type arguments.
+ *
  * @author oshoukry
  */
 public class ParameterizedTypeResolver implements TypeResolver<ParameterizedType> {
 
-  public Type getEnclosingType(ParameterizedType type) {
-    return type.getRawType();
-  }
+	public Type getEnclosingType(ParameterizedType type) {
+		return type.getRawType();
+	}
 
-  public Type resolveType(ParameterizedType type) {
-    return type.getRawType();
-  }
+	public Type resolveType(ParameterizedType type) {
+		return type.getRawType();
+	}
 
-  public Type[] getParameterTypes(ParameterizedType type) {
-    return type.getActualTypeArguments();
-  }
+	public Type[] getParameterTypes(ParameterizedType type) {
+		return type.getActualTypeArguments();
+	}
+
+	/**
+	 * Creates an instance ready to use.
+	 */
+	public ParameterizedTypeResolver() {
+	}
 }

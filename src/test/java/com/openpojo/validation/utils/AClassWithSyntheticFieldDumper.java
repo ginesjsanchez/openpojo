@@ -18,7 +18,6 @@
 
 package com.openpojo.validation.utils;
 
-
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.MethodVisitor;
@@ -32,28 +31,28 @@ import org.objectweb.asm.Opcodes;
  * }
  */
 public class AClassWithSyntheticFieldDumper implements Opcodes {
-  public static byte[] dump(String className) {
-    ClassWriter cw = new ClassWriter(0);
-    FieldVisitor fv;
-    MethodVisitor mv;
+	public static byte[] dump(String className) {
+		ClassWriter cw = new ClassWriter(0);
+		FieldVisitor fv;
+		MethodVisitor mv;
 
-    cw.visit(V1_5, ACC_PUBLIC + ACC_SUPER, className, null, "java/lang/Object", null);
+		cw.visit(V1_5, ACC_PUBLIC + ACC_SUPER, className, null, "java/lang/Object", null);
 
-    {
-      fv = cw.visitField(ACC_PRIVATE + ACC_SYNTHETIC, "syntheticString", "Ljava/lang/String;", null, null);
-      fv.visitEnd();
-    }
-    {
-      mv = cw.visitMethod(ACC_PUBLIC, "<init>", "()V", null, null);
-      mv.visitCode();
-      mv.visitVarInsn(ALOAD, 0);
-      mv.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
-      mv.visitInsn(RETURN);
-      mv.visitMaxs(1, 1);
-      mv.visitEnd();
-    }
-    cw.visitEnd();
+		{
+			fv = cw.visitField(ACC_PRIVATE + ACC_SYNTHETIC, "syntheticString", "Ljava/lang/String;", null, null);
+			fv.visitEnd();
+		}
+		{
+			mv = cw.visitMethod(ACC_PUBLIC, "<init>", "()V", null, null);
+			mv.visitCode();
+			mv.visitVarInsn(ALOAD, 0);
+			mv.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
+			mv.visitInsn(RETURN);
+			mv.visitMaxs(1, 1);
+			mv.visitEnd();
+		}
+		cw.visitEnd();
 
-    return cw.toByteArray();
-  }
+		return cw.toByteArray();
+	}
 }

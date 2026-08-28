@@ -18,8 +18,6 @@
 
 package com.openpojo.reflection.facade;
 
-import static org.junit.jupiter.api.Assertions.fail;
-
 import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
@@ -30,6 +28,8 @@ import com.openpojo.reflection.exception.ReflectionException;
 import com.openpojo.reflection.facade.sampleclasses.FirstClass;
 import com.openpojo.reflection.facade.sampleclasses.SecondClass;
 import com.openpojo.validation.affirm.Affirm;
+
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class FacadeFactoryTest {
 	Class<?> firstClass = FirstClass.class;
@@ -54,7 +54,7 @@ public class FacadeFactoryTest {
 	@Test
 	public void shouldThrowErorr() {
 		try {
-			FacadeFactory.getLoadedFacadePojoClass(new String[] { RandomFactory.getRandomValue(String.class) });
+			FacadeFactory.getLoadedFacadePojoClass(new String[]{RandomFactory.getRandomValue(String.class)});
 			fail("Exception expected");
 		} catch (ReflectionException e) {
 		} catch (Exception e) {

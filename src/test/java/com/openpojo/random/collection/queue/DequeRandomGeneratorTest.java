@@ -21,47 +21,49 @@ package com.openpojo.random.collection.queue;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import org.junit.jupiter.api.BeforeEach;
+
 import com.openpojo.random.ParameterizableRandomGenerator;
 import com.openpojo.random.collection.support.SimpleType;
 import com.openpojo.random.collection.util.BaseCollectionRandomGeneratorTest;
 import com.openpojo.reflection.java.load.ClassUtil;
-//import org.junit.Assume;
-import org.junit.jupiter.api.BeforeEach;
 
 /**
  * @author oshoukry
  */
 public class DequeRandomGeneratorTest extends BaseCollectionRandomGeneratorTest {
-  private static final String EXPECTED_TYPE_CLASS_NAME = "java.util.Deque";
+	private static final String EXPECTED_TYPE_CLASS_NAME = "java.util.Deque";
 
-  @BeforeEach
-  public void requirement() {
-    //Assume.assumeTrue(EXPECTED_TYPE_CLASS_NAME + " is not loaded, skipping test", ClassUtil.isClassLoaded(EXPECTED_TYPE_CLASS_NAME));
-  }
+	@BeforeEach
+	public void requirement() {
+		// Assume.assumeTrue(EXPECTED_TYPE_CLASS_NAME + " is not loaded, skipping test",
+		// ClassUtil.isClassLoaded(EXPECTED_TYPE_CLASS_NAME));
+	}
 
-  @Override
-  protected ParameterizableRandomGenerator getInstance() {
-    return DequeRandomGenerator.getInstance();
-  }
+	@Override
+	protected ParameterizableRandomGenerator getInstance() {
+		return DequeRandomGenerator.getInstance();
+	}
 
-  @Override
-  protected Class<? extends ParameterizableRandomGenerator> getGeneratorClass() {
-    return DequeRandomGenerator.class;
-  }
+	@Override
+	protected Class<? extends ParameterizableRandomGenerator> getGeneratorClass() {
+		return DequeRandomGenerator.class;
+	}
 
-  @Override
-  @SuppressWarnings("unchecked")
-  protected Class<? extends Collection> getExpectedTypeClass() {
-    return (Class<? extends Collection>) ClassUtil.loadClass(EXPECTED_TYPE_CLASS_NAME);
-  }
+	@Override
+	@SuppressWarnings("unchecked")
+	protected Class<? extends Collection<?>> getExpectedTypeClass() {
+		return (Class<? extends Collection<?>>) ClassUtil.loadClass(EXPECTED_TYPE_CLASS_NAME);
+	}
 
-  @Override
-  protected Class<? extends Collection> getGeneratedTypeClass() {
-    return LinkedList.class;
-  }
+	@SuppressWarnings("unchecked")
+	@Override
+	protected Class<? extends Collection<?>> getGeneratedTypeClass() {
+		return (Class<? extends Collection<?>>) (Class<?>) LinkedList.class;
+	}
 
-  @Override
-  protected Class<?> getGenericType() {
-    return SimpleType.class;
-  }
+	@Override
+	protected Class<?> getGenericType() {
+		return SimpleType.class;
+	}
 }

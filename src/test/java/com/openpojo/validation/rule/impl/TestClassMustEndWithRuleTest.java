@@ -18,8 +18,6 @@
 
 package com.openpojo.validation.rule.impl;
 
-import static org.junit.jupiter.api.Assertions.fail;
-
 import java.util.UUID;
 
 import org.junit.jupiter.api.Assertions;
@@ -32,6 +30,8 @@ import com.openpojo.reflection.java.bytecode.asm.ASMService;
 import com.openpojo.reflection.java.bytecode.asm.DefaultSubClassDefinition;
 import com.openpojo.validation.rule.impl.sampleclasses.AClassThatIsNotATestButEndsWithTest;
 import com.openpojo.validation.rule.impl.sampleclasses.ATestNGClassEndsWithTest;
+
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author oshoukry

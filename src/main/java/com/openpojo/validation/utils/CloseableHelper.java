@@ -21,21 +21,29 @@ package com.openpojo.validation.utils;
 import java.io.Closeable;
 
 /**
+ * Closes resources ignoring close errors, so as not to mask the original failure.
+ *
  * @author oshoukry
  */
 public class CloseableHelper {
 
-  public static void closeResources(Closeable... closeables) {
-    if (closeables != null)
-      for (Closeable closeable : closeables)
-        try {
-          if (closeable != null)
-            closeable.close();
-        } catch (Exception ignored) {
-        }
-  }
+	/**
+	 * Closes the given resources ignoring close failures, so as not to mask the error that actually matters.
+	 *
+	 * @param closeables
+	 *     The resources to close; nulls are ignored.
+	 */
+	public static void closeResources(Closeable... closeables) {
+		if (closeables != null)
+			for (Closeable closeable : closeables)
+				try {
+					if (closeable != null)
+						closeable.close();
+				} catch (Exception ignored) {
+				}
+	}
 
-  private CloseableHelper() {
-    throw new UnsupportedOperationException(CloseableHelper.class.getName() +  " should not be constructed!");
-  }
+	private CloseableHelper() {
+		throw new UnsupportedOperationException(CloseableHelper.class.getName() + " should not be constructed!");
+	}
 }

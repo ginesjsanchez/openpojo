@@ -25,8 +25,8 @@ import com.openpojo.business.BusinessIdentity;
  */
 public class ToStringTester_DispatchingToBusinessIdentity {
 
-  @Override
-  public String toString() {
-    return BusinessIdentity.toString(this);
-  }
+	@Override
+	public String toString() {
+		return BusinessIdentity.toString(this);
+	}
 }

@@ -27,9 +27,11 @@ import com.openpojo.reflection.PojoClass;
  * @author oshoukry
  */
 public interface Rule {
-  /**
-   * @param pojoClass
-   *     The PojoClass to evaluate that rule on.
-   */
-  void evaluate(PojoClass pojoClass);
+	/**
+	 * Evaluates the rule on a class; fails if it does not hold.
+	 *
+	 * @param pojoClass
+	 *     The PojoClass to evaluate that rule on.
+	 */
+	void evaluate(PojoClass pojoClass);
 }

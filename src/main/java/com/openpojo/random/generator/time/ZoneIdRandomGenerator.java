@@ -32,42 +32,50 @@ import static com.openpojo.random.generator.time.util.ReflectionHelper.getMethod
 import static com.openpojo.random.generator.time.util.ReflectionHelper.invokeMethod;
 
 /**
+ * Generates a {@code java.time.ZoneId} picked at random from the available zones.
+ *
  * @author oshoukry
  */
 public class ZoneIdRandomGenerator implements RandomGenerator {
-  private static final String TYPE = "java.time.ZoneId";
-  private static final ZoneIdRandomGenerator INSTANCE = new ZoneIdRandomGenerator();
-  private static final Random RANDOM = new Random(System.currentTimeMillis());
-  private final Class<?> zoneIdClass;
+	private static final String TYPE = "java.time.ZoneId";
+	private static final ZoneIdRandomGenerator INSTANCE = new ZoneIdRandomGenerator();
+	private static final Random RANDOM = new Random(System.currentTimeMillis());
+	private final Class<?> zoneIdClass;
 
-  public static ZoneIdRandomGenerator getInstance() {
-    return INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared generator.
+	 */
+	public static ZoneIdRandomGenerator getInstance() {
+		return INSTANCE;
+	}
 
-  public Collection<Class<?>> getTypes() {
-    List<Class<?>> types = new ArrayList<Class<?>>();
-    if (zoneIdClass != null)
-      types.add(zoneIdClass);
-    return types;
-  }
+	public Collection<Class<?>> getTypes() {
+		List<Class<?>> types = new ArrayList<>();
+		if (zoneIdClass != null)
+			types.add(zoneIdClass);
+		return types;
+	}
 
-  public Object doGenerate(Class<?> type) {
-    Object[] availableZoneIds = getAvailableZones();
-    return getZoneIdOf(availableZoneIds[RANDOM.nextInt(availableZoneIds.length)].toString());
-  }
+	public Object doGenerate(Class<?> type) {
+		Object[] availableZoneIds = getAvailableZones();
+		return getZoneIdOf(availableZoneIds[RANDOM.nextInt(availableZoneIds.length)].toString());
+	}
 
-  @SuppressWarnings("unchecked")
-  private Object[] getAvailableZones() {
-    Method getAvailableZoneIdsMethod = getMethod(zoneIdClass, "getAvailableZoneIds");
-    return ((Set<String>) invokeMethod(getAvailableZoneIdsMethod, null)).toArray();
-  }
+	@SuppressWarnings("unchecked")
+	private Object[] getAvailableZones() {
+		Method getAvailableZoneIdsMethod = getMethod(zoneIdClass, "getAvailableZoneIds");
+		return ((Set<String>) invokeMethod(getAvailableZoneIdsMethod, null)).toArray();
+	}
 
-  private Object getZoneIdOf(String availableZone) {
-    Method ofMethod = getMethod(zoneIdClass, "of", String.class);
-    return invokeMethod(ofMethod, null, availableZone);
-  }
+	private Object getZoneIdOf(String availableZone) {
+		Method ofMethod = getMethod(zoneIdClass, "of", String.class);
+		return invokeMethod(ofMethod, null, availableZone);
+	}
 
-  private ZoneIdRandomGenerator() {
-    zoneIdClass = ClassUtil.loadClass(TYPE);
-  }
+	private ZoneIdRandomGenerator() {
+		zoneIdClass = ClassUtil.loadClass(TYPE);
+	}
 }

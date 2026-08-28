@@ -23,24 +23,32 @@ import com.openpojo.reflection.coverage.CoverageDetector;
 import com.openpojo.reflection.coverage.service.PojoCoverageFilterService;
 
 /**
+ * Default implementation of {@code PojoCoverageFilterService}: delegates to a composite filter and a composite
+ * adapter.
+ *
  * @author oshoukry
  */
 public class DefaultPojoCoverageFilterService implements PojoCoverageFilterService {
 
-  private PojoClassCoverageFilter pojoClassCoverageFilter = new PojoClassCoverageFilter();
-  private PojoClassCoverageAdapter pojoClassCoverageAdapter = new PojoClassCoverageAdapter();
+	private PojoClassCoverageFilter pojoClassCoverageFilter = new PojoClassCoverageFilter();
+	private PojoClassCoverageAdapter pojoClassCoverageAdapter = new PojoClassCoverageAdapter();
 
-  public synchronized void registerCoverageDetector(CoverageDetector coverageDetector) {
-    pojoClassCoverageFilter.add(coverageDetector.getPojoClassFilter());
-    pojoClassCoverageAdapter.add(coverageDetector.getPojoClassAdapter());
-  }
+	public synchronized void registerCoverageDetector(CoverageDetector coverageDetector) {
+		pojoClassCoverageFilter.add(coverageDetector.getPojoClassFilter());
+		pojoClassCoverageAdapter.add(coverageDetector.getPojoClassAdapter());
+	}
 
-  public PojoClass adapt(PojoClass pojoClass) {
-    return pojoClassCoverageAdapter.adapt(pojoClass);
-  }
+	public PojoClass adapt(PojoClass pojoClass) {
+		return pojoClassCoverageAdapter.adapt(pojoClass);
+	}
 
-  public boolean include(PojoClass pojoClass) {
-    return pojoClassCoverageFilter.include(pojoClass);
-  }
+	public boolean include(PojoClass pojoClass) {
+		return pojoClassCoverageFilter.include(pojoClass);
+	}
 
+	/**
+	 * Creates an instance ready to use.
+	 */
+	public DefaultPojoCoverageFilterService() {
+	}
 }

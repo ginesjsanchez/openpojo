@@ -22,5 +22,5 @@ package com.openpojo.reflection.java.bytecode.asm.sample;
  * @author oshoukry
  */
 public abstract class AbstractClassWithAbstractNonInheritedToString {
-  abstract void toString(String someParameter);
+	abstract void toString(String someParameter);
 }

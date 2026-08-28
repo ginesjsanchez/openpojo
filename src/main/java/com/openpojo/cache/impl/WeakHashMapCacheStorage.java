@@ -24,27 +24,34 @@ import java.util.WeakHashMap;
 import com.openpojo.cache.CacheStorage;
 
 /**
- * This simple implementation of CacheStorage uses WeakHashMap as the underlying storage mechanism and only well suited
- * for temporal short bursts of cache are needed and GC removal of cached items is acceptable.
+ * This simple implementation of CacheStorage uses WeakHashMap as the underlying storage mechanism and only well
+ * suited for temporal short bursts of cache are needed and GC removal of cached items is acceptable.
  *
+ * @param <T>
+ *     The type of the stored values.
  * @author oshoukry
  */
 public class WeakHashMapCacheStorage<T> implements CacheStorage<T> {
 
-  private final Map<String, T> repository = new WeakHashMap<String, T>();
+	private final Map<String, T> repository = new WeakHashMap<>();
 
-  public void clear() {
-    repository.clear();
-  }
+	public void clear() {
+		repository.clear();
+	}
 
-  @SuppressWarnings("RedundantStringConstructorCall")
-  public void add(String name, T value) {
-    // Ensure that we don't have a "Strong" reference to the key in the map, otherwise no cleanup will occur.
-    repository.put(new String(name), value);
-  }
+	@SuppressWarnings("RedundantStringConstructorCall")
+	public void add(String name, T value) {
+		// Ensure that we don't have a "Strong" reference to the key in the map, otherwise no cleanup will occur.
+		repository.put(new String(name), value);
+	}
 
-  public T get(String name) {
-    return repository.get(name);
-  }
+	public T get(String name) {
+		return repository.get(name);
+	}
 
+	/**
+	 * Creates an instance ready to use.
+	 */
+	public WeakHashMapCacheStorage() {
+	}
 }

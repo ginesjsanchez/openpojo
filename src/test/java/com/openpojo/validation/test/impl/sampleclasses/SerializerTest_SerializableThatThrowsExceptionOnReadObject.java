@@ -26,7 +26,7 @@ import java.io.Serializable;
  * @author oshoukry
  */
 public class SerializerTest_SerializableThatThrowsExceptionOnReadObject implements Serializable {
-  private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-    throw new IOException("Can't read object");
-  }
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+		throw new IOException("Can't read object");
+	}
 }

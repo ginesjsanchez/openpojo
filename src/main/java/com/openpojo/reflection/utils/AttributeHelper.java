@@ -35,7 +35,7 @@ import com.openpojo.reflection.exception.ReflectionException;
  */
 public class AttributeHelper {
 
-	private static Set<String> fieldPrefixes = new CopyOnWriteArraySet<String>();
+	private static Set<String> fieldPrefixes = new CopyOnWriteArraySet<>();
 
 	/**
 	 * If your fields are prefixed with some pre-defined string register them here.
@@ -66,8 +66,15 @@ public class AttributeHelper {
 		fieldPrefixes.clear();
 	}
 
+	/**
+	 * Variants of a field name as it may show up in getters and setters, allowing for the usual prefixes.
+	 *
+	 * @param field
+	 *     The field to inspect.
+	 * @return the possible names.
+	 */
 	public static List<String> getFieldNameVariations(final Field field) {
-		List<String> fieldNameVariations = new ArrayList<String>();
+		List<String> fieldNameVariations = new ArrayList<>();
 		fieldNameVariations.add(formattedFieldName(field.getName()));
 		try {
 			String normalizedFieldName = field.getName();

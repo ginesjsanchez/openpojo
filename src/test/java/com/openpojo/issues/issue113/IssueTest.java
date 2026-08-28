@@ -18,6 +18,8 @@
 
 package com.openpojo.issues.issue113;
 
+import org.junit.jupiter.api.Test;
+
 import com.openpojo.issues.issue113.sample.AClassWithBufferedImage;
 import com.openpojo.validation.Validator;
 import com.openpojo.validation.ValidatorBuilder;
@@ -25,7 +27,6 @@ import com.openpojo.validation.rule.impl.GetterMustExistRule;
 import com.openpojo.validation.rule.impl.SetterMustExistRule;
 import com.openpojo.validation.test.impl.GetterTester;
 import com.openpojo.validation.test.impl.SetterTester;
-import org.junit.jupiter.api.Test;
 
 import static com.openpojo.reflection.impl.PojoClassFactory.getPojoClass;
 
@@ -34,15 +35,15 @@ import static com.openpojo.reflection.impl.PojoClassFactory.getPojoClass;
  */
 public class IssueTest {
 
-  @Test
-  public void testGetterAndSetter() {
-     Validator validator = ValidatorBuilder
-         .create()
-         .with(new GetterMustExistRule())
-         .with(new GetterTester())
-         .with(new SetterMustExistRule())
-         .with(new SetterTester())
-         .build();
-    validator.validate(getPojoClass(AClassWithBufferedImage.class));
-  }
+	@Test
+	public void testGetterAndSetter() {
+		Validator validator = ValidatorBuilder
+				.create()
+				.with(new GetterMustExistRule())
+				.with(new GetterTester())
+				.with(new SetterMustExistRule())
+				.with(new SetterTester())
+				.build();
+		validator.validate(getPojoClass(AClassWithBufferedImage.class));
+	}
 }

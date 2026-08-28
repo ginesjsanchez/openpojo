@@ -23,19 +23,19 @@ package com.openpojo.reflection.impl.sample.classes;
  */
 public class AccessibilityClass {
 
-  public static class PublicClass {
-  }
+	public static class PublicClass {
+	}
 
-  static class PackagePrivateClass {
+	static class PackagePrivateClass {
 
-  }
+	}
 
-  private class PrivateClass {
+	private class PrivateClass {
 
-  }
+	}
 
-  protected class ProtectedClass {
+	protected class ProtectedClass {
 
-  }
+	}
 
 }

@@ -25,28 +25,36 @@ import java.util.UUID;
 import com.openpojo.random.RandomGenerator;
 
 /**
+ * Generates a random {@code java.util.UUID}.
+ *
  * @author oshoukry
  */
 public class UUIDRandomGenerator implements RandomGenerator {
-  private static final Class<?>[] TYPES = new Class<?>[] { UUID.class };
+	private static final Class<?>[] TYPES = new Class<?>[]{UUID.class};
 
-  private UUIDRandomGenerator() {
+	private UUIDRandomGenerator() {
 
-  }
+	}
 
-  public static UUIDRandomGenerator getInstance() {
-    return Instance.INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared generator.
+	 */
+	public static UUIDRandomGenerator getInstance() {
+		return Instance.INSTANCE;
+	}
 
-  public Collection<Class<?>> getTypes() {
-    return Arrays.asList(TYPES);
-  }
+	public Collection<Class<?>> getTypes() {
+		return Arrays.asList(TYPES);
+	}
 
-  public Object doGenerate(Class<?> type) {
-    return UUID.randomUUID();
-  }
+	public Object doGenerate(Class<?> type) {
+		return UUID.randomUUID();
+	}
 
-  private static class Instance {
-    private static final UUIDRandomGenerator INSTANCE = new UUIDRandomGenerator();
-  }
+	private static class Instance {
+		private static final UUIDRandomGenerator INSTANCE = new UUIDRandomGenerator();
+	}
 }

@@ -22,5 +22,5 @@ package com.openpojo.issues.genericconstructor.sample.support;
  * @author oshoukry
  */
 public enum DaysOfTheWeek {
-  SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY
+	SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY
 }

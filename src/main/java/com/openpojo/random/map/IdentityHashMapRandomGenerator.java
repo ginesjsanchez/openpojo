@@ -29,27 +29,36 @@ import com.openpojo.random.util.Helper;
 import com.openpojo.random.util.SerializableComparableObject;
 
 /**
+ * Generates a {@code IdentityHashMap} holding between 1 and 5 random entries.
+ *
  * @author oshoukry
  */
 public class IdentityHashMapRandomGenerator extends BaseMapRandomGenerator {
-  private static final Class<?>[] TYPES = new Class<?>[] { IdentityHashMap.class };
-  private static final IdentityHashMapRandomGenerator INSTANCE = new IdentityHashMapRandomGenerator();
+	private static final Class<?>[] TYPES = new Class<?>[]{IdentityHashMap.class};
+	private static final IdentityHashMapRandomGenerator INSTANCE = new IdentityHashMapRandomGenerator();
 
-  public static IdentityHashMapRandomGenerator getInstance() {
-    return INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared generator.
+	 */
+	public static IdentityHashMapRandomGenerator getInstance() {
+		return INSTANCE;
+	}
 
-  public Collection<Class<?>> getTypes() {
-    return Arrays.asList(TYPES);
-  }
+	public Collection<Class<?>> getTypes() {
+		return Arrays.asList(TYPES);
+	}
 
-  @Override
-  protected Map getBasicInstance(Class<?> type) {
-    Helper.assertIsAssignableTo(type, getTypes());
-    return MapHelper.buildMap(new IdentityHashMap(), SerializableComparableObject.class, SerializableComparableObject.class);
-  }
+	@Override
+	protected Map<Object, Object> getBasicInstance(Class<?> type) {
+		Helper.assertIsAssignableTo(type, getTypes());
+		return MapHelper.buildMap(new IdentityHashMap<>(), SerializableComparableObject.class,
+				SerializableComparableObject.class);
+	}
 
-  private IdentityHashMapRandomGenerator() {
-  }
+	private IdentityHashMapRandomGenerator() {
+	}
 
 }

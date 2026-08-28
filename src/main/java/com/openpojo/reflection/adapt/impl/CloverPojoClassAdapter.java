@@ -27,30 +27,39 @@ import com.openpojo.reflection.adapt.PojoClassAdapter;
 import com.openpojo.reflection.impl.PojoClassImpl;
 
 /**
+ * Hides the fields Clover injects when instrumenting the bytecode, so they are not validated as if they belonged to
+ * the POJO.
+ *
  * @author oshoukry
  */
 public class CloverPojoClassAdapter implements PojoClassAdapter {
 
-  private static final String CLOVER_INJECTED = "__CLR";
+	private static final String CLOVER_INJECTED = "__CLR";
 
-  private CloverPojoClassAdapter() {
-  }
+	private CloverPojoClassAdapter() {
+	}
 
-  public static PojoClassAdapter getInstance() {
-    return Instance.INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared instance.
+	 */
+	public static PojoClassAdapter getInstance() {
+		return Instance.INSTANCE;
+	}
 
-  public PojoClass adapt(PojoClass pojoClass) {
-    final List<PojoField> cleansedPojoFields = new ArrayList<PojoField>();
-    for (final PojoField pojoField : pojoClass.getPojoFields()) {
-      if (!pojoField.getName().startsWith(CLOVER_INJECTED)) {
-        cleansedPojoFields.add(pojoField);
-      }
-    }
-    return new PojoClassImpl(pojoClass.getClazz(), cleansedPojoFields, pojoClass.getPojoMethods());
-  }
+	public PojoClass adapt(PojoClass pojoClass) {
+		final List<PojoField> cleansedPojoFields = new ArrayList<>();
+		for (final PojoField pojoField : pojoClass.getPojoFields()) {
+			if (!pojoField.getName().startsWith(CLOVER_INJECTED)) {
+				cleansedPojoFields.add(pojoField);
+			}
+		}
+		return new PojoClassImpl(pojoClass.getClazz(), cleansedPojoFields, pojoClass.getPojoMethods());
+	}
 
-  private static class Instance {
-    private static final CloverPojoClassAdapter INSTANCE = new CloverPojoClassAdapter();
-  }
+	private static class Instance {
+		private static final CloverPojoClassAdapter INSTANCE = new CloverPojoClassAdapter();
+	}
 }

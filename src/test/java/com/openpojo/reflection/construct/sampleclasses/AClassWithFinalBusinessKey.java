@@ -26,21 +26,21 @@ import com.openpojo.business.annotation.BusinessKey;
 @SuppressWarnings("unused")
 public class AClassWithFinalBusinessKey {
 
-  @BusinessKey
-  private final String name;
+	@BusinessKey
+	private final String name;
 
-  private final String firstValueForName;
+	private final String firstValueForName;
 
-  public AClassWithFinalBusinessKey(String name) {
-    this.name = name;
-    this.firstValueForName = this.name;
-  }
+	public AClassWithFinalBusinessKey(String name) {
+		this.name = name;
+		this.firstValueForName = this.name;
+	}
 
-  public String getName() {
-    return name;
-  }
+	public String getName() {
+		return name;
+	}
 
-  public String getFirstValueForName() {
-    return firstValueForName;
-  }
+	public String getFirstValueForName() {
+		return firstValueForName;
+	}
 }

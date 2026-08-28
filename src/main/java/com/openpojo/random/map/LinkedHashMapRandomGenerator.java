@@ -29,26 +29,35 @@ import com.openpojo.random.util.Helper;
 import com.openpojo.random.util.SerializableComparableObject;
 
 /**
+ * Generates a {@code LinkedHashMap} holding between 1 and 5 random entries.
+ *
  * @author oshoukry
  */
 public class LinkedHashMapRandomGenerator extends BaseMapRandomGenerator {
-  private static final Class<?>[] TYPES = new Class<?>[] { LinkedHashMap.class };
-  private static final LinkedHashMapRandomGenerator INSTANCE = new LinkedHashMapRandomGenerator();
+	private static final Class<?>[] TYPES = new Class<?>[]{LinkedHashMap.class};
+	private static final LinkedHashMapRandomGenerator INSTANCE = new LinkedHashMapRandomGenerator();
 
-  public static LinkedHashMapRandomGenerator getInstance() {
-    return INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared generator.
+	 */
+	public static LinkedHashMapRandomGenerator getInstance() {
+		return INSTANCE;
+	}
 
-  public Collection<Class<?>> getTypes() {
-    return Arrays.asList(TYPES);
-  }
+	public Collection<Class<?>> getTypes() {
+		return Arrays.asList(TYPES);
+	}
 
-  @Override
-  protected Map getBasicInstance(Class<?> type) {
-    Helper.assertIsAssignableTo(type, getTypes());
-    return MapHelper.buildMap(new LinkedHashMap(), SerializableComparableObject.class, SerializableComparableObject.class);
-  }
+	@Override
+	protected Map<Object, Object> getBasicInstance(Class<?> type) {
+		Helper.assertIsAssignableTo(type, getTypes());
+		return MapHelper.buildMap(new LinkedHashMap<>(), SerializableComparableObject.class,
+				SerializableComparableObject.class);
+	}
 
-  private LinkedHashMapRandomGenerator() {
-  }
+	private LinkedHashMapRandomGenerator() {
+	}
 }

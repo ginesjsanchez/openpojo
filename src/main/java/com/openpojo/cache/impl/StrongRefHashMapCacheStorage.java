@@ -23,20 +23,30 @@ import java.util.HashMap;
 import com.openpojo.cache.CacheStorage;
 
 /**
+ * Cache storage backed by a plain {@code HashMap}: cached items are not released for as long as the cache lives.
+ *
+ * @param <T>
+ *     The type of the stored values.
  * @author oshoukry
  */
 public class StrongRefHashMapCacheStorage<T> implements CacheStorage<T> {
-  private HashMap<String, T> storage = new HashMap<String, T>();
+	private HashMap<String, T> storage = new HashMap<>();
 
-  public void add(String name, T value) {
-    storage.put(name, value);
-  }
+	public void add(String name, T value) {
+		storage.put(name, value);
+	}
 
-  public T get(String name) {
-    return storage.get(name);
-  }
+	public T get(String name) {
+		return storage.get(name);
+	}
 
-  public void clear() {
-    storage.clear();
-  }
+	public void clear() {
+		storage.clear();
+	}
+
+	/**
+	 * Creates an instance ready to use.
+	 */
+	public StrongRefHashMapCacheStorage() {
+	}
 }

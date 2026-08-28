@@ -34,25 +34,25 @@ import com.openpojo.business.utils.BusinessPojoHelper;
  * @author oshoukry
  */
 class DefaultIdentityEvaluator implements IdentityEvaluator {
-  private static final IdentityEvaluator INSTANCE = new DefaultIdentityEvaluator();
+	private static final IdentityEvaluator INSTANCE = new DefaultIdentityEvaluator();
 
-  private DefaultIdentityEvaluator() {
-  }
+	private DefaultIdentityEvaluator() {
+	}
 
-  public static IdentityEvaluator getInstance() {
-    return INSTANCE;
-  }
+	public static IdentityEvaluator getInstance() {
+		return INSTANCE;
+	}
 
-  public boolean areEqual(final Object first, final Object second) {
-    if (BusinessIdentityUtils.sameInstance(first, second))
-      return true;
+	public boolean areEqual(final Object first, final Object second) {
+		if (BusinessIdentityUtils.sameInstance(first, second))
+			return true;
 
-    boolean runningEquality = true;
-    for (BusinessKeyField pojoField : BusinessPojoHelper.getBusinessKeyFields(first.getClass())) {
-      runningEquality = runningEquality
-          && BusinessIdentityUtils.areEqual(pojoField, first, second, pojoField.isCaseSensitive());
-    }
-    return runningEquality;
-  }
+		boolean runningEquality = true;
+		for (BusinessKeyField pojoField : BusinessPojoHelper.getBusinessKeyFields(first.getClass())) {
+			runningEquality = runningEquality
+					&& BusinessIdentityUtils.areEqual(pojoField, first, second, pojoField.isCaseSensitive());
+		}
+		return runningEquality;
+	}
 
 }

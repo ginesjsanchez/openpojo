@@ -20,6 +20,7 @@ package com.openpojo.random.collection.list;
 
 import java.util.Arrays;
 import java.util.Collection;
+
 import javax.management.relation.RoleList;
 
 import com.openpojo.random.RandomGenerator;
@@ -28,25 +29,33 @@ import com.openpojo.random.util.Helper;
 import com.openpojo.random.util.SomeRole;
 
 /**
+ * Generates a {@code javax.management.relation.RoleList} holding random {@code Role} entries.
+ *
  * @author oshoukry
  */
 public class RoleListRandomGenerator implements RandomGenerator {
-  private static final Class<?>[] TYPES = new Class<?>[] { RoleList.class };
-  private static final RoleListRandomGenerator INSTANCE = new RoleListRandomGenerator();
+	private static final Class<?>[] TYPES = new Class<?>[]{RoleList.class};
+	private static final RoleListRandomGenerator INSTANCE = new RoleListRandomGenerator();
 
-  public static RoleListRandomGenerator getInstance() {
-    return INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared generator.
+	 */
+	public static RoleListRandomGenerator getInstance() {
+		return INSTANCE;
+	}
 
-  public Collection<Class<?>> getTypes() {
-    return Arrays.asList(TYPES);
-  }
+	public Collection<Class<?>> getTypes() {
+		return Arrays.asList(TYPES);
+	}
 
-  public Collection doGenerate(Class<?> type) {
-    Helper.assertIsAssignableTo(type, getTypes());
-    return CollectionHelper.buildCollections(new RoleList(), SomeRole.class);
-  }
+	public Collection<Object> doGenerate(Class<?> type) {
+		Helper.assertIsAssignableTo(type, getTypes());
+		return CollectionHelper.buildCollections(new RoleList(), SomeRole.class);
+	}
 
-  private RoleListRandomGenerator() {
-  }
+	private RoleListRandomGenerator() {
+	}
 }

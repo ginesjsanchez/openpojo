@@ -18,54 +18,55 @@
 
 package com.openpojo.reflection.java.type;
 
+import org.junit.jupiter.api.Test;
+
 import com.openpojo.reflection.PojoClass;
 import com.openpojo.reflection.impl.PojoClassFactory;
 import com.openpojo.validation.affirm.Affirm;
-import org.junit.jupiter.api.Test;
 
 /**
  * @author oshoukry
  */
 public class PrimitivesTest {
 
-  @Test
-  public void shouldHavePrivateConstructor() {
-    PojoClass pojoClass = PojoClassFactory.getPojoClass(Primitives.class);
-    Affirm.affirmEquals("Should only have one constructor", 1, pojoClass.getPojoConstructors().size());
-    Affirm.affirmTrue("Constructor must be private", pojoClass.getPojoConstructors().get(0).isPrivate());
-  }
+	@Test
+	public void shouldHavePrivateConstructor() {
+		PojoClass pojoClass = PojoClassFactory.getPojoClass(Primitives.class);
+		Affirm.affirmEquals("Should only have one constructor", 1, pojoClass.getPojoConstructors().size());
+		Affirm.affirmTrue("Constructor must be private", pojoClass.getPojoConstructors().get(0).isPrivate());
+	}
 
-  @Test
-  public void shouldReturnSameInstanceWhenGetInstance() {
-    Primitives first = Primitives.getInstance();
-    Primitives second = Primitives.getInstance();
-    Affirm.affirmNotNull("Should return an instance", first);
-    Affirm.affirmNotNull("Should return an instance", second);
-    Affirm.affirmTrue("Should have been the exact same instance", first == second);
-  }
+	@Test
+	public void shouldReturnSameInstanceWhenGetInstance() {
+		Primitives first = Primitives.getInstance();
+		Primitives second = Primitives.getInstance();
+		Affirm.affirmNotNull("Should return an instance", first);
+		Affirm.affirmNotNull("Should return an instance", second);
+		Affirm.affirmTrue("Should have been the exact same instance", first == second);
+	}
 
-  @Test
-  public void shouldReturnNullNotPrimitive() {
-    Class<?> anyClass = Object.class;
-    Affirm.affirmEquals("Should have been the same class", anyClass, Primitives.getInstance().autoBox(anyClass));
-  }
+	@Test
+	public void shouldReturnNullNotPrimitive() {
+		Class<?> anyClass = Object.class;
+		Affirm.affirmEquals("Should have been the same class", anyClass, Primitives.getInstance().autoBox(anyClass));
+	}
 
-  @Test
-  public void shouldConvertPrimitiveToWrappedClass() {
-    checkPrimitiveCorrectlyWrapped(Boolean.TYPE, Boolean.class);
-    checkPrimitiveCorrectlyWrapped(Byte.TYPE, Byte.class);
-    checkPrimitiveCorrectlyWrapped(Character.TYPE, Character.class);
-    checkPrimitiveCorrectlyWrapped(Double.TYPE, Double.class);
-    checkPrimitiveCorrectlyWrapped(Float.TYPE, Float.class);
-    checkPrimitiveCorrectlyWrapped(Integer.TYPE, Integer.class);
-    checkPrimitiveCorrectlyWrapped(Long.TYPE, Long.class);
-    checkPrimitiveCorrectlyWrapped(Short.TYPE, Short.class);
-    checkPrimitiveCorrectlyWrapped(Void.TYPE, Void.class);
+	@Test
+	public void shouldConvertPrimitiveToWrappedClass() {
+		checkPrimitiveCorrectlyWrapped(Boolean.TYPE, Boolean.class);
+		checkPrimitiveCorrectlyWrapped(Byte.TYPE, Byte.class);
+		checkPrimitiveCorrectlyWrapped(Character.TYPE, Character.class);
+		checkPrimitiveCorrectlyWrapped(Double.TYPE, Double.class);
+		checkPrimitiveCorrectlyWrapped(Float.TYPE, Float.class);
+		checkPrimitiveCorrectlyWrapped(Integer.TYPE, Integer.class);
+		checkPrimitiveCorrectlyWrapped(Long.TYPE, Long.class);
+		checkPrimitiveCorrectlyWrapped(Short.TYPE, Short.class);
+		checkPrimitiveCorrectlyWrapped(Void.TYPE, Void.class);
 
-  }
+	}
 
-  private void checkPrimitiveCorrectlyWrapped(Class<?> primitive, Class<?> expected) {
-    Primitives instance = Primitives.getInstance();
-    Affirm.affirmEquals("Should wrap primitive", expected, instance.autoBox(primitive));
-  }
+	private void checkPrimitiveCorrectlyWrapped(Class<?> primitive, Class<?> expected) {
+		Primitives instance = Primitives.getInstance();
+		Affirm.affirmEquals("Should wrap primitive", expected, instance.autoBox(primitive));
+	}
 }

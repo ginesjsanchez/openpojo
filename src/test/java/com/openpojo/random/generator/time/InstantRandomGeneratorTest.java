@@ -18,39 +18,38 @@
 
 package com.openpojo.random.generator.time;
 
+import org.junit.jupiter.api.BeforeEach;
+
 import com.openpojo.random.RandomGenerator;
 import com.openpojo.random.generator.AbstractGeneratorTest;
 import com.openpojo.reflection.PojoClass;
 import com.openpojo.reflection.impl.PojoClassFactory;
-import com.openpojo.reflection.java.load.ClassUtil;
-//import org.junit.Assume;
-import org.junit.jupiter.api.BeforeEach;
 
 /**
  * @author oshoukry
  */
 public class InstantRandomGeneratorTest extends AbstractGeneratorTest {
 
-  private static final String JAVA_TIME_INSTANT = "java.time.Instant";
-  private PojoClass pojoClass;
-  private RandomGenerator randomGenerator;
+	private static final String JAVA_TIME_INSTANT = "java.time.Instant";
+	private PojoClass pojoClass;
+	private RandomGenerator randomGenerator;
 
-  @BeforeEach
-  public void setup() {
-    //Assume.assumeTrue(ClassUtil.isClassLoaded(JAVA_TIME_INSTANT));
-    pojoClass = PojoClassFactory.getPojoClass(InstantRandomGenerator.class);
-    randomGenerator = InstantRandomGenerator.getInstance();
-  }
+	@BeforeEach
+	public void setup() {
+		//Assume.assumeTrue(ClassUtil.isClassLoaded(JAVA_TIME_INSTANT));
+		pojoClass = PojoClassFactory.getPojoClass(InstantRandomGenerator.class);
+		randomGenerator = InstantRandomGenerator.getInstance();
+	}
 
-  protected PojoClass getPojoClass() {
-    return pojoClass;
-  }
+	protected PojoClass getPojoClass() {
+		return pojoClass;
+	}
 
-  protected String getTypeName() {
-    return JAVA_TIME_INSTANT;
-  }
+	protected String getTypeName() {
+		return JAVA_TIME_INSTANT;
+	}
 
-  protected RandomGenerator getRandomGenerator() {
-    return randomGenerator;
-  }
+	protected RandomGenerator getRandomGenerator() {
+		return randomGenerator;
+	}
 }

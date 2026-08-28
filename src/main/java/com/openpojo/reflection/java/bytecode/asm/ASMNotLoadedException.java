@@ -19,23 +19,39 @@
 package com.openpojo.reflection.java.bytecode.asm;
 
 /**
+ * Thrown when an operation needing ASM is requested and ASM is not on the classpath.
+ *
  * @author oshoukry
  */
 public class ASMNotLoadedException extends RuntimeException {
+	private static final long serialVersionUID = -3171903904220994482L;
 
-  private ASMNotLoadedException() {
-    this("ASM v5.0+ library required, please see http://asm.ow2.org/");
-  }
+	private ASMNotLoadedException() {
+		this("ASM v5.0+ library required, please see http://asm.ow2.org/");
+	}
 
-  private ASMNotLoadedException(String message) {
-    super(message);
-  }
+	private ASMNotLoadedException(String message) {
+		super(message);
+	}
 
-  public static ASMNotLoadedException getInstance() {
-    return new ASMNotLoadedException();
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared instance.
+	 */
+	public static ASMNotLoadedException getInstance() {
+		return new ASMNotLoadedException();
+	}
 
-  public static ASMNotLoadedException getInstance(String message) {
-    return new ASMNotLoadedException(message);
-  }
+	/**
+	 * Creates the exception with a message of its own instead of the default one.
+	 *
+	 * @param message
+	 *     The detail message to include.
+	 * @return the resulting exception.
+	 */
+	public static ASMNotLoadedException getInstance(String message) {
+		return new ASMNotLoadedException(message);
+	}
 }

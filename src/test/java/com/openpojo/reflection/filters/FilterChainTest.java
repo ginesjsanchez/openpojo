@@ -18,13 +18,13 @@
 
 package com.openpojo.reflection.filters;
 
-import static org.junit.jupiter.api.Assertions.fail;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import com.openpojo.reflection.PojoClass;
 import com.openpojo.reflection.PojoClassFilter;
+
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author oshoukry

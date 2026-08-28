@@ -18,8 +18,6 @@
 
 package com.openpojo.issues.issue28;
 
-import static org.junit.jupiter.api.Assertions.fail;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -32,6 +30,8 @@ import com.openpojo.reflection.impl.PojoClassFactory;
 import com.openpojo.validation.Validator;
 import com.openpojo.validation.ValidatorBuilder;
 import com.openpojo.validation.rule.impl.NoFieldShadowingRule;
+
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author oshoukry

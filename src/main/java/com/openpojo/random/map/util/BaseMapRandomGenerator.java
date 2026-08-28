@@ -25,21 +25,36 @@ import com.openpojo.random.ParameterizableRandomGenerator;
 import com.openpojo.reflection.Parameterizable;
 
 /**
+ * Base for the map generators. It leaves the creation of the empty map to the subclass and takes care of populating
+ * it with random keys and values of the requested types.
+ *
  * @author oshoukry
  */
 public abstract class BaseMapRandomGenerator implements ParameterizableRandomGenerator {
 
-  @SuppressWarnings("unchecked")
-  public Map doGenerate(Class<?> type) {
-    return getBasicInstance(type);
-  }
+	public Map<Object, Object> doGenerate(Class<?> type) {
+		return getBasicInstance(type);
+	}
 
-  public Map doGenerate(Parameterizable parameterizedType) {
-    return MapHelper.buildMap(doGenerate(parameterizedType.getType()), parameterizedType.getParameterTypes().get(0),
-        parameterizedType.getParameterTypes().get(1));
-  }
+	public Map<Object, Object> doGenerate(Parameterizable parameterizedType) {
+		return MapHelper.buildMap(doGenerate(parameterizedType.getType()), parameterizedType.getParameterTypes().get(0),
+				parameterizedType.getParameterTypes().get(1));
+	}
 
-  public abstract Collection<Class<?>> getTypes();
+	public abstract Collection<Class<?>> getTypes();
 
-  protected abstract Map getBasicInstance(Class<?> type);
+	/**
+	 * Creates the empty map of the concrete type the subclass handles; populating it is this base class job.
+	 *
+	 * @param type
+	 *     The requested type.
+	 * @return the empty map.
+	 */
+	protected abstract Map<Object, Object> getBasicInstance(Class<?> type);
+
+	/**
+	 * Constructor reachable only from subclasses.
+	 */
+	protected BaseMapRandomGenerator() {
+	}
 }

@@ -18,24 +18,25 @@
 
 package com.openpojo.validation.test.impl;
 
+import org.junit.jupiter.api.Test;
+
 import com.openpojo.validation.CommonCode;
 import com.openpojo.validation.test.Tester;
 import com.openpojo.validation.test.impl.sampleclasses.ToStringTester_DispatchingToBusinessIdentity;
 import com.openpojo.validation.test.impl.sampleclasses.ToStringTester_NotDispatchingToBusinessIdentity;
-import org.junit.jupiter.api.Test;
 
 /**
  * @author oshoukry
  */
 public class ToStringTesterTest {
-  private Class<?>[] passClasses = new Class<?>[] { ToStringTester_DispatchingToBusinessIdentity.class };
-  private Class<?>[] failClasses = new Class<?>[] { ToStringTester_NotDispatchingToBusinessIdentity.class };
-  private Tester test = new ToStringTester();
+	private Class<?>[] passClasses = new Class<?>[]{ToStringTester_DispatchingToBusinessIdentity.class};
+	private Class<?>[] failClasses = new Class<?>[]{ToStringTester_NotDispatchingToBusinessIdentity.class};
+	private Tester test = new ToStringTester();
 
-  @Test
-  public void testEvaluate() {
-    CommonCode.shouldPassTesterValidation(test, passClasses);
-    CommonCode.shouldFailTesterValidation(test, failClasses);
-  }
+	@Test
+	public void testEvaluate() {
+		CommonCode.shouldPassTesterValidation(test, passClasses);
+		CommonCode.shouldFailTesterValidation(test, failClasses);
+	}
 
 }

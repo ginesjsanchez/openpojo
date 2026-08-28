@@ -26,26 +26,34 @@ import com.openpojo.random.collection.util.BaseCollectionRandomGenerator;
 import com.openpojo.random.util.Helper;
 
 /**
+ * Generates a {@code LinkedList} holding between 1 and 5 random elements.
+ *
  * @author oshoukry
  */
 public class LinkedListRandomGenerator extends BaseCollectionRandomGenerator {
-  private static final Class<?>[] TYPES = new Class<?>[] { LinkedList.class };
-  private static final LinkedListRandomGenerator INSTANCE = new LinkedListRandomGenerator();
+	private static final Class<?>[] TYPES = new Class<?>[]{LinkedList.class};
+	private static final LinkedListRandomGenerator INSTANCE = new LinkedListRandomGenerator();
 
-  public static LinkedListRandomGenerator getInstance() {
-    return INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared generator.
+	 */
+	public static LinkedListRandomGenerator getInstance() {
+		return INSTANCE;
+	}
 
-  public Collection<Class<?>> getTypes() {
-    return Arrays.asList(TYPES);
-  }
+	public Collection<Class<?>> getTypes() {
+		return Arrays.asList(TYPES);
+	}
 
-  @Override
-  protected Collection getBasicInstance(Class<?> type) {
-    Helper.assertIsAssignableTo(type, getTypes());
-    return new LinkedList();
-  }
+	@Override
+	protected Collection<Object> getBasicInstance(Class<?> type) {
+		Helper.assertIsAssignableTo(type, getTypes());
+		return new LinkedList<>();
+	}
 
-  private LinkedListRandomGenerator() {
-  }
+	private LinkedListRandomGenerator() {
+	}
 }

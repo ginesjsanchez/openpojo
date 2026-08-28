@@ -21,35 +21,44 @@ package com.openpojo.business.identity.impl;
 import com.openpojo.business.identity.IdentityHandler;
 
 /**
+ * Default implementation of {@code IdentityHandler}: derives identity from the fields annotated with {@code
+ * @BusinessKey}.
+ *
  * @author oshoukry
  */
 public final class DefaultIdentityHandler implements IdentityHandler {
-  private static final IdentityHandler INSTANCE = new DefaultIdentityHandler();
+	private static final IdentityHandler INSTANCE = new DefaultIdentityHandler();
 
-  private DefaultIdentityHandler() {
-  }
+	private DefaultIdentityHandler() {
+	}
 
-  public static IdentityHandler getInstance() {
-    return INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared instance.
+	 */
+	public static IdentityHandler getInstance() {
+		return INSTANCE;
+	}
 
-  public boolean areEqual(final Object first, final Object second) {
-    return DefaultIdentityEvaluator.getInstance().areEqual(first, second);
-  }
+	public boolean areEqual(final Object first, final Object second) {
+		return DefaultIdentityEvaluator.getInstance().areEqual(first, second);
+	}
 
-  public int generateHashCode(final Object object) {
-    return DefaultHashCodeGenerator.getInstance().doGenerate(object);
-  }
+	public int generateHashCode(final Object object) {
+		return DefaultHashCodeGenerator.getInstance().doGenerate(object);
+	}
 
-  public String toString(Object object) {
-    return DefaultStringanizer.getInstance().toString(object);
-  }
+	public String toString(Object object) {
+		return DefaultStringanizer.getInstance().toString(object);
+	}
 
-  public void validate(final Object object) {
-    DefaultBusinessValidator.getInstance().validate(object);
-  }
+	public void validate(final Object object) {
+		DefaultBusinessValidator.getInstance().validate(object);
+	}
 
-  public boolean handlerFor(final Object object) {
-    return true;
-  }
+	public boolean handlerFor(final Object object) {
+		return true;
+	}
 }

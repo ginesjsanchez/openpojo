@@ -24,12 +24,12 @@ package com.openpojo.reflection.java.bytecode.sample;
  * @author oshoukry
  */
 public abstract class AnAbstractClassWithProtectedMethodBeforeConstructor {
-  protected void someMethod() {
-  }
+	protected void someMethod() {
+	}
 
-  public void aPublicMethod() {
-  }
+	public void aPublicMethod() {
+	}
 
-  public AnAbstractClassWithProtectedMethodBeforeConstructor() {
-  }
+	public AnAbstractClassWithProtectedMethodBeforeConstructor() {
+	}
 }

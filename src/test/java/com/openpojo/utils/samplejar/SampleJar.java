@@ -78,7 +78,7 @@ public class SampleJar {
 
 	private URLClassLoader getClassLoader() {
 		try {
-			return URLClassLoader.newInstance(new URL[] { new URI(jarUrlPath).toURL() });
+			return URLClassLoader.newInstance(new URL[]{new URI(jarUrlPath).toURL()});
 		} catch (MalformedURLException | URISyntaxException e) {
 			throw new RuntimeException(e);
 		}

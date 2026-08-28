@@ -21,27 +21,37 @@ package com.openpojo.random.util;
 import java.io.Serializable;
 
 /**
+ * Default filler object: it is {@code Serializable} and {@code Comparable}, which is what sorted collections and
+ * serializable types demand. It is used as element whenever the requested collection does not declare its element
+ * type.
+ *
  * @author oshoukry
  */
-public class SerializableComparableObject implements Serializable, Comparable {
-  private static final long serialVersionUID = 1L;
+public class SerializableComparableObject implements Serializable, Comparable<Object> {
+	private static final long serialVersionUID = 1L;
 
-  @SuppressWarnings("NullableProblems")
-  public int compareTo(Object other) {
-    if (other == null || this.hashCode() > other.hashCode())
-      return 1;
-    if (this.hashCode() == other.hashCode())
-      return 0;
-    return -1;
-  }
+	@SuppressWarnings("NullableProblems")
+	public int compareTo(Object other) {
+		if (other == null || this.hashCode() > other.hashCode())
+			return 1;
+		if (this.hashCode() == other.hashCode())
+			return 0;
+		return -1;
+	}
 
-  @Override
-  public boolean equals(Object o) {
-    return !(o == null || getClass() != o.getClass()) && this.hashCode() == o.hashCode();
-  }
+	@Override
+	public boolean equals(Object o) {
+		return !(o == null || getClass() != o.getClass()) && this.hashCode() == o.hashCode();
+	}
 
-  @Override
-  public int hashCode() {
-    return System.identityHashCode(this);
-  }
+	@Override
+	public int hashCode() {
+		return System.identityHashCode(this);
+	}
+
+	/**
+	 * Creates an instance ready to use.
+	 */
+	public SerializableComparableObject() {
+	}
 }

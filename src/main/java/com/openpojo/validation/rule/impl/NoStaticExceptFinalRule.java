@@ -33,11 +33,17 @@ import com.openpojo.validation.rule.Rule;
  */
 public class NoStaticExceptFinalRule implements Rule {
 
-  public void evaluate(final PojoClass pojoClass) {
-    for (PojoField fieldEntry : pojoClass.getPojoFields()) {
-      if (fieldEntry.isStatic() && !fieldEntry.isFinal() && !fieldEntry.isSynthetic()) {
-        Affirm.fail(String.format("Static fields=[%s] not marked final are not allowed", fieldEntry));
-      }
-    }
-  }
+	public void evaluate(final PojoClass pojoClass) {
+		for (PojoField fieldEntry : pojoClass.getPojoFields()) {
+			if (fieldEntry.isStatic() && !fieldEntry.isFinal() && !fieldEntry.isSynthetic()) {
+				Affirm.fail(String.format("Static fields=[%s] not marked final are not allowed", fieldEntry));
+			}
+		}
+	}
+
+	/**
+	 * Creates an instance ready to use.
+	 */
+	public NoStaticExceptFinalRule() {
+	}
 }

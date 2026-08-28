@@ -18,27 +18,28 @@
 
 package com.openpojo.random.map;
 
+import org.junit.jupiter.api.Test;
+
 import com.openpojo.random.map.sample.ClassWithVariousGenericMap;
 import com.openpojo.reflection.impl.PojoClassFactory;
 import com.openpojo.validation.Validator;
 import com.openpojo.validation.ValidatorBuilder;
 import com.openpojo.validation.rule.impl.SetterMustExistRule;
 import com.openpojo.validation.test.impl.SetterTester;
-import org.junit.jupiter.api.Test;
 
 /**
  * @author oshoukry
  */
 public class MapWithGenericsTest {
 
-  @Test
-  public void testEndToEndMap() {
-    Validator pojoValidator = ValidatorBuilder.create()
-        .with(new SetterMustExistRule())
-        .with(new SetterTester())
-        .build();
+	@Test
+	public void testEndToEndMap() {
+		Validator pojoValidator = ValidatorBuilder.create()
+				.with(new SetterMustExistRule())
+				.with(new SetterTester())
+				.build();
 
-    pojoValidator.validate(PojoClassFactory.getPojoClass(ClassWithVariousGenericMap.class));
-  }
+		pojoValidator.validate(PojoClassFactory.getPojoClass(ClassWithVariousGenericMap.class));
+	}
 
 }

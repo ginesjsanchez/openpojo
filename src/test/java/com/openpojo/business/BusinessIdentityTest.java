@@ -147,7 +147,7 @@ public class BusinessIdentityTest {
 
 	@Test
 	public void shouldToStringOnArrays() {
-		String[][] data = { { "One" }, { "One", "Two" }, { "One", "Two", "Three" } };
+		String[][] data = {{"One"}, {"One", "Two"}, {"One", "Two", "Three"}};
 		JavaClassWithArray javaClassWithArray = new JavaClassWithArray(data);
 		String toStringOutput = javaClassWithArray.toString();
 		String expected = JavaClassWithArray.class.getName() + " [@";

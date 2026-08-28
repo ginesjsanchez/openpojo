@@ -22,27 +22,27 @@ package com.openpojo.reflection.construct.sampleclasses;
  * @author oshoukry
  */
 public class ClassWithVariousDeclaredContructorsAndMethods {
-  public String singleStringConstructor;
+	public String singleStringConstructor;
 
-  public ClassWithVariousDeclaredContructorsAndMethods(final String string) {
-    singleStringConstructor = string;
-  }
+	public ClassWithVariousDeclaredContructorsAndMethods(final String string) {
+		singleStringConstructor = string;
+	}
 
-  public Integer singleIntegerConstructor;
+	public Integer singleIntegerConstructor;
 
-  public ClassWithVariousDeclaredContructorsAndMethods(final Integer integer) {
-    singleIntegerConstructor = integer;
-  }
+	public ClassWithVariousDeclaredContructorsAndMethods(final Integer integer) {
+		singleIntegerConstructor = integer;
+	}
 
-  public void someMethod() {
+	public void someMethod() {
 
-  }
+	}
 
-  public String doubleStringConstructor;
-  public Integer doubleIntegerConstructor;
+	public String doubleStringConstructor;
+	public Integer doubleIntegerConstructor;
 
-  public ClassWithVariousDeclaredContructorsAndMethods(final String string, final Integer integer) {
-    doubleStringConstructor = string;
-    doubleIntegerConstructor = integer;
-  }
+	public ClassWithVariousDeclaredContructorsAndMethods(final String string, final Integer integer) {
+		doubleStringConstructor = string;
+		doubleIntegerConstructor = integer;
+	}
 }

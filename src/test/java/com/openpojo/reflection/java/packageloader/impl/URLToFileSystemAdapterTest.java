@@ -18,8 +18,6 @@
 
 package com.openpojo.reflection.java.packageloader.impl;
 
-import static org.junit.jupiter.api.Assertions.fail;
-
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -30,6 +28,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.openpojo.reflection.exception.ReflectionException;
+
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author oshoukry

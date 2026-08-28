@@ -25,20 +25,39 @@ import com.openpojo.random.util.SerializableComparableObject;
 import com.openpojo.reflection.Parameterizable;
 
 /**
+ * Base for the collection generators. It leaves the creation of the empty instance to the subclass and takes care of
+ * populating it with random elements of the requested type.
+ *
  * @author oshoukry
  */
 public abstract class BaseCollectionRandomGenerator implements ParameterizableRandomGenerator {
 
-  public Collection doGenerate(Class<?> type) {
-    return CollectionHelper.buildCollections(getBasicInstance(type), SerializableComparableObject.class);
-  }
+	@Override
+	public Collection<Object> doGenerate(Class<?> type) {
+		return CollectionHelper.buildCollections(getBasicInstance(type), SerializableComparableObject.class);
+	}
 
-  public Collection doGenerate(Parameterizable parameterizedType) {
-    return CollectionHelper.buildCollections(doGenerate(parameterizedType.getType()),
-        parameterizedType.getParameterTypes().get(0));
-  }
+	@Override
+	public Collection<Object> doGenerate(Parameterizable parameterizedType) {
+		return CollectionHelper.buildCollections(doGenerate(parameterizedType.getType()),
+				parameterizedType.getParameterTypes().get(0));
+	}
 
-  public abstract Collection<Class<?>> getTypes();
+	@Override
+	public abstract Collection<Class<?>> getTypes();
 
-  protected abstract Collection getBasicInstance(Class<?> type);
+	/**
+	 * Creates the empty collection of the concrete type the subclass handles; populating it is this base class job.
+	 *
+	 * @param type
+	 *     The requested type.
+	 * @return the empty collection.
+	 */
+	protected abstract Collection<Object> getBasicInstance(Class<?> type);
+
+	/**
+	 * Constructor reachable only from subclasses.
+	 */
+	protected BaseCollectionRandomGenerator() {
+	}
 }

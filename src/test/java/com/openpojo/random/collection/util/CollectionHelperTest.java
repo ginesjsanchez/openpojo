@@ -22,28 +22,26 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.CoreMatchers.sameInstance;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * @author oshoukry
  */
 public class CollectionHelperTest {
-  @Test
-  public void shouldReturnWithoutGenerationIfTypeIsNull() {
-    List emptyList = new ArrayList();
-    Collection actual = CollectionHelper.buildCollections(emptyList, null);
-    //assertThat(actual.size(), is(0));
-    //assertThat((List)actual, sameInstance(emptyList));
-  }
+	@Test
+	public void shouldReturnWithoutGenerationIfTypeIsNull() {
+		List<Object> emptyList = new ArrayList<>();
 
-  @Test
-  public void shouldReturnNullIfCollectionIsNull() {
-    //assertThat(CollectionHelper.buildCollections(null, null), nullValue());
-    //assertThat(CollectionHelper.buildCollections(null, this.getClass()), nullValue());
-  }
+		Collection<Object> actual = CollectionHelper.buildCollections(emptyList, null);
+
+		Assertions.assertSame(emptyList, actual, "Should return the very same instance, untouched");
+		Assertions.assertEquals(0, actual.size(), "Should not generate any element when the type is null");
+	}
+
+	@Test
+	public void shouldReturnNullIfCollectionIsNull() {
+		Assertions.assertNull(CollectionHelper.buildCollections(null, null));
+		Assertions.assertNull(CollectionHelper.buildCollections(null, this.getClass()));
+	}
 }

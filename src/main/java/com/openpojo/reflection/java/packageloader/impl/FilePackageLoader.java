@@ -26,24 +26,34 @@ import com.openpojo.reflection.java.packageloader.PackageLoader;
 import com.openpojo.reflection.java.packageloader.reader.FileSystemReader;
 
 /**
+ * Loads the classes of a package that lives in a file system directory.
+ *
  * @author oshoukry
  */
 public final class FilePackageLoader extends PackageLoader {
-  private final FileSystemReader fileSystemReader;
+	private final FileSystemReader fileSystemReader;
 
-  public FilePackageLoader(final URL packageURL, final String packageName) {
-    super(packageURL, packageName);
-    fileSystemReader = FileSystemReader.getInstance(packageURL);
-  }
+	/**
+	 * Creates the loader for a package that lives in a directory.
+	 *
+	 * @param packageURL
+	 *     URL of the directory.
+	 * @param packageName
+	 *     The fully qualified package name.
+	 */
+	public FilePackageLoader(final URL packageURL, final String packageName) {
+		super(packageURL, packageName);
+		fileSystemReader = FileSystemReader.getInstance(packageURL);
+	}
 
-  @Override
-  public Set<Type> getTypes() {
-    return fileSystemReader.getTypesInPackage(packageName);
-  }
+	@Override
+	public Set<Type> getTypes() {
+		return fileSystemReader.getTypesInPackage(packageName);
+	}
 
-  @Override
-  public Set<String> getSubPackages() {
-    return fileSystemReader.getSubPackagesOfPackage(packageName);
-  }
+	@Override
+	public Set<String> getSubPackages() {
+		return fileSystemReader.getSubPackagesOfPackage(packageName);
+	}
 
 }

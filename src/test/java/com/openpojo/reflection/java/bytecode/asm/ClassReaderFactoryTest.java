@@ -18,8 +18,6 @@
 
 package com.openpojo.reflection.java.bytecode.asm;
 
-import static org.junit.jupiter.api.Assertions.fail;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -27,6 +25,8 @@ import com.openpojo.reflection.PojoClass;
 import com.openpojo.reflection.construct.InstanceFactory;
 import com.openpojo.reflection.exception.ReflectionException;
 import com.openpojo.reflection.impl.PojoClassFactory;
+
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author oshoukry
@@ -38,7 +38,7 @@ public class ClassReaderFactoryTest {
 		try {
 			try {
 				PojoClass pojoClass = PojoClassFactory.getPojoClass(ClassReaderFactory.class);
-				org.testng.Assert.assertEquals(1, pojoClass.getPojoConstructors().size());
+				Assertions.assertEquals(1, pojoClass.getPojoConstructors().size());
 				InstanceFactory.getLeastCompleteInstance(pojoClass);
 			} catch (ReflectionException re) {
 				Throwable cause = re.getCause();

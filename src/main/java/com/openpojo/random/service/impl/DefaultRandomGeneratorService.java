@@ -26,74 +26,81 @@ import com.openpojo.random.service.RandomGeneratorService;
 import com.openpojo.reflection.Parameterizable;
 
 /**
+ * Registry of generators. It works out which generator serves each type; if none covers it exactly, it looks for one
+ * registered for an assignable type and adapts it, and failing that it falls back on the default generator.
+ *
  * @author oshoukry
  */
 public class DefaultRandomGeneratorService implements RandomGeneratorService {
-  private final Map<Class<?>, RandomGenerator> concreteRandomGenerator = new HashMap<Class<?>, RandomGenerator>();
-  private final Map<Class<?>, ParameterizableRandomGenerator> concreteParameterizableRandomGenerators = new HashMap<Class<?>,
-      ParameterizableRandomGenerator>();
-  private RandomGenerator defaultRandomGenerator;
-  private static final Random RANDOM = new Random(new Date().getTime());
+	private final Map<Class<?>, RandomGenerator> concreteRandomGenerator = new HashMap<>();
+	private final Map<Class<?>, ParameterizableRandomGenerator> concreteParameterizableRandomGenerators = new HashMap<>();
+	private RandomGenerator defaultRandomGenerator;
+	private static final Random RANDOM = new Random(new Date().getTime());
 
-  public String getName() {
-    return this.getClass().getName();
-  }
+	public String getName() {
+		return this.getClass().getName();
+	}
 
-  public void registerRandomGenerator(final RandomGenerator randomGenerator) {
-    for (final Class<?> type : randomGenerator.getTypes()) {
-      concreteRandomGenerator.put(type, randomGenerator);
-      if (randomGenerator instanceof ParameterizableRandomGenerator)
-        concreteParameterizableRandomGenerators.put(type, (ParameterizableRandomGenerator) randomGenerator);
-    }
-  }
+	public void registerRandomGenerator(final RandomGenerator randomGenerator) {
+		for (final Class<?> type : randomGenerator.getTypes()) {
+			concreteRandomGenerator.put(type, randomGenerator);
+			if (randomGenerator instanceof ParameterizableRandomGenerator)
+				concreteParameterizableRandomGenerators.put(type, (ParameterizableRandomGenerator) randomGenerator);
+		}
+	}
 
-  public void setDefaultRandomGenerator(final RandomGenerator randomGenerator) {
-    defaultRandomGenerator = randomGenerator;
-  }
+	public void setDefaultRandomGenerator(final RandomGenerator randomGenerator) {
+		defaultRandomGenerator = randomGenerator;
+	}
 
-  public RandomGenerator getDefaultRandomGenerator() {
-    return defaultRandomGenerator;
-  }
+	public RandomGenerator getDefaultRandomGenerator() {
+		return defaultRandomGenerator;
+	}
 
-  public RandomGenerator getRandomGeneratorByType(final Class<?> type) {
-    return getAppropriateRandomGenerator(type, concreteRandomGenerator);
-  }
+	public RandomGenerator getRandomGeneratorByType(final Class<?> type) {
+		return getAppropriateRandomGenerator(type, concreteRandomGenerator);
+	}
 
-  public RandomGenerator getRandomGeneratorByParameterizable(Parameterizable type) {
-    if (!type.isParameterized())
-      return getAppropriateRandomGenerator(type.getType(), concreteRandomGenerator);
+	public RandomGenerator getRandomGeneratorByParameterizable(Parameterizable type) {
+		if (!type.isParameterized())
+			return getAppropriateRandomGenerator(type.getType(), concreteRandomGenerator);
 
-    return getAppropriateRandomGenerator(type.getType(), concreteParameterizableRandomGenerators);
-  }
+		return getAppropriateRandomGenerator(type.getType(), concreteParameterizableRandomGenerators);
+	}
 
-  @SuppressWarnings("unchecked")
-  private RandomGenerator getAppropriateRandomGenerator(Class<?> type, Map randomGenerators) {
-    RandomGenerator appropriateRandomGenerator = (RandomGenerator) randomGenerators.get(type);
-    if (appropriateRandomGenerator == null) {
-      final List assignableTypes = getAssignableTypesForType(type, randomGenerators.keySet());
-      if (assignableTypes.size() == 0) {
-        appropriateRandomGenerator = getDefaultRandomGenerator();
-      } else {
-        final Class<?> adaptToType = (Class<?>) assignableTypes.get(RANDOM.nextInt(assignableTypes.size()));
-        appropriateRandomGenerator = new RandomGeneratorAdapter(type, adaptToType, (RandomGenerator) randomGenerators.get
-            (adaptToType));
-      }
-    }
-    return appropriateRandomGenerator;
-  }
+	private RandomGenerator getAppropriateRandomGenerator(Class<?> type,
+			Map<Class<?>, ? extends RandomGenerator> randomGenerators) {
+		RandomGenerator appropriateRandomGenerator = randomGenerators.get(type);
+		if (appropriateRandomGenerator == null) {
+			final List<Class<?>> assignableTypes = getAssignableTypesForType(type, randomGenerators.keySet());
+			if (assignableTypes.isEmpty()) {
+				appropriateRandomGenerator = getDefaultRandomGenerator();
+			} else {
+				final Class<?> adaptToType = assignableTypes.get(RANDOM.nextInt(assignableTypes.size()));
+				appropriateRandomGenerator = new RandomGeneratorAdapter(type, adaptToType,
+						randomGenerators.get(adaptToType));
+			}
+		}
+		return appropriateRandomGenerator;
+	}
 
-  public Collection<Class<?>> getRegisteredTypes() {
-    return Collections.unmodifiableSet(concreteRandomGenerator.keySet());
-  }
+	public Collection<Class<?>> getRegisteredTypes() {
+		return Collections.unmodifiableSet(concreteRandomGenerator.keySet());
+	}
 
-  private List<Class<?>> getAssignableTypesForType(final Class<?> type, final Set<Class<?>> registeredTypes) {
-    final List<Class<?>> assignableTypes = new LinkedList<Class<?>>();
-    for (final Class<?> registeredType : registeredTypes) {
-      if (type.isAssignableFrom(registeredType)) {
-        assignableTypes.add(registeredType);
-      }
-    }
-    return assignableTypes;
-  }
+	private List<Class<?>> getAssignableTypesForType(final Class<?> type, final Set<Class<?>> registeredTypes) {
+		final List<Class<?>> assignableTypes = new LinkedList<>();
+		for (final Class<?> registeredType : registeredTypes) {
+			if (type.isAssignableFrom(registeredType)) {
+				assignableTypes.add(registeredType);
+			}
+		}
+		return assignableTypes;
+	}
 
+	/**
+	 * Creates an instance ready to use.
+	 */
+	public DefaultRandomGeneratorService() {
+	}
 }

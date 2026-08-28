@@ -22,42 +22,62 @@ import com.openpojo.business.identity.IdentityFactory;
 import com.openpojo.business.identity.IdentityHandler;
 
 /**
+ * Stub {@code IdentityHandler} that only considers two references to the same instance equal.
+ *
  * @author oshoukry
  */
 public class SameInstanceIdentityHandlerStub implements IdentityHandler {
-  private Object handlerForObject;
+	private Object handlerForObject;
 
-  public static void registerIdentityHandlerStubForValue(Object value) {
-    final SameInstanceIdentityHandlerStub identityHandlerStub = new SameInstanceIdentityHandlerStub();
-    identityHandlerStub.setHandlerForObject(value);
-    IdentityFactory.registerIdentityHandler(identityHandlerStub);
-  }
+	/**
+	 * Makes the identity of a value be compared by reference only.
+	 *
+	 * @param value
+	 *     The value whose identity is being stubbed.
+	 */
+	public static void registerIdentityHandlerStubForValue(Object value) {
+		final SameInstanceIdentityHandlerStub identityHandlerStub = new SameInstanceIdentityHandlerStub();
+		identityHandlerStub.setHandlerForObject(value);
+		IdentityFactory.registerIdentityHandler(identityHandlerStub);
+	}
 
-  public static void unregisterIdentityHandlerStubForValue(Object value) {
-    IdentityHandler identityHandler = IdentityFactory.getIdentityHandler(value);
-    IdentityFactory.unregisterIdentityHandler(identityHandler);
-  }
+	/**
+	 * Undoes the substitution made by {@code registerIdentityHandlerStubForValue}.
+	 *
+	 * @param value
+	 *     The value to restore.
+	 */
+	public static void unregisterIdentityHandlerStubForValue(Object value) {
+		IdentityHandler identityHandler = IdentityFactory.getIdentityHandler(value);
+		IdentityFactory.unregisterIdentityHandler(identityHandler);
+	}
 
-  private void setHandlerForObject(final Object handlerForObject) {
-    this.handlerForObject = handlerForObject;
-  }
+	private void setHandlerForObject(final Object handlerForObject) {
+		this.handlerForObject = handlerForObject;
+	}
 
-  public boolean areEqual(final Object first, final Object second) {
-    return first == second;
-  }
+	public boolean areEqual(final Object first, final Object second) {
+		return first == second;
+	}
 
-  public String toString(Object object) {
-    throw new UnsupportedOperationException();
-  }
+	public String toString(Object object) {
+		throw new UnsupportedOperationException();
+	}
 
-  public void validate(final Object object) {
-  }
+	public void validate(final Object object) {
+	}
 
-  public int generateHashCode(final Object object) {
-    return System.identityHashCode(object);
-  }
+	public int generateHashCode(final Object object) {
+		return System.identityHashCode(object);
+	}
 
-  public boolean handlerFor(final Object object) {
-    return handlerForObject == object;
-  }
+	public boolean handlerFor(final Object object) {
+		return handlerForObject == object;
+	}
+
+	/**
+	 * Creates an instance ready to use.
+	 */
+	public SameInstanceIdentityHandlerStub() {
+	}
 }

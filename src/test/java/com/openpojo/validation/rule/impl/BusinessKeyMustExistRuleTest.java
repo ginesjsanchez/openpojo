@@ -18,24 +18,25 @@
 
 package com.openpojo.validation.rule.impl;
 
+import org.junit.jupiter.api.Test;
+
 import com.openpojo.validation.CommonCode;
 import com.openpojo.validation.rule.Rule;
 import com.openpojo.validation.rule.impl.sampleclasses.BusinessClassWithComposite;
 import com.openpojo.validation.rule.impl.sampleclasses.BusinessClassWithNoRequired;
 import com.openpojo.validation.rule.impl.sampleclasses.BusinessClassWithRequired;
-import org.junit.jupiter.api.Test;
 
 /**
  * @author oshoukry
  */
 public class BusinessKeyMustExistRuleTest {
-  private Class<?>[] failClasses = new Class<?>[] { BusinessClassWithNoRequired.class };
-  private Class<?>[] passClasses = new Class<?>[] { BusinessClassWithRequired.class, BusinessClassWithComposite.class };
-  private Rule rule = new BusinessKeyMustExistRule();
+	private Class<?>[] failClasses = new Class<?>[]{BusinessClassWithNoRequired.class};
+	private Class<?>[] passClasses = new Class<?>[]{BusinessClassWithRequired.class, BusinessClassWithComposite.class};
+	private Rule rule = new BusinessKeyMustExistRule();
 
-  @Test
-  public void testEvaluate() {
-    CommonCode.shouldPassRuleValidation(rule, passClasses);
-    CommonCode.shouldFailRuleValidation(rule, failClasses);
-  }
+	@Test
+	public void testEvaluate() {
+		CommonCode.shouldPassRuleValidation(rule, passClasses);
+		CommonCode.shouldFailRuleValidation(rule, failClasses);
+	}
 }

@@ -22,6 +22,6 @@ package com.openpojo.reflection.java.bytecode.asm.sample;
  * @author oshoukry
  */
 public abstract class AbstractClassWithAbstractToString {
-  @Override
-  public abstract String toString();
+	@Override
+	public abstract String toString();
 }

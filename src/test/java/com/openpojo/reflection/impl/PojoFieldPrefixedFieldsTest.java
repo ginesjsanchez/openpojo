@@ -18,8 +18,6 @@
 
 package com.openpojo.reflection.impl;
 
-import static org.junit.jupiter.api.Assertions.fail;
-
 import java.lang.reflect.Field;
 
 import org.junit.jupiter.api.AfterEach;
@@ -35,6 +33,8 @@ import com.openpojo.reflection.utils.AttributeHelper;
 import com.openpojo.validation.affirm.Affirm;
 import com.openpojo.validation.rule.Rule;
 import com.openpojo.validation.rule.impl.GetterMustExistRule;
+
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class PojoFieldPrefixedFieldsTest {
 

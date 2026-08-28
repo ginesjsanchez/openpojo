@@ -25,11 +25,11 @@ package com.openpojo.reflection;
  */
 public interface PojoElement extends Annotatable {
 
-  /**
-   * Get the name of the element.
-   *
-   * @return Return the name of the package, class, field... etc.
-   */
-  String getName();
+	/**
+	 * Get the name of the element.
+	 *
+	 * @return Return the name of the package, class, field... etc.
+	 */
+	String getName();
 
 }

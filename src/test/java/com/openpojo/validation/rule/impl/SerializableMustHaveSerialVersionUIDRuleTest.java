@@ -18,33 +18,34 @@
 
 package com.openpojo.validation.rule.impl;
 
+import org.junit.jupiter.api.Test;
+
 import com.openpojo.validation.CommonCode;
 import com.openpojo.validation.rule.Rule;
 import com.openpojo.validation.rule.impl.sampleclasses.*;
-import org.junit.jupiter.api.Test;
 
 /**
  * @author oshoukry
  */
 public class SerializableMustHaveSerialVersionUIDRuleTest {
-  private Class<?>[] failClasses = new Class<?>[] {
-      SerializableMustHaveSerialVersionUIDDoesntClass.class,
-      SerializableMustHaveSerialVersionUIDInvalidCaseClass.class,
-      SerializableMustHaveSerialVersionUIDNotFinalClass.class,
-      SerializableMustHaveSerialVersionUIDNotStaticClass.class,
-      SerializableMustHaveSerialVersionUIDNotlongClass.class
-  };
-  private Class<?>[] passClasses = new Class<?>[] {
-      SerializableMustHaveSerialVersionUIDDoesClass.class,
-      SerializableMustHaveSerialVersionUIDNotSerializableClass.class,
-      SerializableInterface.class
-  };
-  private Rule rule = new SerializableMustHaveSerialVersionUIDRule();
+	private Class<?>[] failClasses = new Class<?>[]{
+			SerializableMustHaveSerialVersionUIDDoesntClass.class,
+			SerializableMustHaveSerialVersionUIDInvalidCaseClass.class,
+			SerializableMustHaveSerialVersionUIDNotFinalClass.class,
+			SerializableMustHaveSerialVersionUIDNotStaticClass.class,
+			SerializableMustHaveSerialVersionUIDNotlongClass.class
+	};
+	private Class<?>[] passClasses = new Class<?>[]{
+			SerializableMustHaveSerialVersionUIDDoesClass.class,
+			SerializableMustHaveSerialVersionUIDNotSerializableClass.class,
+			SerializableInterface.class
+	};
+	private Rule rule = new SerializableMustHaveSerialVersionUIDRule();
 
-  @Test
-  public void testEvaluate() {
-    CommonCode.shouldPassRuleValidation(rule, passClasses);
-    CommonCode.shouldFailRuleValidation(rule, failClasses);
-  }
+	@Test
+	public void testEvaluate() {
+		CommonCode.shouldPassRuleValidation(rule, passClasses);
+		CommonCode.shouldFailRuleValidation(rule, failClasses);
+	}
 
 }

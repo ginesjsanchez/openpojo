@@ -27,26 +27,34 @@ import com.openpojo.random.collection.util.BaseCollectionRandomGenerator;
 import com.openpojo.random.util.Helper;
 
 /**
+ * Generates values for {@code SortedSet}, returning a {@code TreeSet} holding between 1 and 5 random elements.
+ *
  * @author oshoukry
  */
 public class SortedSetRandomGenerator extends BaseCollectionRandomGenerator {
-  private static final Class<?>[] TYPES = new Class<?>[] { SortedSet.class };
-  private static final SortedSetRandomGenerator INSTANCE = new SortedSetRandomGenerator();
+	private static final Class<?>[] TYPES = new Class<?>[]{SortedSet.class};
+	private static final SortedSetRandomGenerator INSTANCE = new SortedSetRandomGenerator();
 
-  public static SortedSetRandomGenerator getInstance() {
-    return INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared generator.
+	 */
+	public static SortedSetRandomGenerator getInstance() {
+		return INSTANCE;
+	}
 
-  public Collection<Class<?>> getTypes() {
-    return Arrays.asList(TYPES);
-  }
+	public Collection<Class<?>> getTypes() {
+		return Arrays.asList(TYPES);
+	}
 
-  @Override
-  protected Collection getBasicInstance(Class<?> type) {
-    Helper.assertIsAssignableTo(type, getTypes());
-    return new TreeSet();
-  }
+	@Override
+	protected Collection<Object> getBasicInstance(Class<?> type) {
+		Helper.assertIsAssignableTo(type, getTypes());
+		return new TreeSet<>();
+	}
 
-  private SortedSetRandomGenerator() {
-  }
+	private SortedSetRandomGenerator() {
+	}
 }

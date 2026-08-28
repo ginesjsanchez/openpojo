@@ -19,25 +19,26 @@
   -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>org.gjs.java</groupId>
-        <artifactId>gjs-java-artifact-parent</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <artifactId>gjs-java-base-parent</artifactId>
+        <version>1.0.0-RC.2</version>
+        <relativePath/>
     </parent>
 
-    <groupId>org.gjs.java</groupId>
+    <groupId>org.gjs.java.tools</groupId>
     <artifactId>openpojo</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0-RC.2</version>
     <name>GJS Open Pojo</name>
 
-    <description>This project is an update to Java 21 from version 0.9.2-SNAPSHOT as it was on 04/12/2005.
+    <description>
+    This project is an update to Java 21 from version 0.9.2-SNAPSHOT as it was on 04/12/2025.
     This project was born out of a need to validate all POJOs (Plain Old Java Object) are behaving correctly.
     This project has two main aspects to it:
     * Make Testing as easy as possible.
     * Simplifying identity management (hashCode / equals) using annotation.
     </description>
-    <url>http://openpojo.com/</url>
+    <url>https://github.com/GJ-Soft/openpojo</url>
 
     <inceptionYear>2025</inceptionYear>
 
@@ -59,7 +60,10 @@
             </roles>
             <timezone>+1</timezone>         
         </developer>
-        <developer>
+    </developers>
+
+  	<contributors>
+       <contributor>
             <name>Osman Shoukry</name>
             <email>oshoukry at openpojo dot com</email>
             <roles>
@@ -67,10 +71,10 @@
                 <role>Developer</role>
             </roles>
             <timezone>-8</timezone>
-        </developer>
-    </developers>
-
-  	<contributors>
+            <properties>
+                <contribution>Author of the reference version 0.9.2. The credit for all the functionality belongs to him.</contribution>
+            </properties>
+        </contributor>
         <contributor>
             <name>David J. M. Karlsen</name>
             <email>davidkarlsen at gmail</email>
@@ -83,23 +87,26 @@
     </contributors>
 
     <scm>
-        <connection>scm:git:https://github.com/ginesjsanchez/openpojo/openpojo.git</connection>
-        <developerConnection>scm:git:https://github.com/ginesjsanchez/openpojo/openpojo.git</developerConnection>
-        <url>https://github.com/ginesjsanchez/openpojo</url>
+        <connection>scm:git:https://github.com/GJ-Soft/openpojo.git</connection>
+        <developerConnection>scm:git:https://github.com/GJ-Soft/openpojo.git</developerConnection>
+        <url>https://github.com/GJ-Soft/openpojo</url>
         <tag>HEAD</tag>
     </scm>
 
     <issueManagement>
         <system>GitHub Issues</system>
-        <url>https://github.com/ginesjsanchez/openpojo/issues</url>
+        <url>https://github.com/GJ-Soft/openpojo/issues</url>
     </issueManagement>
 
     <properties>
         <java.version>21</java.version>
         <jdk.target>${java.version}</jdk.target>
-        <maven.compiler.source>${java.version}</maven.compiler.source>
-        <maven.compiler.target>${java.version}</maven.compiler.target>
-  
+
+        <!-- The parent turns compiler warnings off (verbose=false, lint=none).
+             They are switched back on here: they are what guides the modernization. -->
+        <gjs.compiler.verbose>true</gjs.compiler.verbose>
+        <gjs.compiler.lint>all</gjs.compiler.lint>
+
         <encoding>UTF-8</encoding>
         <source.encoding>${encoding}</source.encoding>
         <resources.encoding>${encoding}</resources.encoding>
@@ -110,62 +117,58 @@
         <project.reporting.outputEncoding>${resources.encoding}</project.reporting.outputEncoding>
         <project.resources.sourceEncoding>${reporting.encoding}</project.resources.sourceEncoding>
   
+        <!-- Layout formatter profile. The parent leaves ${formatter.file} empty and
+             expects it on the command line; pinning it here makes plain
+             `mvn formatter:format` work. -->
+        <formatter.file>${project.basedir}/config/eclipse-formatter.xml</formatter.file>
+
+        <!-- Only the versions NOT managed by gjs-java-base-parent / gjs-parent.
+             commons-io, commons-lang3, junit-jupiter, mockito, slf4j, surefire and
+             jacoco are inherited: redeclaring them here silently pinned them. -->
         <asm.version>9.9</asm.version>
-        <coveralls-maven-plugin.version>4.3.0</coveralls-maven-plugin.version>
         <hamcrest.version>3.0</hamcrest.version>
-        <jacoco-maven-plugin.version>0.8.14</jacoco-maven-plugin.version>
-        <!--
-            <junit.version>6.0.1</junit.version>
-        -->
-        <log4j.version>2.25.2</log4j.version>
-        
-        <maven-deploy-plugin.version>3.1.4</maven-deploy-plugin.version>
-        <maven-javadoc-plugin.version>3.12.0</maven-javadoc-plugin.version>
-        <maven-release-plugin.version>3.2.0</maven-release-plugin.version>
-        <maven-source-plugin.version>3.4.0</maven-source-plugin.version>
-        <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
-        
-        <skipTests>false</skipTests>
-        <slf4j.version>2.0.17</slf4j.version>
-        <surefire.version>3.0.0</surefire.version>
         <testng.version>7.11.0</testng.version>
     </properties>
 
+    <!--
+      openpojo is consumed as a test library: everything it detects at runtime
+      (AffirmationFactory, ASMService) is provided + optional, so nothing is forced
+      onto the classpath of whoever uses it.
+    -->
     <dependencies>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>2.25.2</version>
-            <scope>provided</scope>
-            <optional>true</optional>
-        </dependency>
+        <!-- The only mandatory dependency: the logging API. openpojo ships NO binding;
+             the application supplies it. With no binding, SLF4J warns once and discards
+             the messages (NOP), which is the standard behaviour. -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
+        </dependency>
+
+        <!-- Assertions. AffirmationFactory uses JUnit when present and otherwise throws
+             a plain AssertionError, which every test framework reports as a failure.
+             junit-jupiter-api has to be declared: the parent injects it with test scope
+             and JUnitAssertAffirmation lives in src/main. -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>provided</scope>
+            <optional>true</optional>
+        </dependency>
+        <!-- A dependency of junit-jupiter-api; the parent forces it to test scope, and
+             without it javac floods the build with @Contract warnings. -->
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-commons</artifactId>
             <scope>provided</scope>
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-reload4j</artifactId>
-            <version>2.0.17</version>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
             <scope>provided</scope>
             <optional>true</optional>
         </dependency>
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest</artifactId>
-            <version>${hamcrest.version}</version>
-            <scope>test</scope>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>${testng.version}</version>
-            <scope>provided</scope>
-            <optional>true</optional>
-        </dependency>
+        <!-- Subclass generation for abstract types -->
         <dependency>
             <groupId>org.ow2.asm</groupId>
             <artifactId>asm</artifactId>
@@ -173,42 +176,39 @@
             <scope>provided</scope>
             <optional>true</optional>
         </dependency>
-        
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-        </dependency>
-        
-        <!-- JUnit is needed in compile -->
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <scope>compile</scope>
-        </dependency>
-                
+
         <!-- Test -->
         <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-junit-jupiter</artifactId>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest</artifactId>
+            <version>${hamcrest.version}</version>
+            <scope>test</scope>
         </dependency>
+        <!-- Test only: SystemUtils in FileSystemReaderTest, and as a package to scan
+             in PackageTest. -->
         <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- Test only: TestClassMustBeProperlyNamedRule recognises test classes by
+             their annotations, and the ATestNGClassEndsWithTest fixture needs the real
+             TestNG annotation. openpojo no longer provides TestNG assertions. -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>${testng.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- SLF4J binding for our own tests only. It also overrides the compile scope
+             gjs-java-base-parent injects it with: openpojo must not force any logging
+             implementation on its consumers. -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <repositories>
-        <repository>
-            <id>JBOSS</id>
-            <name>JBoss Repository</name>
-            <url>https://repository.jboss.org/nexus/content/repositories/public/</url>
-        </repository>
-    </repositories>
 
     <build>
         <testResources>
@@ -223,27 +223,22 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven-compiler-plugin.version}</version>
-                <configuration>
-                    <showDeprecation>true</showDeprecation>
-                    <compilerArgs>
-                        <arg>-proc:full</arg>
-                    </compilerArgs>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
                 <configuration>
-                    <arguments>-Psonatype-oss-release,openpojo-release</arguments>
+                    <!-- Profiles from gjs-java-base-parent: they attach the sources and
+                         javadoc jars. This used to name a home-grown openpojo-release
+                         profile duplicating them by hand, plus a sonatype-oss-release
+                         that no longer exists anywhere in the parent chain. -->
+                    <arguments>-Pattach-sources,attach-javadoc</arguments>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>${surefire.version}</version>
                 <configuration>
+                    <!-- testng is still on the test classpath because of the annotation
+                         fixture; this keeps surefire from picking it up as a provider
+                         alongside JUnit. -->
                     <testNGArtifactName>none:none</testNGArtifactName>
                     <argLine>@{argLine} -Xms1024m -Xmx1024m</argLine>
                 </configuration>
@@ -251,24 +246,61 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.1.2</version>
                 <configuration>
                     <archive>
                         <manifest>
                             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                         </manifest>
+                        <manifestEntries>
+                            <Automatic-Module-Name>com.openpojo</Automatic-Module-Name>
+                        </manifestEntries>
                     </archive>
                 </configuration>
             </plugin>
+            <!--
+              Full doclint: it demands both that the javadoc be correct (syntax, HTML,
+              references, @param/@return matching the signature) AND that it be complete
+              (a comment on every documentable member).
+
+              The code meets both: 0 warnings, 0 errors. Leaving it on 'all' is what
+              keeps it from decaying again.
+            -->
             <plugin>
-                <groupId>org.eluder.coveralls</groupId>
-                <artifactId>coveralls-maven-plugin</artifactId>
-                <version>${coveralls-maven-plugin.version}</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <doclint>all</doclint>
+                </configuration>
+            </plugin>
+            <!--
+              Import hygiene. Declared only to pin the group order the project already
+              uses (java / third party / com.openpojo / static); spotless's default
+              importOrder would flatten them into a single alphabetical list. The
+              execution inherited from the parent is disabled: like formatter:format,
+              this is run by hand with `mvn spotless:apply`, not on every build.
+            -->
+            <plugin>
+                <groupId>com.diffplug.spotless</groupId>
+                <artifactId>spotless-maven-plugin</artifactId>
+                <configuration>
+                    <java>
+                        <importOrder>
+                            <order>java,javax,,com.openpojo,\#</order>
+                        </importOrder>
+                        <endWithNewline/>
+                        <trimTrailingWhitespace/>
+                    </java>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>default</id>
+                        <phase>none</phase>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>${jacoco-maven-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>prepare-agent</id>
@@ -281,45 +313,10 @@
         </plugins>
     </build>
 
-    <profiles>
-        <profile>
-            <id>openpojo-release</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-deploy-plugin</artifactId>
-                        <version>${maven-deploy-plugin.version}</version>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-source-plugin</artifactId>
-                        <version>${maven-source-plugin.version}</version>
-                        <executions>
-                            <execution>
-                                <id>attach-sources</id>
-                                <goals>
-                                    <goal>jar-no-fork</goal>
-                            </goals>
-                            </execution>
-                        </executions>
-                  </plugin>
-                  <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>${maven-javadoc-plugin.version}</version>
-                        <executions>
-                            <execution>
-                                <id>attach-javadocs</id>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                         </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
+    <!--
+      No release profile of our own is needed: gjs-java-base-parent already ships the
+      attach-sources and attach-javadoc profiles, which attach the sources and javadoc
+      jars. See the maven-release-plugin configuration above.
+    -->
 
 </project>

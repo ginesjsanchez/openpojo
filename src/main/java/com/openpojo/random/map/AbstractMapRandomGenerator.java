@@ -30,27 +30,36 @@ import com.openpojo.random.util.Helper;
 import com.openpojo.random.util.SerializableComparableObject;
 
 /**
+ * Generates values for {@code AbstractMap}, returning a {@code HashMap} holding between 1 and 5 random entries.
+ *
  * @author oshoukry
  */
 public class AbstractMapRandomGenerator extends BaseMapRandomGenerator {
-  private static final Class<?>[] TYPES = new Class<?>[] { AbstractMap.class };
-  private static final AbstractMapRandomGenerator INSTANCE = new AbstractMapRandomGenerator();
+	private static final Class<?>[] TYPES = new Class<?>[]{AbstractMap.class};
+	private static final AbstractMapRandomGenerator INSTANCE = new AbstractMapRandomGenerator();
 
-  public static AbstractMapRandomGenerator getInstance() {
-    return INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared generator.
+	 */
+	public static AbstractMapRandomGenerator getInstance() {
+		return INSTANCE;
+	}
 
-  public Collection<Class<?>> getTypes() {
-    return Arrays.asList(TYPES);
-  }
+	public Collection<Class<?>> getTypes() {
+		return Arrays.asList(TYPES);
+	}
 
-  @Override
-  protected Map getBasicInstance(Class<?> type) {
-    Helper.assertIsAssignableTo(type, getTypes());
-    return MapHelper.buildMap(new HashMap(), SerializableComparableObject.class, SerializableComparableObject.class);
-  }
+	@Override
+	protected Map<Object, Object> getBasicInstance(Class<?> type) {
+		Helper.assertIsAssignableTo(type, getTypes());
+		return MapHelper.buildMap(new HashMap<>(), SerializableComparableObject.class,
+				SerializableComparableObject.class);
+	}
 
-  private AbstractMapRandomGenerator() {
-  }
+	private AbstractMapRandomGenerator() {
+	}
 
 }

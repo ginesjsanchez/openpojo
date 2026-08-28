@@ -19,7 +19,7 @@
 package com.openpojo.business.identity.impl;
 
 import org.junit.jupiter.api.Test;
-import org.testng.Assert;
+import org.junit.jupiter.api.Assertions;
 
 import com.openpojo.business.identity.HashCodeGenerator;
 import com.openpojo.business.identity.IdentityEvaluator;
@@ -46,7 +46,7 @@ public class DefaultIdentityEvaluatorTest {
 		Object firstPointer = new Object();
 		Object secondPointer = firstPointer;
 
-		Assert.assertEquals(true, defaultIdentityEvaluator.areEqual(firstPointer, secondPointer));
+		Assertions.assertEquals(true, defaultIdentityEvaluator.areEqual(firstPointer, secondPointer));
 	}
 
 	@Test
@@ -60,78 +60,78 @@ public class DefaultIdentityEvaluatorTest {
 	@Test
 	public void whenBusinessKeysAreOfEqualArrays_areEqualsIsTrue() {
 		StringArrayCaseSensitive firstInstance = new StringArrayCaseSensitive(
-				new String[] { "First", "Middle", "Last" });
+				new String[]{"First", "Middle", "Last"});
 		StringArrayCaseSensitive secondInstance = new StringArrayCaseSensitive(
-				new String[] { "First", "Middle", "Last" });
+				new String[]{"First", "Middle", "Last"});
 
-		Assert.assertTrue(defaultIdentityEvaluator.areEqual(firstInstance, secondInstance));
-		Assert.assertEquals(defaultHashCodeGenerator.doGenerate(firstInstance),
+		Assertions.assertTrue(defaultIdentityEvaluator.areEqual(firstInstance, secondInstance));
+		Assertions.assertEquals(defaultHashCodeGenerator.doGenerate(firstInstance),
 				defaultHashCodeGenerator.doGenerate(secondInstance));
 	}
 
 	@Test
 	public void whenBusinessKeysAreOfCaseInsensitiveArrays_thenPojosAreEqual() {
 		StringArrayCaseInsensitive firstInstance = new StringArrayCaseInsensitive(
-				new String[] { "fIrSt", "MiDdLe", "LaSt" });
+				new String[]{"fIrSt", "MiDdLe", "LaSt"});
 		StringArrayCaseInsensitive secondInstance = new StringArrayCaseInsensitive(
-				new String[] { "first", "middle", "last" });
-		Assert.assertTrue(defaultIdentityEvaluator.areEqual(firstInstance, secondInstance));
-		Assert.assertEquals(defaultHashCodeGenerator.doGenerate(firstInstance),
+				new String[]{"first", "middle", "last"});
+		Assertions.assertTrue(defaultIdentityEvaluator.areEqual(firstInstance, secondInstance));
+		Assertions.assertEquals(defaultHashCodeGenerator.doGenerate(firstInstance),
 				defaultHashCodeGenerator.doGenerate(secondInstance));
 	}
 
 	@Test
 	public void whenBusinessKeysAreOfCaseInsensitiveArraysOfArrays_thenPojosAreEqual() {
 		StringArrayOfArrayCaseInsensitive firstInstance = new StringArrayOfArrayCaseInsensitive(
-				new String[][] { { "first" }, { "middle" }, { "last" } });
+				new String[][]{{"first"}, {"middle"}, {"last"}});
 		StringArrayOfArrayCaseInsensitive secondInstance = new StringArrayOfArrayCaseInsensitive(
-				new String[][] { { "first" }, { "middle" }, { "last" } });
-		Assert.assertTrue(defaultIdentityEvaluator.areEqual(firstInstance, secondInstance));
-		Assert.assertEquals(defaultHashCodeGenerator.doGenerate(firstInstance),
+				new String[][]{{"first"}, {"middle"}, {"last"}});
+		Assertions.assertTrue(defaultIdentityEvaluator.areEqual(firstInstance, secondInstance));
+		Assertions.assertEquals(defaultHashCodeGenerator.doGenerate(firstInstance),
 				defaultHashCodeGenerator.doGenerate(secondInstance));
 	}
 
 	@Test
 	public void whenArraysOfNonEqualLength_thenPojosAreNotEqual() {
-		StringArrayCaseSensitive firstInstance = new StringArrayCaseSensitive(new String[] { "First", "Second" });
-		StringArrayCaseSensitive secondInstance = new StringArrayCaseSensitive(new String[] { "First" });
-		Assert.assertFalse(defaultIdentityEvaluator.areEqual(firstInstance, secondInstance));
-		Assert.assertFalse(defaultHashCodeGenerator.doGenerate(firstInstance) == defaultHashCodeGenerator
+		StringArrayCaseSensitive firstInstance = new StringArrayCaseSensitive(new String[]{"First", "Second"});
+		StringArrayCaseSensitive secondInstance = new StringArrayCaseSensitive(new String[]{"First"});
+		Assertions.assertFalse(defaultIdentityEvaluator.areEqual(firstInstance, secondInstance));
+		Assertions.assertFalse(defaultHashCodeGenerator.doGenerate(firstInstance) == defaultHashCodeGenerator
 				.doGenerate(secondInstance));
 	}
 
 	@Test
 	public void whenBusinessKeysAreOfEqualArraysOfArrays_areEqualsIsTrue() {
 		StringArrayOfArrayCaseSensitive firstInstance = new StringArrayOfArrayCaseSensitive(
-				new String[][] { { "First" }, { "Middle" }, { "Last" } });
+				new String[][]{{"First"}, {"Middle"}, {"Last"}});
 		StringArrayOfArrayCaseSensitive secondInstance = new StringArrayOfArrayCaseSensitive(
-				new String[][] { { "First" }, { "Middle" }, { "Last" } });
+				new String[][]{{"First"}, {"Middle"}, {"Last"}});
 
-		Assert.assertTrue(defaultIdentityEvaluator.areEqual(firstInstance, secondInstance));
-		Assert.assertEquals(defaultHashCodeGenerator.doGenerate(firstInstance),
+		Assertions.assertTrue(defaultIdentityEvaluator.areEqual(firstInstance, secondInstance));
+		Assertions.assertEquals(defaultHashCodeGenerator.doGenerate(firstInstance),
 				defaultHashCodeGenerator.doGenerate(secondInstance));
 	}
 
 	@Test
 	public void whenEmptyArray_hashCodeIsOne() {
-		StringArrayCaseSensitive instance = new StringArrayCaseSensitive(new String[] {});
-		Assert.assertEquals(32, defaultHashCodeGenerator.doGenerate(instance));
+		StringArrayCaseSensitive instance = new StringArrayCaseSensitive(new String[]{});
+		Assertions.assertEquals(32, defaultHashCodeGenerator.doGenerate(instance));
 	}
 
 	@Test
 	public void emptyArrayHashCode_isNotSameAsNullHashCode() {
-		StringArrayCaseSensitive instance = new StringArrayCaseSensitive(new String[] { null });
-		Assert.assertEquals(63, defaultHashCodeGenerator.doGenerate(instance));
+		StringArrayCaseSensitive instance = new StringArrayCaseSensitive(new String[]{null});
+		Assertions.assertEquals(63, defaultHashCodeGenerator.doGenerate(instance));
 	}
 
 	@Test
 	public void caseInsensitiveArraysHaveTheSameHashCode() {
 		StringArrayCaseInsensitive firstInstance = new StringArrayCaseInsensitive(
-				new String[] { "fIrSt", "MiDdLe", "LaSt" });
+				new String[]{"fIrSt", "MiDdLe", "LaSt"});
 		StringArrayCaseInsensitive secondInstance = new StringArrayCaseInsensitive(
-				new String[] { "first", "middle", "last" });
+				new String[]{"first", "middle", "last"});
 
-		Assert.assertEquals(defaultHashCodeGenerator.doGenerate(firstInstance),
+		Assertions.assertEquals(defaultHashCodeGenerator.doGenerate(firstInstance),
 				defaultHashCodeGenerator.doGenerate(secondInstance));
 
 	}

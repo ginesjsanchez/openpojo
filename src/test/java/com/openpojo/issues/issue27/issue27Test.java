@@ -18,8 +18,6 @@
 
 package com.openpojo.issues.issue27;
 
-import static org.junit.jupiter.api.Assertions.fail;
-
 import org.junit.jupiter.api.Test;
 
 import com.openpojo.issues.issue27.sample.ClassWithIntegerFieldAndPrimitiveIntParameterSetter;
@@ -32,6 +30,8 @@ import com.openpojo.validation.Validator;
 import com.openpojo.validation.ValidatorBuilder;
 import com.openpojo.validation.rule.impl.GetterMustExistRule;
 import com.openpojo.validation.rule.impl.SetterMustExistRule;
+
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author oshoukry

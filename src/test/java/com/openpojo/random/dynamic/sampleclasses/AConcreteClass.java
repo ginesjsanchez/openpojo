@@ -23,7 +23,7 @@ package com.openpojo.random.dynamic.sampleclasses;
  */
 public class AConcreteClass {
 
-  public void doSomething() {
+	public void doSomething() {
 
-  }
+	}
 }

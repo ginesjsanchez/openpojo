@@ -23,7 +23,7 @@ package com.openpojo.reflection.impl.sample.classes;
  */
 @SuppressWarnings("unused")
 public abstract class AClassWithAbstractGetter {
-  private String someString;
+	private String someString;
 
-  public abstract String getSomeString();
+	public abstract String getSomeString();
 }

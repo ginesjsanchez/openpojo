@@ -150,7 +150,7 @@ class PojoFieldImpl implements PojoField {
 
 	@Override
 	public List<Type> getParameterTypes() {
-		List<Type> genericTypes = new LinkedList<Type>();
+		List<Type> genericTypes = new LinkedList<>();
 		if (isParameterized())
 			Collections.addAll(genericTypes, Resolver.getParameterTypes(field.getGenericType()));
 		else if (isArray())

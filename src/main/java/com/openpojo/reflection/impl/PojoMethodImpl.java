@@ -35,6 +35,8 @@ import com.openpojo.reflection.PojoParameter;
 import com.openpojo.reflection.exception.ReflectionException;
 
 /**
+ * Implementation of {@code PojoMethod} over a {@code Method} or a {@code Constructor} from the Java reflection API.
+ *
  * @author oshoukry
  */
 public class PojoMethodImpl implements PojoMethod {
@@ -107,7 +109,7 @@ public class PojoMethodImpl implements PojoMethod {
 
 	@Override
 	public List<PojoParameter> getPojoParameters() {
-		List<PojoParameter> parameters = new ArrayList<PojoParameter>();
+		List<PojoParameter> parameters = new ArrayList<>();
 
 		Annotation[][] parameterAnnotations;
 		Type[] parameterTypes;

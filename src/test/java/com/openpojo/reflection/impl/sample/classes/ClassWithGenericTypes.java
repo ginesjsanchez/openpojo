@@ -26,17 +26,16 @@ import java.util.Map;
  */
 public class ClassWithGenericTypes {
 
-  @SuppressWarnings("unused")
-  private List<ClassWithGenericTypes> parameterizedChildren;
+	@SuppressWarnings("unused")
+	private List<ClassWithGenericTypes> parameterizedChildren;
 
-  @SuppressWarnings("unused")
-  private Map<String, Integer> parameterizedMap;
+	@SuppressWarnings("unused")
+	private Map<String, Integer> parameterizedMap;
 
-  @SuppressWarnings({ "unused", "rawtypes" })
-  private List nonparameterizedList;
+	@SuppressWarnings({"unused", "rawtypes"})
+	private List nonparameterizedList;
 
-  @SuppressWarnings("unused")
-  private String nonParameterizedString;
-
+	@SuppressWarnings("unused")
+	private String nonParameterizedString;
 
 }

@@ -24,18 +24,18 @@ import com.openpojo.reflection.impl.PojoClassFactory;
  * @author oshoukry
  */
 class DefaultStringanizer {
-  private static DefaultStringanizer instance = new DefaultStringanizer();
+	private static DefaultStringanizer instance = new DefaultStringanizer();
 
-  private DefaultStringanizer() {
-  }
+	private DefaultStringanizer() {
+	}
 
-  public static DefaultStringanizer getInstance() {
-    return instance;
-  }
+	public static DefaultStringanizer getInstance() {
+		return instance;
+	}
 
-  public String toString(Object object) {
-    if (object == null)
-      return "null";
-    return PojoClassFactory.getPojoClass(object.getClass()).toString(object);
-  }
+	public String toString(Object object) {
+		if (object == null)
+			return "null";
+		return PojoClassFactory.getPojoClass(object.getClass()).toString(object);
+	}
 }

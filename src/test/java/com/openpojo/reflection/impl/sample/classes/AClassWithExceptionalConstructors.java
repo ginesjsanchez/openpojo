@@ -23,11 +23,11 @@ package com.openpojo.reflection.impl.sample.classes;
  */
 public class AClassWithExceptionalConstructors {
 
-  public AClassWithExceptionalConstructors() {
-    throw new RuntimeException("construction not allowed using no params");
-  }
+	public AClassWithExceptionalConstructors() {
+		throw new RuntimeException("construction not allowed using no params");
+	}
 
-  public AClassWithExceptionalConstructors(final String oneParam) {
-    throw new RuntimeException("construction not allowed using String param");
-  }
+	public AClassWithExceptionalConstructors(final String oneParam) {
+		throw new RuntimeException("construction not allowed using String param");
+	}
 }

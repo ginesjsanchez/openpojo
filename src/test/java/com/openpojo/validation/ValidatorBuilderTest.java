@@ -18,8 +18,6 @@
 
 package com.openpojo.validation;
 
-import static org.junit.jupiter.api.Assertions.fail;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -30,6 +28,8 @@ import com.openpojo.reflection.impl.PojoClassFactory;
 import com.openpojo.validation.exception.ValidationException;
 import com.openpojo.validation.rule.Rule;
 import com.openpojo.validation.test.Tester;
+
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author oshoukry
@@ -58,7 +58,7 @@ public class ValidatorBuilderTest {
 
 	@Test
 	public void withRules_ignoresNullArrayEntries() {
-		ValidatorBuilder validatorBuilder = ValidatorBuilder.create().with(new Rule[] { null, null });
+		ValidatorBuilder validatorBuilder = ValidatorBuilder.create().with(new Rule[]{null, null});
 		Assertions.assertEquals(0, validatorBuilder.getRules().size());
 	}
 
@@ -77,7 +77,7 @@ public class ValidatorBuilderTest {
 
 	@Test
 	public void withTesters_ignoresNullArrayEntries() {
-		ValidatorBuilder validatorBuilder = ValidatorBuilder.create().with(new Tester[] { null, null });
+		ValidatorBuilder validatorBuilder = ValidatorBuilder.create().with(new Tester[]{null, null});
 		Assertions.assertEquals(0, validatorBuilder.getTesters().size());
 	}
 

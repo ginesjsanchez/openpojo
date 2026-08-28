@@ -21,13 +21,38 @@ package com.openpojo.reflection.java.type;
 import java.lang.reflect.Type;
 
 /**
+ * Resolves a specific {@code Type} from the Java reflection API to its effective type and its parameters.
+ *
+ * @param <T>
+ *     The kind of {@code Type} this implementation knows how to handle.
  * @author oshoukry
  */
 public interface TypeResolver<T extends Type> {
 
-  Type resolveType(T type);
+	/**
+	 * Resolves the type to its effective form.
+	 *
+	 * @param type
+	 *     The type to resolve.
+	 * @return the resolved type.
+	 */
+	Type resolveType(T type);
 
-  Type getEnclosingType(T type);
+	/**
+	 * The type enclosing the given one, for instance the raw type of a parameterized one.
+	 *
+	 * @param type
+	 *     The type to inspect.
+	 * @return the enclosing type.
+	 */
+	Type getEnclosingType(T type);
 
-  Type[] getParameterTypes(T type);
+	/**
+	 * The type arguments of the given type.
+	 *
+	 * @param type
+	 *     The type to inspect.
+	 * @return its parameters, empty if it has none.
+	 */
+	Type[] getParameterTypes(T type);
 }

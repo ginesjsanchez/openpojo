@@ -19,6 +19,8 @@
 package com.openpojo.reflection;
 
 /**
+ * A parameter of a method or constructor, with its type (possibly parameterized) and its annotations.
+ *
  * @author oshoukry
  */
 public interface PojoParameter extends Parameterizable, Annotatable {

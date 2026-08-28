@@ -29,35 +29,47 @@ import com.openpojo.random.util.Helper;
 import com.openpojo.reflection.Parameterizable;
 
 /**
+ * Generates a {@code DelayQueue}. Its elements are {@code ComparableDelayed}, because {@code DelayQueue} bounds its
+ * element type to {@code Delayed}.
+ *
  * @author oshoukry
  */
 public class DelayQueueRandomGenerator extends BaseCollectionRandomGenerator {
-  private static final Class<?>[] TYPES = new Class<?>[] { DelayQueue.class };
-  private static final DelayQueueRandomGenerator INSTANCE = new DelayQueueRandomGenerator();
+	private static final Class<?>[] TYPES = new Class<?>[]{DelayQueue.class};
+	private static final DelayQueueRandomGenerator INSTANCE = new DelayQueueRandomGenerator();
 
-  public static DelayQueueRandomGenerator getInstance() {
-    return INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared generator.
+	 */
+	public static DelayQueueRandomGenerator getInstance() {
+		return INSTANCE;
+	}
 
-  public Collection doGenerate(Class<?> type) {
-    return CollectionHelper.buildCollections(getBasicInstance(type), ComparableDelayed.class);
-  }
+	@Override
+	public Collection<Object> doGenerate(Class<?> type) {
+		return CollectionHelper.buildCollections(getBasicInstance(type), ComparableDelayed.class);
+	}
 
-  public Collection doGenerate(Parameterizable parameterizedType) {
-    return CollectionHelper.buildCollections(getBasicInstance(parameterizedType.getType()),
-        parameterizedType.getParameterTypes().get(0));
-  }
+	@Override
+	public Collection<Object> doGenerate(Parameterizable parameterizedType) {
+		return CollectionHelper.buildCollections(getBasicInstance(parameterizedType.getType()),
+				parameterizedType.getParameterTypes().get(0));
+	}
 
-  public Collection<Class<?>> getTypes() {
-    return Arrays.asList(TYPES);
-  }
+	@Override
+	public Collection<Class<?>> getTypes() {
+		return Arrays.asList(TYPES);
+	}
 
-  @Override
-  protected Collection getBasicInstance(Class<?> type) {
-    Helper.assertIsAssignableTo(type, getTypes());
-    return new DelayQueue();
-  }
+	@Override
+	protected Collection<Object> getBasicInstance(Class<?> type) {
+		Helper.assertIsAssignableTo(type, getTypes());
+		return CollectionHelper.asCollection(new DelayQueue<>());
+	}
 
-  private DelayQueueRandomGenerator() {
-  }
+	private DelayQueueRandomGenerator() {
+	}
 }

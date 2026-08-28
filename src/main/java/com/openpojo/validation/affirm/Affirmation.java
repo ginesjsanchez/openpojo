@@ -19,20 +19,81 @@
 package com.openpojo.validation.affirm;
 
 /**
+ * Abstraction over the assertions of whichever test framework is present, so that openpojo fails the way that
+ * framework expects.
+ *
  * @author oshoukry
  */
 public interface Affirmation {
-  void fail(final String message);
+	/**
+	 * Always fails, with the given message.
+	 *
+	 * @param message
+	 *     Text to show.
+	 */
+	void fail(final String message);
 
-  void affirmTrue(final String message, final boolean condition);
+	/**
+	 * Fails if the condition is false.
+	 *
+	 * @param message
+	 *     Text to show if it fails.
+	 * @param condition
+	 *     The condition expected to be true.
+	 */
+	void affirmTrue(final String message, final boolean condition);
 
-  void affirmFalse(final String message, final boolean condition);
+	/**
+	 * Fails if the condition is true.
+	 *
+	 * @param message
+	 *     Text to show if it fails.
+	 * @param condition
+	 *     The condition expected to be false.
+	 */
+	void affirmFalse(final String message, final boolean condition);
 
-  void affirmNotNull(final String message, final Object object);
+	/**
+	 * Fails if the object is {@code null}.
+	 *
+	 * @param message
+	 *     Text to show if it fails.
+	 * @param object
+	 *     The object that must not be null.
+	 */
+	void affirmNotNull(final String message, final Object object);
 
-  void affirmNull(final String message, final Object object);
+	/**
+	 * Fails if the object is not {@code null}.
+	 *
+	 * @param message
+	 *     Text to show if it fails.
+	 * @param object
+	 *     The object that must be null.
+	 */
+	void affirmNull(final String message, final Object object);
 
-  void affirmEquals(final String message, final Object expected, final Object actual);
+	/**
+	 * Fails if the two values are not equal.
+	 *
+	 * @param message
+	 *     Text to show if it fails.
+	 * @param expected
+	 *     The expected value.
+	 * @param actual
+	 *     The actual value.
+	 */
+	void affirmEquals(final String message, final Object expected, final Object actual);
 
-  void affirmSame(final String message, final Object first, final Object second);
+	/**
+	 * Fails if they are not the same instance, comparing by reference.
+	 *
+	 * @param message
+	 *     Text to show if it fails.
+	 * @param first
+	 *     The first reference.
+	 * @param second
+	 *     The second reference.
+	 */
+	void affirmSame(final String message, final Object first, final Object second);
 }

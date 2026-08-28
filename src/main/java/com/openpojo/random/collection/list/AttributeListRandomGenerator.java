@@ -20,6 +20,7 @@ package com.openpojo.random.collection.list;
 
 import java.util.Arrays;
 import java.util.Collection;
+
 import javax.management.Attribute;
 import javax.management.AttributeList;
 
@@ -28,25 +29,35 @@ import com.openpojo.random.collection.util.CollectionHelper;
 import com.openpojo.random.util.Helper;
 
 /**
+ * Generates a {@code javax.management.AttributeList} holding random {@code Attribute} entries.
+ *
  * @author oshoukry
  */
 public class AttributeListRandomGenerator implements RandomGenerator {
-  private static final Class<?>[] TYPES = new Class<?>[] { AttributeList.class };
-  private static final AttributeListRandomGenerator INSTANCE = new AttributeListRandomGenerator();
+	private static final Class<?>[] TYPES = new Class<?>[]{AttributeList.class};
+	private static final AttributeListRandomGenerator INSTANCE = new AttributeListRandomGenerator();
 
-  public static AttributeListRandomGenerator getInstance() {
-    return INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared generator.
+	 */
+	public static AttributeListRandomGenerator getInstance() {
+		return INSTANCE;
+	}
 
-  public Collection<Class<?>> getTypes() {
-    return Arrays.asList(TYPES);
-  }
+	@Override
+	public Collection<Class<?>> getTypes() {
+		return Arrays.asList(TYPES);
+	}
 
-  public Collection doGenerate(Class<?> type) {
-    Helper.assertIsAssignableTo(type, getTypes());
-    return CollectionHelper.buildCollections(new AttributeList(), Attribute.class);
-  }
+	@Override
+	public Collection<Object> doGenerate(Class<?> type) {
+		Helper.assertIsAssignableTo(type, getTypes());
+		return CollectionHelper.buildCollections(new AttributeList(), Attribute.class);
+	}
 
-  private AttributeListRandomGenerator() {
-  }
+	private AttributeListRandomGenerator() {
+	}
 }

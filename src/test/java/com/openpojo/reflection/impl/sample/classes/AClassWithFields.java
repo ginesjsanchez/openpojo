@@ -23,7 +23,7 @@ package com.openpojo.reflection.impl.sample.classes;
  */
 public class AClassWithFields {
 
-  @SuppressWarnings("unused")
-  private String someString;
+	@SuppressWarnings("unused")
+	private String someString;
 
 }

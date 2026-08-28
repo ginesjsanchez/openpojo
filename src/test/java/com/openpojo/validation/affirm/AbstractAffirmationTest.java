@@ -18,14 +18,14 @@
 
 package com.openpojo.validation.affirm;
 
-import static org.junit.jupiter.api.Assertions.fail;
-
 import java.util.LinkedList;
 import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author oshoukry
@@ -192,8 +192,8 @@ public abstract class AbstractAffirmationTest {
 	@Test
 	public void shouldFailWhenArraysNotEqualSizes() {
 		try {
-			byte[] expected = new byte[] { (byte) 0xaa, (byte) 0xbb, (byte) 0xcc };
-			byte[] actual = new byte[] { (byte) 0xaa };
+			byte[] expected = new byte[]{(byte) 0xaa, (byte) 0xbb, (byte) 0xcc};
+			byte[] actual = new byte[]{(byte) 0xaa};
 			Affirm.affirmEquals("Should fail due to size", expected, actual);
 			fail("Exception expected");
 		} catch (java.lang.AssertionError e) {
@@ -204,7 +204,7 @@ public abstract class AbstractAffirmationTest {
 
 	@Test
 	public void whenArrayIsClonedEqualityShouldPass() {
-		byte[] expected = new byte[] { (byte) 0xaa, (byte) 0xbb, (byte) 0xcc };
+		byte[] expected = new byte[]{(byte) 0xaa, (byte) 0xbb, (byte) 0xcc};
 		byte[] actual = expected.clone();
 		Affirm.affirmEquals("Array clone should be equal", expected, actual);
 
@@ -213,8 +213,8 @@ public abstract class AbstractAffirmationTest {
 	@Test
 	public void shouldFailWhenArrayItemMismatch() {
 		try {
-			byte[] expected = new byte[] { (byte) 0xaa, (byte) 0xbb, (byte) 0xcc };
-			byte[] actual = new byte[] { (byte) 0xaa, (byte) 0xbb, (byte) 0xdd };
+			byte[] expected = new byte[]{(byte) 0xaa, (byte) 0xbb, (byte) 0xcc};
+			byte[] actual = new byte[]{(byte) 0xaa, (byte) 0xbb, (byte) 0xdd};
 			Affirm.affirmEquals("Should fail due to element mismatch", expected, actual);
 			fail("Exception expected");
 		} catch (java.lang.AssertionError e) {
@@ -226,7 +226,7 @@ public abstract class AbstractAffirmationTest {
 	@Test
 	public void shouldNotFailWhenArrayIsNull() {
 		try {
-			byte[] expected = new byte[] { (byte) 0xaa, (byte) 0xbb, (byte) 0xcc };
+			byte[] expected = new byte[]{(byte) 0xaa, (byte) 0xbb, (byte) 0xcc};
 			Affirm.affirmEquals("Should not fail due to null", expected, null);
 			fail("Exception expected");
 		} catch (java.lang.AssertionError e) {

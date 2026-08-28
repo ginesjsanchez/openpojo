@@ -96,6 +96,9 @@ import com.openpojo.reflection.service.PojoClassLookupService;
 import com.openpojo.reflection.service.impl.DefaultPojoClassLookupService;
 
 /**
+ * Central registry of the openpojo services and of every predefined random generator. This is where the default
+ * behaviour is replaced or extended.
+ *
  * @author oshoukry
  */
 public class ServiceRegistrar {
@@ -113,6 +116,9 @@ public class ServiceRegistrar {
 		setPojoCoverageFilterService(PojoCoverageFilterServiceFactory.configureAndGetPojoCoverageFilterService());
 	}
 
+	/**
+	 * Rebuilds the generator registry leaving only the predefined ones. Useful to undo generators added from outside.
+	 */
 	public void initializeRandomGeneratorService() {
 
 		final RandomGeneratorService newRandomGeneratorService = new DefaultRandomGeneratorService();
@@ -207,30 +213,66 @@ public class ServiceRegistrar {
 		setRandomGeneratorService(newRandomGeneratorService);
 	}
 
+	/**
+	 * Puts the class lookup service back to its default implementation.
+	 */
 	public void initializePojoClassLookupService() {
 		pojoClassLookupService = new DefaultPojoClassLookupService();
 	}
 
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared instance.
+	 */
 	public static ServiceRegistrar getInstance() {
 		return Instance.INSTANCE;
 	}
 
+	/**
+	 * Replaces the generator service.
+	 *
+	 * @param randomGeneratorService
+	 *     The service to use from now on.
+	 */
 	public void setRandomGeneratorService(final RandomGeneratorService randomGeneratorService) {
 		this.randomGeneratorService = randomGeneratorService;
 	}
 
+	/**
+	 * The service working out which generator serves each type.
+	 *
+	 * @return the registered service.
+	 */
 	public RandomGeneratorService getRandomGeneratorService() {
 		return randomGeneratorService;
 	}
 
+	/**
+	 * The class lookup service in use.
+	 *
+	 * @return the registered service.
+	 */
 	public PojoClassLookupService getPojoClassLookupService() {
 		return pojoClassLookupService;
 	}
 
+	/**
+	 * The service filtering out whatever the coverage tools inject.
+	 *
+	 * @return the registered service.
+	 */
 	public PojoCoverageFilterService getPojoCoverageFilterService() {
 		return pojoCoverageFilterService;
 	}
 
+	/**
+	 * Replaces the coverage service.
+	 *
+	 * @param pojoCoverageFilterService
+	 *     The service to use from now on.
+	 */
 	public void setPojoCoverageFilterService(PojoCoverageFilterService pojoCoverageFilterService) {
 		this.pojoCoverageFilterService = pojoCoverageFilterService;
 	}

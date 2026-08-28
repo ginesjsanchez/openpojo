@@ -30,54 +30,65 @@ import com.openpojo.reflection.PojoParameter;
 import com.openpojo.reflection.java.type.Resolver;
 
 /**
+ * Implementacion de {@code PojoParameter}.
+ *
  * @author oshoukry
  */
 public class PojoParameterImpl implements PojoParameter {
 
-  private final Type type;
-  private final List<? extends Annotation> annotations;
+	private final Type type;
+	private final List<? extends Annotation> annotations;
 
-  public PojoParameterImpl(Type type, Annotation[] annotations) {
-    this.type = type;
-    List<Annotation> tmpAnnotations = new ArrayList<Annotation>();
-    if (annotations != null) {
-      for (Annotation entry : annotations) {
-        if (entry != null)
-          tmpAnnotations.add(entry);
-      }
-    }
-    this.annotations = Collections.unmodifiableList(tmpAnnotations);
-  }
+	/**
+	 * Builds the abstraction of a parameter.
+	 *
+	 * @param type
+	 *     The declared type of the parameter.
+	 * @param annotations
+	 *     The annotations on the parameter.
+	 */
+	public PojoParameterImpl(Type type, Annotation[] annotations) {
+		this.type = type;
+		List<Annotation> tmpAnnotations = new ArrayList<>();
+		if (annotations != null) {
+			for (Annotation entry : annotations) {
+				if (entry != null)
+					tmpAnnotations.add(entry);
+			}
+		}
+		this.annotations = Collections.unmodifiableList(tmpAnnotations);
+	}
 
-  public List<? extends Annotation> getAnnotations() {
-    return annotations;
-  }
+	public List<? extends Annotation> getAnnotations() {
+		return annotations;
+	}
 
-  @SuppressWarnings("unchecked")
-  public <T extends Annotation> T getAnnotation(Class<T> annotationClass) {
+	@SuppressWarnings("unchecked")
+	public <T extends Annotation> T getAnnotation(Class<T> annotationClass) {
 
-    for (Annotation entry : annotations) {
-      if (entry.annotationType().equals(annotationClass)) {
-        return (T) entry;
-      }
-    }
-    return null;
-  }
+		for (Annotation entry : annotations) {
+			if (entry.annotationType().equals(annotationClass)) {
+				return (T) entry;
+			}
+		}
+		return null;
+	}
 
-  public Class<?> getType() {
-    return (Class<?>) Resolver.getEnclosingType(type);
-  }
+	public Class<?> getType() {
+		return (Class<?>) Resolver.getEnclosingType(type);
+	}
 
-  public boolean isParameterized() {
-    return (type instanceof ParameterizedType);
-  }
+	public boolean isParameterized() {
+		return (type instanceof ParameterizedType);
+	}
 
-  public List<Type> getParameterTypes() {
-    return Arrays.asList(Resolver.getParameterTypes(type));
-  }
+	public List<Type> getParameterTypes() {
+		return Arrays.asList(Resolver.getParameterTypes(type));
+	}
 
-  @Override
-  public String toString() {
-    return String.format("%s [@%s: Type=%s, Annotations=%s]", this.getClass().getName(), this.hashCode(), type, annotations);
-  }
+	@Override
+	public String toString() {
+		return String.format("%s [@%s: Type=%s, Annotations=%s]", this.getClass().getName(), this.hashCode(), type,
+				annotations);
+	}
 }

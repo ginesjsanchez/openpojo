@@ -25,21 +25,35 @@ import com.openpojo.reflection.PojoClass;
 import com.openpojo.reflection.adapt.PojoClassAdapter;
 
 /**
+ * Composite adapter: chains the adapters of every detected coverage tool, applying them one after another.
+ *
  * @author oshoukry
  */
 public class PojoClassCoverageAdapter implements PojoClassAdapter {
-  private Set<PojoClassAdapter> adapters = new HashSet<PojoClassAdapter>();
+	private Set<PojoClassAdapter> adapters = new HashSet<>();
 
-  public void add(PojoClassAdapter pojoClassAdapter) {
-    if (pojoClassAdapter != null) {
-      adapters.add(pojoClassAdapter);
-    }
-  }
+	/**
+	 * Adds an adapter to the chain; nulls are ignored.
+	 *
+	 * @param pojoClassAdapter
+	 *     The adapter to chain.
+	 */
+	public void add(PojoClassAdapter pojoClassAdapter) {
+		if (pojoClassAdapter != null) {
+			adapters.add(pojoClassAdapter);
+		}
+	}
 
-  public PojoClass adapt(PojoClass pojoClass) {
-    PojoClass adaptedPojoClass = pojoClass;
-    for (PojoClassAdapter adapter : adapters)
-      adaptedPojoClass = adapter.adapt(adaptedPojoClass);
-    return adaptedPojoClass;
-  }
+	public PojoClass adapt(PojoClass pojoClass) {
+		PojoClass adaptedPojoClass = pojoClass;
+		for (PojoClassAdapter adapter : adapters)
+			adaptedPojoClass = adapter.adapt(adaptedPojoClass);
+		return adaptedPojoClass;
+	}
+
+	/**
+	 * Creates an instance ready to use.
+	 */
+	public PojoClassCoverageAdapter() {
+	}
 }

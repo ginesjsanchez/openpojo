@@ -31,37 +31,47 @@ import com.openpojo.validation.test.Tester;
 import com.openpojo.validation.utils.ValidationHelper;
 
 /**
+ * Default implementation of {@code Validator}: applies the configured rules to each class and then the testers.
+ *
  * @author oshoukry
  */
 public class DefaultValidator implements Validator {
-  private final List<Rule> rules = new LinkedList<Rule>();
-  private final List<Tester> testers = new LinkedList<Tester>();
+	private final List<Rule> rules = new LinkedList<>();
+	private final List<Tester> testers = new LinkedList<>();
 
-  public DefaultValidator(List<Rule> rules, List<Tester> testers) {
-    this.rules.addAll(rules);
-    this.testers.addAll(testers);
-  }
+	/**
+	 * Builds the validator with the rules and testers to apply.
+	 *
+	 * @param rules
+	 *     The structural rules.
+	 * @param testers
+	 *     The behavioural testers.
+	 */
+	public DefaultValidator(List<Rule> rules, List<Tester> testers) {
+		this.rules.addAll(rules);
+		this.testers.addAll(testers);
+	}
 
-  public void validate(PojoClass pojoClass) {
-    ValidationHelper.runValidation(pojoClass, this.rules, this.testers);
-  }
+	public void validate(PojoClass pojoClass) {
+		ValidationHelper.runValidation(pojoClass, this.rules, this.testers);
+	}
 
-  public void validate(List<PojoClass> pojoClasses) {
-    for (PojoClass pojoClass : pojoClasses)
-      validate(pojoClass);
-  }
+	public void validate(List<PojoClass> pojoClasses) {
+		for (PojoClass pojoClass : pojoClasses)
+			validate(pojoClass);
+	}
 
-  public List<PojoClass> validate(String packageName, PojoClassFilter... filters) {
-    PojoClassFilter pojoClassFilter = new FilterChain(filters);
-    List<PojoClass> pojoClasses = PojoClassFactory.getPojoClasses(packageName, pojoClassFilter);
-    validate(pojoClasses);
-    return pojoClasses;
-  }
+	public List<PojoClass> validate(String packageName, PojoClassFilter... filters) {
+		PojoClassFilter pojoClassFilter = new FilterChain(filters);
+		List<PojoClass> pojoClasses = PojoClassFactory.getPojoClasses(packageName, pojoClassFilter);
+		validate(pojoClasses);
+		return pojoClasses;
+	}
 
-  public List<PojoClass> validateRecursively(String packageName, PojoClassFilter... filters) {
-    PojoClassFilter pojoClassFilter = new FilterChain(filters);
-    List<PojoClass> pojoClasses = PojoClassFactory.getPojoClassesRecursively(packageName, pojoClassFilter);
-    validate(pojoClasses);
-    return pojoClasses;
-  }
+	public List<PojoClass> validateRecursively(String packageName, PojoClassFilter... filters) {
+		PojoClassFilter pojoClassFilter = new FilterChain(filters);
+		List<PojoClass> pojoClasses = PojoClassFactory.getPojoClassesRecursively(packageName, pojoClassFilter);
+		validate(pojoClasses);
+		return pojoClasses;
+	}
 }

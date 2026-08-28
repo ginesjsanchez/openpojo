@@ -23,19 +23,30 @@ import java.util.Collection;
 import com.openpojo.random.exception.RandomGeneratorException;
 
 /**
+ * Checks shared by the generators, such as verifying that the requested type is one of those the generator declares
+ * it handles.
+ *
  * @author oshoukry
  */
 public class Helper {
 
-  public static void assertIsAssignableTo(Class<?> type, Collection<Class<?>> knownTypes) {
-    for (Class<?> knownType : knownTypes) {
-      if (type.isAssignableFrom(knownType))
-        return;
-    }
-    throw RandomGeneratorException.getInstance("Invalid type requested [" + type + "]");
-  }
+	/**
+	 * Fails if the requested type is none of those the generator declares it handles.
+	 *
+	 * @param type
+	 *     The requested type.
+	 * @param knownTypes
+	 *     The types the generator declares.
+	 */
+	public static void assertIsAssignableTo(Class<?> type, Collection<Class<?>> knownTypes) {
+		for (Class<?> knownType : knownTypes) {
+			if (type.isAssignableFrom(knownType))
+				return;
+		}
+		throw RandomGeneratorException.getInstance("Invalid type requested [" + type + "]");
+	}
 
-  private Helper() {
-    throw new UnsupportedOperationException(Helper.class.getName() +  " should not be constructed!");
-  }
+	private Helper() {
+		throw new UnsupportedOperationException(Helper.class.getName() + " should not be constructed!");
+	}
 }

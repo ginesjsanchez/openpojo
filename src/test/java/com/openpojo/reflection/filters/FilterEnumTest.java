@@ -20,53 +20,57 @@ package com.openpojo.reflection.filters;
 
 import java.util.List;
 
+import org.junit.jupiter.api.Test;
+
 import com.openpojo.reflection.PojoClass;
 import com.openpojo.reflection.PojoClassFilter;
 import com.openpojo.reflection.filters.sampleclasses.SampleEnum;
 import com.openpojo.reflection.impl.PojoClassFactory;
 import com.openpojo.validation.affirm.Affirm;
-import org.junit.jupiter.api.Test;
 
 /**
  * @author oshoukry
  */
 public class FilterEnumTest extends IdentitiesAreEqual {
 
-  private final String sampleClassesPackage = this.getClass().getPackage().getName() + ".sampleclasses";
-  private final PojoClassFilter enumFilter = new FilterEnum();
-  private final List<PojoClass> filteredPojoClasses = PojoClassFactory.getPojoClasses(sampleClassesPackage, enumFilter);
-  private final int EXPECTED_FILTERED_COUNT = 5;
+	private final String sampleClassesPackage = this.getClass().getPackage().getName() + ".sampleclasses";
+	private final PojoClassFilter enumFilter = new FilterEnum();
+	private final List<PojoClass> filteredPojoClasses = PojoClassFactory.getPojoClasses(sampleClassesPackage,
+			enumFilter);
+	private final int EXPECTED_FILTERED_COUNT = 5;
 
-  private final List<PojoClass> nonFilteredPojoClasses = PojoClassFactory.getPojoClasses(sampleClassesPackage);
-  private final int EXPECTED_NON_FILTERED_COUNT = 6;
+	private final List<PojoClass> nonFilteredPojoClasses = PojoClassFactory.getPojoClasses(sampleClassesPackage);
+	private final int EXPECTED_NON_FILTERED_COUNT = 6;
 
-  @Test
-  public void shouldConfirmSampleClassCount() {
-    Affirm.affirmEquals(String.format("Classes added/removed from [%s]?", sampleClassesPackage), EXPECTED_NON_FILTERED_COUNT,
-        nonFilteredPojoClasses.size());
-    Affirm.affirmEquals(String.format("Classes added/removed from [%s]?", sampleClassesPackage), EXPECTED_FILTERED_COUNT,
-        filteredPojoClasses.size());
-  }
+	@Test
+	public void shouldConfirmSampleClassCount() {
+		Affirm.affirmEquals(String.format("Classes added/removed from [%s]?", sampleClassesPackage),
+				EXPECTED_NON_FILTERED_COUNT,
+				nonFilteredPojoClasses.size());
+		Affirm.affirmEquals(String.format("Classes added/removed from [%s]?", sampleClassesPackage),
+				EXPECTED_FILTERED_COUNT,
+				filteredPojoClasses.size());
+	}
 
-  @Test
-  public void shouldIncludeNonEnum() {
-    for (PojoClass pojoClass : filteredPojoClasses) {
-      Affirm.affirmFalse(String.format("[%s] should have been filtered out!!", pojoClass), pojoClass.isEnum());
-    }
-  }
+	@Test
+	public void shouldIncludeNonEnum() {
+		for (PojoClass pojoClass : filteredPojoClasses) {
+			Affirm.affirmFalse(String.format("[%s] should have been filtered out!!", pojoClass), pojoClass.isEnum());
+		}
+	}
 
-  @Test
-  public final void shouldExcludeEnum() {
-    Affirm.affirmFalse(String.format("[%s] didn't exclude enum!!", enumFilter), enumFilter.include(PojoClassFactory
-        .getPojoClass(SampleEnum.class)));
+	@Test
+	public final void shouldExcludeEnum() {
+		Affirm.affirmFalse(String.format("[%s] didn't exclude enum!!", enumFilter), enumFilter.include(PojoClassFactory
+				.getPojoClass(SampleEnum.class)));
 
-  }
+	}
 
-  @Test
-  public void shouldBeIdentityEqual() {
-    FilterEnum instanceOne = new FilterEnum();
-    FilterEnum instanceTwo = new FilterEnum();
-    checkEqualityAndHashCode(instanceOne, instanceTwo);
-  }
+	@Test
+	public void shouldBeIdentityEqual() {
+		FilterEnum instanceOne = new FilterEnum();
+		FilterEnum instanceTwo = new FilterEnum();
+		checkEqualityAndHashCode(instanceOne, instanceTwo);
+	}
 
 }

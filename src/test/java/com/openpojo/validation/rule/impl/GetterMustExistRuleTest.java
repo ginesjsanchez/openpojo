@@ -18,6 +18,8 @@
 
 package com.openpojo.validation.rule.impl;
 
+import org.junit.jupiter.api.Test;
+
 import com.openpojo.reflection.java.Java;
 import com.openpojo.reflection.java.bytecode.asm.SimpleClassLoader;
 import com.openpojo.validation.CommonCode;
@@ -25,7 +27,6 @@ import com.openpojo.validation.rule.Rule;
 import com.openpojo.validation.rule.impl.sampleclasses.GetterDoesExistClass;
 import com.openpojo.validation.rule.impl.sampleclasses.GetterDoesntExistClass;
 import com.openpojo.validation.utils.AClassWithSyntheticFieldDumper;
-import org.junit.jupiter.api.Test;
 
 import static com.openpojo.reflection.java.bytecode.asm.SubClassDefinition.GENERATED_CLASS_POSTFIX;
 
@@ -33,22 +34,24 @@ import static com.openpojo.reflection.java.bytecode.asm.SubClassDefinition.GENER
  * @author oshoukry
  */
 public class GetterMustExistRuleTest {
-  private Class<?>[] failClasses = new Class<?>[] { GetterDoesntExistClass.class };
-  private Class<?>[] passClasses = new Class<?>[] { GetterDoesExistClass.class };
-  private Rule rule = new GetterMustExistRule();
+	private Class<?>[] failClasses = new Class<?>[]{GetterDoesntExistClass.class};
+	private Class<?>[] passClasses = new Class<?>[]{GetterDoesExistClass.class};
+	private Rule rule = new GetterMustExistRule();
 
-  @Test
-  public void testEvaluate() {
-    CommonCode.shouldPassRuleValidation(rule, passClasses);
-    CommonCode.shouldFailRuleValidation(rule, failClasses);
-  }
+	@Test
+	public void testEvaluate() {
+		CommonCode.shouldPassRuleValidation(rule, passClasses);
+		CommonCode.shouldFailRuleValidation(rule, failClasses);
+	}
 
-  @Test
-  public void shouldIgnoreSyntheticFields() throws ClassNotFoundException {
-    final SimpleClassLoader simpleClassLoader = new SimpleClassLoader();
-    final String className = this.getClass().getPackage().getName() + ".AClassWithSyntheticField" + GENERATED_CLASS_POSTFIX;
-    final String classNameAsPath = className.replace(Java.PACKAGE_DELIMITER, Java.PATH_DELIMITER);
+	@Test
+	public void shouldIgnoreSyntheticFields() throws ClassNotFoundException {
+		final SimpleClassLoader simpleClassLoader = new SimpleClassLoader();
+		final String className = this.getClass().getPackage().getName() + ".AClassWithSyntheticField"
+				+ GENERATED_CLASS_POSTFIX;
+		final String classNameAsPath = className.replace(Java.PACKAGE_DELIMITER, Java.PATH_DELIMITER);
 
-    CommonCode.shouldPassRuleValidation(rule, simpleClassLoader.loadThisClass(AClassWithSyntheticFieldDumper.dump(classNameAsPath), className));
-  }
+		CommonCode.shouldPassRuleValidation(rule,
+				simpleClassLoader.loadThisClass(AClassWithSyntheticFieldDumper.dump(classNameAsPath), className));
+	}
 }

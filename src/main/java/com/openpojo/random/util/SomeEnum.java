@@ -18,13 +18,139 @@
 
 package com.openpojo.random.util;
 
+/**
+ * Filler enum with 64 interchangeable constants. openpojo uses it whenever it has to produce an enum value and does
+ * not know the real type: for instance when generating an {@code EnumSet}, or the key of an {@code EnumMap} with no
+ * type parameters. The constants are picked by index ({@code values()[random]}) and carry no meaning of their own:
+ * any one is as good as another.
+ */
 public enum SomeEnum {
-  _00, _01, _02, _03, _04, _05, _06, _07,
-  _08, _09, _10, _11, _12, _13, _14, _15,
-  _16, _17, _18, _19, _20, _21, _22, _23,
-  _24, _25, _26, _27, _28, _29, _30, _31,
-  _32, _33, _34, _35, _36, _37, _38, _39,
-  _40, _41, _42, _43, _44, _45, _46, _47,
-  _48, _49, _50, _51, _52, _53, _54, _55,
-  _56, _57, _58, _59, _60, _61, _62, _63
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_00,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_01,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_02,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_03,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_04,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_05,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_06,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_07,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_08,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_09,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_10,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_11,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_12,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_13,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_14,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_15,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_16,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_17,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_18,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_19,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_20,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_21,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_22,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_23,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_24,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_25,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_26,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_27,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_28,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_29,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_30,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_31,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_32,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_33,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_34,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_35,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_36,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_37,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_38,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_39,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_40,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_41,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_42,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_43,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_44,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_45,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_46,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_47,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_48,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_49,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_50,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_51,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_52,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_53,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_54,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_55,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_56,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_57,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_58,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_59,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_60,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_61,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_62,
+	/** One of the 64 filler values; it carries no meaning of its own. */
+	_63
 }

@@ -20,8 +20,9 @@ package com.openpojo.reflection.java.bytecode;
 
 import java.lang.reflect.Modifier;
 
-import com.openpojo.log.Logger;
-import com.openpojo.log.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.openpojo.reflection.java.bytecode.asm.ASMDetector;
 import com.openpojo.reflection.java.bytecode.asm.ASMNotLoadedException;
 import com.openpojo.reflection.java.bytecode.asm.ASMService;
@@ -35,6 +36,9 @@ import com.openpojo.reflection.java.version.VersionFactory;
  */
 public class ByteCodeFactory {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ByteCodeFactory.class);
+	/**
+	 * Minimum ASM version known to be able to generate subclasses.
+	 */
 	public static final Version ASM_MIN_VERSION = VersionFactory.getVersion("5.0.0");
 	// public static final Version ASM_MAX_VERSION =
 	// VersionFactory.getVersion("7.1.0");
@@ -42,11 +46,20 @@ public class ByteCodeFactory {
 	private static boolean asm_enabled = ASMDetector.getInstance().isASMLoaded();
 	private static Version asm_version = ASMDetector.getInstance().getVersion();
 
+	/**
+	 * Generates a concrete subclass of an abstract class, so it can be instantiated.
+	 *
+	 * @param <T>
+	 *     The type of the base class.
+	 * @param clazz
+	 *     The class to extend; interfaces, enums, arrays, primitives and final classes are rejected.
+	 * @return the generated subclass, or {@code null} if the class is not eligible.
+	 */
 	public static <T> Class<? extends T> getSubClass(Class<T> clazz) {
 		if (isNull(clazz) || isAnInterface(clazz) || isAnEnum(clazz) || isPrimitive(clazz) || isAnArray(clazz)
 				|| isFinal(clazz)) {
 			LOGGER.error(
-					"Invalid request to generate a subclass for [{0}], argument must be [not null, not an interface, not an"
+					"Invalid request to generate a subclass for [{}], argument must be [not null, not an interface, not an"
 							+ " enum, not primitive, not an array or a final class",
 					clazz);
 			return null;
@@ -54,7 +67,7 @@ public class ByteCodeFactory {
 
 		verifyASMLoadedAndMatchesRequiredVersions();
 
-		LOGGER.info("Generating subclass for class [{0}]", clazz);
+		LOGGER.info("Generating subclass for class [{}]", clazz);
 		return ASMService.getInstance().createSubclassFor(clazz);
 	}
 

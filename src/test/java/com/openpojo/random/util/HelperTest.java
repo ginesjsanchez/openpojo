@@ -18,14 +18,14 @@
 
 package com.openpojo.random.util;
 
-import static org.junit.jupiter.api.Assertions.fail;
-
 import java.util.Arrays;
 import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
 
 import com.openpojo.random.exception.RandomGeneratorException;
+
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author oshoukry

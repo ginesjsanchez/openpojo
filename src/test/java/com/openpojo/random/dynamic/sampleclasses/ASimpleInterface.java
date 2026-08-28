@@ -23,7 +23,7 @@ package com.openpojo.random.dynamic.sampleclasses;
  */
 public interface ASimpleInterface {
 
-  public String getName();
+	public String getName();
 
-  public void doSomethingUseful();
+	public void doSomethingUseful();
 }

@@ -18,8 +18,6 @@
 
 package com.openpojo.business.utils;
 
-import static org.junit.jupiter.api.Assertions.fail;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -30,6 +28,8 @@ import com.openpojo.reflection.construct.InstanceFactory;
 import com.openpojo.reflection.exception.ReflectionException;
 import com.openpojo.reflection.impl.PojoClassFactory;
 
+import static org.junit.jupiter.api.Assertions.fail;
+
 public class BusinessIdentityUtilsTest {
 
 	@Test
@@ -37,7 +37,7 @@ public class BusinessIdentityUtilsTest {
 		try {
 			try {
 				PojoClass pojoClass = PojoClassFactory.getPojoClass(BusinessIdentityUtils.class);
-				org.testng.Assert.assertEquals(1, pojoClass.getPojoConstructors().size());
+				Assertions.assertEquals(1, pojoClass.getPojoConstructors().size());
 				InstanceFactory.getLeastCompleteInstance(pojoClass);
 			} catch (ReflectionException re) {
 				Throwable cause = re.getCause();
@@ -66,8 +66,8 @@ public class BusinessIdentityUtilsTest {
 
 	@Test
 	public void whenArrayAndSecondElementHasNonNullAndFirstElementIsNullShouldReturnFalse() {
-		final Integer[] firstObject = new Integer[] { 1, null };
-		Integer[] secondObject = new Integer[] { 1, 2 };
+		final Integer[] firstObject = new Integer[]{1, null};
+		Integer[] secondObject = new Integer[]{1, 2};
 		Assertions.assertFalse(BusinessIdentityUtils.areEqual(new BusinessKeyField() {
 			@Override
 			public boolean isComposite() {

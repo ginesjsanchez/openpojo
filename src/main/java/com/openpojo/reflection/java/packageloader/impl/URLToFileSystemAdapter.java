@@ -26,91 +26,110 @@ import java.net.URL;
 import com.openpojo.reflection.exception.ReflectionException;
 
 /**
+ * Turns the URL returned by the class loader into a file system path, undoing the URL encoding.
+ *
  * @author oshoukry
  */
 public class URLToFileSystemAdapter {
-  private static final String FILE_PROTOCOL = "file";
-  private static final String JAR_PROTOCOL = "jar";
-  private static final String PROTOCOL_SEPARATOR = "://";
-  private static final String PROTOCOL_SEPARATOR_SHORT = ":";
+	private static final String FILE_PROTOCOL = "file";
+	private static final String JAR_PROTOCOL = "jar";
+	private static final String PROTOCOL_SEPARATOR = "://";
+	private static final String PROTOCOL_SEPARATOR_SHORT = ":";
 
-  private String protocol;
-  private final String authority;
-  private final String host;
-  private final String ref;
-  private final String query;
-  private String path;
-  private final int port;
+	private String protocol;
+	private final String authority;
+	private final String host;
+	private final String ref;
+	private final String query;
+	private String path;
+	private final int port;
 
-  public URLToFileSystemAdapter(final URL url) {
-    if (url == null)
-      throw ReflectionException.getInstance("Null URL not allowed");
+	/**
+	 * Wraps a URL so it can be treated as a file system path.
+	 *
+	 * @param url
+	 *     The URL to convert.
+	 */
+	public URLToFileSystemAdapter(final URL url) {
+		if (url == null)
+			throw ReflectionException.getInstance("Null URL not allowed");
 
-    if (url.getAuthority() != null && url.getAuthority().length() > 0)
-      this.authority = url.getAuthority();
-    else
-      this.authority = null;
-    this.host = url.getHost();
-    this.ref = url.getRef();
-    this.query = url.getQuery();
-    this.port = url.getPort();
-    this.protocol = url.getProtocol();
-    this.path = decodeString(url.getPath());
-    fixProtocolAndPath();
-  }
+		if (url.getAuthority() != null && url.getAuthority().length() > 0)
+			this.authority = url.getAuthority();
+		else
+			this.authority = null;
+		this.host = url.getHost();
+		this.ref = url.getRef();
+		this.query = url.getQuery();
+		this.port = url.getPort();
+		this.protocol = url.getProtocol();
+		this.path = decodeString(url.getPath());
+		fixProtocolAndPath();
+	}
 
-  /*
-   * Nasty hack because URI doesn't understand jar:file:// scheme due to the following:
-   * 1. Scheme "jar" is not a protocol
-   * 2. Scheme-specific-part starts with file:// and therefore isn't treated as hierarchical
-   *
-   * The fix here is to switch the protocol to file://.
-   */
-  private void fixProtocolAndPath() {
-    if (protocol.equals(JAR_PROTOCOL) && path.startsWith(FILE_PROTOCOL)) {
-      this.protocol = FILE_PROTOCOL;
-      int length = FILE_PROTOCOL.length() + (path.contains(PROTOCOL_SEPARATOR) ? PROTOCOL_SEPARATOR.length()
-          : PROTOCOL_SEPARATOR_SHORT.length());
-      this.path = path.substring(length);
-    }
-  }
+	/*
+	 * Nasty hack because URI doesn't understand jar:file:// scheme due to the following:
+	 * 1. Scheme "jar" is not a protocol
+	 * 2. Scheme-specific-part starts with file:// and therefore isn't treated as hierarchical
+	 *
+	 * The fix here is to switch the protocol to file://.
+	 */
+	private void fixProtocolAndPath() {
+		if (protocol.equals(JAR_PROTOCOL) && path.startsWith(FILE_PROTOCOL)) {
+			this.protocol = FILE_PROTOCOL;
+			int length = FILE_PROTOCOL.length() + (path.contains(PROTOCOL_SEPARATOR)
+					? PROTOCOL_SEPARATOR.length()
+					: PROTOCOL_SEPARATOR_SHORT.length());
+			this.path = path.substring(length);
+		}
+	}
 
-  public URI getAsURI() {
-    try {
-      return new URI(protocol, authority, host, port, path, query, ref);
-    } catch (final URISyntaxException uriSyntaxException) {
-      throw ReflectionException.getInstance(uriSyntaxException.getMessage(), uriSyntaxException);
-    }
-  }
+	/**
+	 * The URL as a URI.
+	 *
+	 * @return the equivalent URI.
+	 */
+	public URI getAsURI() {
+		try {
+			return new URI(protocol, authority, host, port, path, query, ref);
+		} catch (final URISyntaxException uriSyntaxException) {
+			throw ReflectionException.getInstance(uriSyntaxException.getMessage(), uriSyntaxException);
+		}
+	}
 
-  public File getAsFile() {
-    URI uri = getAsURI();
+	/**
+	 * The URL as a file, undoing the URL encoding.
+	 *
+	 * @return the file or directory it points at.
+	 */
+	public File getAsFile() {
+		URI uri = getAsURI();
 
-    // to handle windows paths i.e. //host_server/path/class, need a way to put the authority section back in
-    // the path
+		// to handle windows paths i.e. //host_server/path/class, need a way to put the authority section back in
+		// the path
 
-    File directory;
-    if (uri.getAuthority() != null)
-      directory = new File("//" + uri.getAuthority() + uri.getPath());
-    else
-      directory = new File(uri.getPath());
-    return directory;
-  }
+		File directory;
+		if (uri.getAuthority() != null)
+			directory = new File("//" + uri.getAuthority() + uri.getPath());
+		else
+			directory = new File(uri.getPath());
+		return directory;
+	}
 
-  private static String decodeString(String path) {
+	private static String decodeString(String path) {
 
-    int pos = 0;
-    StringBuilder decodedString = new StringBuilder(path.length());
-    while (pos < path.length()) {
-      char ch = path.charAt(pos);
-      if (ch == '%' && pos + 2 < path.length()) {
-        String hexStr = path.substring(pos + 1, pos + 3);
-        pos += 2;
-        ch = (char) Integer.parseInt(hexStr, 16);
-      }
-      decodedString.append(ch);
-      pos++;
-    }
-    return decodedString.toString();
-  }
+		int pos = 0;
+		StringBuilder decodedString = new StringBuilder(path.length());
+		while (pos < path.length()) {
+			char ch = path.charAt(pos);
+			if (ch == '%' && pos + 2 < path.length()) {
+				String hexStr = path.substring(pos + 1, pos + 3);
+				pos += 2;
+				ch = (char) Integer.parseInt(hexStr, 16);
+			}
+			decodedString.append(ch);
+			pos++;
+		}
+		return decodedString.toString();
+	}
 }

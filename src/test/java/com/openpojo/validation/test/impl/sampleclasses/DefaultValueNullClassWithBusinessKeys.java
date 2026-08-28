@@ -25,11 +25,11 @@ import com.openpojo.business.annotation.BusinessKey;
  */
 public final class DefaultValueNullClassWithBusinessKeys {
 
-  // Okay
-  public boolean publicBooleanPrimitive = false;
-  public final String publicFinalString = "SomeValue";
+	// Okay
+	public boolean publicBooleanPrimitive = false;
+	public final String publicFinalString = "SomeValue";
 
-  // Okay
-  @BusinessKey
-  public String publicStringField;
+	// Okay
+	@BusinessKey
+	public String publicStringField;
 }

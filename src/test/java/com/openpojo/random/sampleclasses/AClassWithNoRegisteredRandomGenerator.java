@@ -18,7 +18,6 @@
 
 package com.openpojo.random.sampleclasses;
 
-
 /**
  * @author oshoukry
  */

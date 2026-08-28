@@ -19,67 +19,68 @@
 package com.openpojo.validation.affirm;
 
 import com.openpojo.business.BusinessIdentity;
-import com.openpojo.log.utils.MessageFormatter;
 
 /**
+ * Last resort when no test framework is present: it throws {@code AssertionError} directly.
+ *
  * @author oshoukry
  */
 public class JavaAssertionAffirmation extends AbstractAffirmation implements Affirmation {
 
-  private JavaAssertionAffirmation() {
-  }
+	private JavaAssertionAffirmation() {
+	}
 
-  public void fail(final String message) {
-    throw new AssertionError(message == null ? "" : message);
-  }
+	public void fail(final String message) {
+		throw new AssertionError(message == null ? "" : message);
+	}
 
-  public void affirmTrue(final String message, final boolean condition) {
-    if (!condition) {
-      fail(message);
-    }
-  }
+	public void affirmTrue(final String message, final boolean condition) {
+		if (!condition) {
+			fail(message);
+		}
+	}
 
-  public void affirmFalse(final String message, final boolean condition) {
-    if (condition) {
-      fail(message);
-    }
-  }
+	public void affirmFalse(final String message, final boolean condition) {
+		if (condition) {
+			fail(message);
+		}
+	}
 
-  public void affirmNotNull(final String message, final Object object) {
-    if (object == null) {
-      fail(message);
-    }
-  }
+	public void affirmNotNull(final String message, final Object object) {
+		if (object == null) {
+			fail(message);
+		}
+	}
 
-  public void affirmNull(final String message, final Object object) {
-    if (object != null) {
-      fail(message);
-    }
-  }
+	public void affirmNull(final String message, final Object object) {
+		if (object != null) {
+			fail(message);
+		}
+	}
 
-  public void affirmEquals(final String message, final Object expected, final Object actual) {
-    if (objectPointersAreTheSame(expected, actual))
-      return;
+	public void affirmEquals(final String message, final Object expected, final Object actual) {
+		if (objectPointersAreTheSame(expected, actual))
+			return;
 
-    if (isArray(expected)) {
-      affirmArrayEquals(message, expected, actual);
-      return;
-    }
+		if (isArray(expected)) {
+			affirmArrayEquals(message, expected, actual);
+			return;
+		}
 
-    if (expected != null && expected.equals(actual))
-      return;
+		if (expected != null && expected.equals(actual))
+			return;
 
-    fail(MessageFormatter.format("{0} expected <{1}> but was <{2}>", message, expected, actual));
-  }
+		fail(message + " expected <" + expected + "> but was <" + actual + ">");
+	}
 
-  public void affirmSame(String message, Object first, Object second) {
-    if (first != second)
-      fail(message);
-  }
+	public void affirmSame(String message, Object first, Object second) {
+		if (first != second)
+			fail(message);
+	}
 
-  @Override
-  public String toString() {
-    return BusinessIdentity.toString(this);
-  }
+	@Override
+	public String toString() {
+		return BusinessIdentity.toString(this);
+	}
 
 }

@@ -30,12 +30,17 @@ import com.openpojo.validation.rule.Rule;
  */
 public final class NoPublicFieldsRule implements Rule {
 
-  public void evaluate(final PojoClass pojoClass) {
-    for (PojoField fieldEntry : pojoClass.getPojoFields()) {
-      if (fieldEntry.isPublic()) {
-        Affirm.fail(String.format("Public fields=[%s] not allowed", fieldEntry));
-      }
-    }
-  }
+	public void evaluate(final PojoClass pojoClass) {
+		for (PojoField fieldEntry : pojoClass.getPojoFields()) {
+			if (fieldEntry.isPublic()) {
+				Affirm.fail(String.format("Public fields=[%s] not allowed", fieldEntry));
+			}
+		}
+	}
 
+	/**
+	 * Creates an instance ready to use.
+	 */
+	public NoPublicFieldsRule() {
+	}
 }

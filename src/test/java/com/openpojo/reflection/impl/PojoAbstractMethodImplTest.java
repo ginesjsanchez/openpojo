@@ -18,37 +18,38 @@
 
 package com.openpojo.reflection.impl;
 
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
+
 import com.openpojo.reflection.PojoClass;
 import com.openpojo.reflection.PojoMethod;
 import com.openpojo.reflection.impl.sample.classes.AnAbstractClassEmpty;
 import com.openpojo.reflection.impl.sample.classes.AnAbstractClassWithOneAbstractMethod;
-import org.junit.jupiter.api.Test;
-import org.testng.Assert;
 
 /**
  * @author oshoukry
  */
 public class PojoAbstractMethodImplTest {
 
-  @Test
-  public void shouldFindNoAbstractMethods() {
-    PojoClass pojoClass = PojoClassFactory.getPojoClass(AnAbstractClassEmpty.class);
-    for (PojoMethod pojoMethod : pojoClass.getPojoMethods()) {
-      Assert.assertTrue(pojoMethod.isConstructor());
-      Assert.assertFalse(pojoMethod.isAbstract());
-    }
+	@Test
+	public void shouldFindNoAbstractMethods() {
+		PojoClass pojoClass = PojoClassFactory.getPojoClass(AnAbstractClassEmpty.class);
+		for (PojoMethod pojoMethod : pojoClass.getPojoMethods()) {
+			Assertions.assertTrue(pojoMethod.isConstructor());
+			Assertions.assertFalse(pojoMethod.isAbstract());
+		}
 
-    Assert.assertEquals(1, pojoClass.getPojoMethods().size());
-  }
+		Assertions.assertEquals(1, pojoClass.getPojoMethods().size());
+	}
 
-  @Test
-  public void shouldfindOneAbstractMethod() {
-    PojoClass pojoClass = PojoClassFactory.getPojoClass(AnAbstractClassWithOneAbstractMethod.class);
-    for (PojoMethod pojoMethod : pojoClass.getPojoMethods()) {
-      if (!pojoMethod.isConstructor())
-        Assert.assertTrue(pojoMethod.isAbstract());
-    }
+	@Test
+	public void shouldfindOneAbstractMethod() {
+		PojoClass pojoClass = PojoClassFactory.getPojoClass(AnAbstractClassWithOneAbstractMethod.class);
+		for (PojoMethod pojoMethod : pojoClass.getPojoMethods()) {
+			if (!pojoMethod.isConstructor())
+				Assertions.assertTrue(pojoMethod.isAbstract());
+		}
 
-    Assert.assertEquals(1 + 1 /* constructor */, pojoClass.getPojoMethods().size());
-  }
+		Assertions.assertEquals(1 + 1 /* constructor */, pojoClass.getPojoMethods().size());
+	}
 }

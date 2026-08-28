@@ -26,26 +26,35 @@ import com.openpojo.random.collection.util.BaseCollectionRandomGenerator;
 import com.openpojo.random.util.Helper;
 
 /**
+ * Generates a {@code HashSet} holding between 1 and 5 random elements.
+ *
  * @author oshoukry
  */
 public class HashSetRandomGenerator extends BaseCollectionRandomGenerator {
-  private static final Class<?>[] TYPES = new Class<?>[] { HashSet.class };
-  private static final HashSetRandomGenerator INSTANCE = new HashSetRandomGenerator();
+	private static final Class<?>[] TYPES = new Class<?>[]{HashSet.class};
+	private static final HashSetRandomGenerator INSTANCE = new HashSetRandomGenerator();
 
-  public static HashSetRandomGenerator getInstance() {
-    return INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared generator.
+	 */
+	public static HashSetRandomGenerator getInstance() {
+		return INSTANCE;
+	}
 
-  public Collection<Class<?>> getTypes() {
-    return Arrays.asList(TYPES);
-  }
+	@Override
+	public Collection<Class<?>> getTypes() {
+		return Arrays.asList(TYPES);
+	}
 
-  @Override
-  protected Collection getBasicInstance(Class<?> type) {
-    Helper.assertIsAssignableTo(type, getTypes());
-    return new HashSet();
-  }
+	@Override
+	protected Collection<Object> getBasicInstance(Class<?> type) {
+		Helper.assertIsAssignableTo(type, getTypes());
+		return new HashSet<>();
+	}
 
-  private HashSetRandomGenerator() {
-  }
+	private HashSetRandomGenerator() {
+	}
 }

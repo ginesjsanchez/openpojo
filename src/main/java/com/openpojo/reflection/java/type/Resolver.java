@@ -31,43 +31,73 @@ import com.openpojo.reflection.java.type.impl.TypeVariableResolver;
 import com.openpojo.reflection.java.type.impl.WildcardTypeResolver;
 
 /**
+ * Entry point to type resolution: given any {@code Type} from the Java reflection API, it dispatches to the {@code
+ * TypeResolver} that knows how to handle it and returns the effective type or its parameters.
+ *
  * @author oshoukry
  */
 public class Resolver {
-  private static final WildcardTypeResolver WILDCARD_TYPE_RESOLVER = new WildcardTypeResolver();
-  private static final ParameterizedTypeResolver PARAMETERIZED_TYPE_RESOLVER = new ParameterizedTypeResolver();
-  private static final TypeVariableResolver TYPE_VARIABLE_RESOLVER = new TypeVariableResolver();
-  private static final GenericArrayTypeResolver GENERIC_ARRAY_TYPE_RESOLVER = new GenericArrayTypeResolver();
-  private static final NoResolveTypeResolver NO_RESOLVE_TYPE_RESOLVER = new NoResolveTypeResolver();
+	private static final WildcardTypeResolver WILDCARD_TYPE_RESOLVER = new WildcardTypeResolver();
+	private static final ParameterizedTypeResolver PARAMETERIZED_TYPE_RESOLVER = new ParameterizedTypeResolver();
+	private static final TypeVariableResolver TYPE_VARIABLE_RESOLVER = new TypeVariableResolver();
+	private static final GenericArrayTypeResolver GENERIC_ARRAY_TYPE_RESOLVER = new GenericArrayTypeResolver();
+	private static final NoResolveTypeResolver NO_RESOLVE_TYPE_RESOLVER = new NoResolveTypeResolver();
 
-  @SuppressWarnings("unchecked")
-  public static Type resolve(Type type) {
-    return getTypeResolver(type).resolveType(type);
-  }
+	/**
+	 * Resolves a type to its effective form, undoing wildcards and type variables.
+	 *
+	 * @param type
+	 *     The type to resolve.
+	 * @return the resolved type.
+	 */
+	public static Type resolve(Type type) {
+		return getTypeResolver(type).resolveType(type);
+	}
 
-  @SuppressWarnings("unchecked")
-  public static Type getEnclosingType(Type type) {
-    return getTypeResolver(type).getEnclosingType(type);
-  }
+	/**
+	 * The type enclosing the given one.
+	 *
+	 * @param type
+	 *     The type to inspect.
+	 * @return the enclosing type.
+	 */
+	public static Type getEnclosingType(Type type) {
+		return getTypeResolver(type).getEnclosingType(type);
+	}
 
-  @SuppressWarnings("unchecked")
-  public static Type[] getParameterTypes(Type type) {
-    return getTypeResolver(type).getParameterTypes(type);
-  }
+	/**
+	 * The type arguments of the given type.
+	 *
+	 * @param type
+	 *     The type to inspect.
+	 * @return its parameters, empty if it has none.
+	 */
+	public static Type[] getParameterTypes(Type type) {
+		return getTypeResolver(type).getParameterTypes(type);
+	}
 
-  private static <T> TypeResolver getTypeResolver(T type) {
-    if (type instanceof WildcardType)
-      return WILDCARD_TYPE_RESOLVER;
-    if (type instanceof ParameterizedType)
-      return PARAMETERIZED_TYPE_RESOLVER;
-    if (type instanceof TypeVariable)
-      return TYPE_VARIABLE_RESOLVER;
-    if (type instanceof GenericArrayType)
-      return GENERIC_ARRAY_TYPE_RESOLVER;
-    return NO_RESOLVE_TYPE_RESOLVER;
-  }
+	/**
+	 * Dispatch is by instanceof, so the match between the concrete Type and the {@code TypeResolver<T>} that handles
+	 * it cannot be checked by the compiler. This is the only place where that happens, which is why the unchecked
+	 * conversion is concentrated here instead of being repeated in every public method.
+	 */
+	@SuppressWarnings("unchecked")
+	private static TypeResolver<Type> getTypeResolver(Type type) {
+		final TypeResolver<?> typeResolver;
+		if (type instanceof WildcardType)
+			typeResolver = WILDCARD_TYPE_RESOLVER;
+		else if (type instanceof ParameterizedType)
+			typeResolver = PARAMETERIZED_TYPE_RESOLVER;
+		else if (type instanceof TypeVariable)
+			typeResolver = TYPE_VARIABLE_RESOLVER;
+		else if (type instanceof GenericArrayType)
+			typeResolver = GENERIC_ARRAY_TYPE_RESOLVER;
+		else
+			typeResolver = NO_RESOLVE_TYPE_RESOLVER;
+		return (TypeResolver<Type>) typeResolver;
+	}
 
-  private Resolver() {
-    throw new UnsupportedOperationException(Resolver.class.getName() +  " should not be constructed!");
-  }
+	private Resolver() {
+		throw new UnsupportedOperationException(Resolver.class.getName() + " should not be constructed!");
+	}
 }

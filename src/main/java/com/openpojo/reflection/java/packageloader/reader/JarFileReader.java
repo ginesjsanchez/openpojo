@@ -18,9 +18,6 @@
 
 package com.openpojo.reflection.java.packageloader.reader;
 
-import static com.openpojo.reflection.java.packageloader.utils.Helper.getFQClassName;
-import static com.openpojo.reflection.java.packageloader.utils.Helper.isClass;
-
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.JarURLConnection;
@@ -43,6 +40,9 @@ import com.openpojo.reflection.exception.ReflectionException;
 import com.openpojo.reflection.java.Java;
 import com.openpojo.reflection.java.packageloader.impl.URLToFileSystemAdapter;
 import com.openpojo.reflection.java.packageloader.utils.Helper;
+
+import static com.openpojo.reflection.java.packageloader.utils.Helper.getFQClassName;
+import static com.openpojo.reflection.java.packageloader.utils.Helper.isClass;
 
 /**
  * This is a facade that simplifies reading classes out of a JarFile. This class
@@ -72,20 +72,47 @@ public class JarFileReader {
 		}
 	}
 
+	/**
+	 * Creates a reader for the jar at the given path. If the path is not a readable jar, the returned reader will not
+	 * be valid instead of failing.
+	 *
+	 * @param jarFilePath
+	 *     The path to the jar file.
+	 * @return the reader for that jar.
+	 */
 	public static JarFileReader getInstance(String jarFilePath) {
 		return new JarFileReader(jarFilePath);
 	}
 
+	/**
+	 * Creates a reader from a {@code jar:} URL, of the kind the class loader returns. If it cannot be opened, the
+	 * returned reader will not be valid.
+	 *
+	 * @param jarURL
+	 *     URL pointing at the jar.
+	 * @return the reader for that jar.
+	 */
 	public static JarFileReader getInstance(URL jarURL) {
 		return new JarFileReader(jarURL);
 	}
 
+	/**
+	 * Tells whether the jar could be opened. The constructor does not propagate open failures, so this is how to know
+	 * whether the reader is of any use.
+	 *
+	 * @return {@code true} if the jar was opened successfully.
+	 */
 	public boolean isValid() {
 		return jarFile != null;
 	}
 
+	/**
+	 * The entries of the main section of the jar manifest.
+	 *
+	 * @return the manifest entries, with keys and values as text.
+	 */
 	public Map<String, String> getManifestEntries() {
-		Map<String, String> manifestEntries = new HashMap<String, String>();
+		Map<String, String> manifestEntries = new HashMap<>();
 		Manifest manifest;
 		try {
 			manifest = jarFile.getManifest();
@@ -103,12 +130,19 @@ public class JarFileReader {
 		return manifestEntries;
 	}
 
+	/**
+	 * Value of a specific manifest entry.
+	 *
+	 * @param name
+	 *     The entry name.
+	 * @return its value, or {@code null} if it is absent.
+	 */
 	public String getManifestEntry(String name) {
 		return getManifestEntries().get(name);
 	}
 
 	private Set<String> getAllEntries() {
-		Set<String> entries = new HashSet<String>();
+		Set<String> entries = new HashSet<>();
 
 		ArrayList<JarEntry> jarEntries = Collections.list(jarFile.entries());
 		for (JarEntry entry : jarEntries)
@@ -117,16 +151,30 @@ public class JarFileReader {
 		return entries;
 	}
 
+	/**
+	 * The classes of the given package held by this jar.
+	 *
+	 * @param packageName
+	 *     The package to read.
+	 * @return the types found.
+	 */
 	public Set<Type> getTypesInPackage(String packageName) {
 		return Helper.loadClassesFromGivenPackage(classNames, packageName);
 	}
 
+	/**
+	 * Packages hanging directly off the given one, inside this jar.
+	 *
+	 * @param packageName
+	 *     The starting package.
+	 * @return the names of the sub-packages.
+	 */
 	public Set<String> getSubPackagesOfPackage(String packageName) {
 		return Helper.getSubPackagesOfPackage(classNames, packageName);
 	}
 
 	private void initClassNames() {
-		classNames = new HashSet<String>();
+		classNames = new HashSet<>();
 		for (String entry : getAllEntries()) {
 			if (isClass(entry))
 				classNames.add(getFQClassName(entry));
@@ -134,10 +182,22 @@ public class JarFileReader {
 		classNames = Collections.unmodifiableSet(classNames);
 	}
 
+	/**
+	 * Fully qualified names of every class held by the jar.
+	 *
+	 * @return the class names found.
+	 */
 	public Set<String> getClassNames() {
 		return classNames;
 	}
 
+	/**
+	 * Extracts the jar path from a {@code jar:} URL, keeping whatever comes before the {@code !} separator.
+	 *
+	 * @param name
+	 *     The path part of the URL.
+	 * @return the path to the jar file.
+	 */
 	public static String getJarFileNameFromURLPath(String name) {
 		String fileName = "";
 

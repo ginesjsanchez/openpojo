@@ -24,14 +24,25 @@ import java.lang.reflect.Type;
 import com.openpojo.reflection.PojoParameter;
 
 /**
+ * Creates the {@code PojoParameter} list of a method or constructor, pairing each type with its annotations.
+ *
  * @author oshoukry
  */
 public final class PojoParameterFactory {
-  public static PojoParameter getPojoParameter(Type type, Annotation[] annotations) {
-    return new PojoParameterImpl(type, annotations);
-  }
+	/**
+	 * Creates the abstraction of a parameter with its type and its annotations.
+	 *
+	 * @param type
+	 *     The declared type of the parameter.
+	 * @param annotations
+	 *     The annotations on the parameter.
+	 * @return its {@code PojoParameter}.
+	 */
+	public static PojoParameter getPojoParameter(Type type, Annotation[] annotations) {
+		return new PojoParameterImpl(type, annotations);
+	}
 
-  private PojoParameterFactory() {
-    throw new UnsupportedOperationException(PojoParameterFactory.class.getName() + " should not be constructed!");
-  }
+	private PojoParameterFactory() {
+		throw new UnsupportedOperationException(PojoParameterFactory.class.getName() + " should not be constructed!");
+	}
 }

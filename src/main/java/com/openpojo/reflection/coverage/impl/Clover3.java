@@ -23,35 +23,43 @@ import com.openpojo.reflection.adapt.PojoClassAdapter;
 import com.openpojo.reflection.filters.FilterCloverClasses;
 
 /**
+ * Detector for Clover 3 instrumentation.
+ *
  * @author oshoukry
  */
 public class Clover3 extends AbstractCoverageDetector {
-  private static final Clover3 INSTANCE = new Clover3();
+	private static final Clover3 INSTANCE = new Clover3();
 
-  private Clover3() {
-  }
+	private Clover3() {
+	}
 
-  public static Clover3 getInstance() {
-    return INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared instance.
+	 */
+	public static Clover3 getInstance() {
+		return INSTANCE;
+	}
 
-  @Override
-  public String getName() {
-    return "Clover 3";
-  }
+	@Override
+	public String getName() {
+		return "Clover 3";
+	}
 
-  @Override
-  public String getCoverageClassName() {
-    return "com_cenqua_clover.TestNameSniffer";
-  }
+	@Override
+	public String getCoverageClassName() {
+		return "com_cenqua_clover.TestNameSniffer";
+	}
 
-  @Override
-  public PojoClassFilter getPojoClassFilter() {
-    return FilterCloverClasses.getInstance();
-  }
+	@Override
+	public PojoClassFilter getPojoClassFilter() {
+		return FilterCloverClasses.getInstance();
+	}
 
-  @Override
-  public PojoClassAdapter getPojoClassAdapter() {
-    return null;
-  }
+	@Override
+	public PojoClassAdapter getPojoClassAdapter() {
+		return null;
+	}
 }

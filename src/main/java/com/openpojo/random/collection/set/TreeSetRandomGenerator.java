@@ -26,26 +26,34 @@ import com.openpojo.random.collection.util.BaseCollectionRandomGenerator;
 import com.openpojo.random.util.Helper;
 
 /**
+ * Generates a {@code TreeSet} holding between 1 and 5 random elements.
+ *
  * @author oshoukry
  */
 public class TreeSetRandomGenerator extends BaseCollectionRandomGenerator {
-  private static final Class<?>[] TYPES = new Class<?>[] { TreeSet.class };
-  private static final TreeSetRandomGenerator INSTANCE = new TreeSetRandomGenerator();
+	private static final Class<?>[] TYPES = new Class<?>[]{TreeSet.class};
+	private static final TreeSetRandomGenerator INSTANCE = new TreeSetRandomGenerator();
 
-  public static TreeSetRandomGenerator getInstance() {
-    return INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared generator.
+	 */
+	public static TreeSetRandomGenerator getInstance() {
+		return INSTANCE;
+	}
 
-  public Collection<Class<?>> getTypes() {
-    return Arrays.asList(TYPES);
-  }
+	public Collection<Class<?>> getTypes() {
+		return Arrays.asList(TYPES);
+	}
 
-  @Override
-  protected Collection getBasicInstance(Class<?> type) {
-    Helper.assertIsAssignableTo(type, getTypes());
-    return new TreeSet();
-  }
+	@Override
+	protected Collection<Object> getBasicInstance(Class<?> type) {
+		Helper.assertIsAssignableTo(type, getTypes());
+		return new TreeSet<>();
+	}
 
-  private TreeSetRandomGenerator() {
-  }
+	private TreeSetRandomGenerator() {
+	}
 }

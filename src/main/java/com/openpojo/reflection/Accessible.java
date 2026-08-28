@@ -24,27 +24,27 @@ package com.openpojo.reflection;
  * @author oshoukry
  */
 public interface Accessible {
-  /**
-   * Locally visible within enclosing element.
-   * @return true if private.
-   */
-  boolean isPrivate();
+	/**
+	 * Locally visible within enclosing element.
+	 * @return true if private.
+	 */
+	boolean isPrivate();
 
-  /**
-   * Visible to extending elements.
-   * @return true if protected.
-   */
-  boolean isProtected();
+	/**
+	 * Visible to extending elements.
+	 * @return true if protected.
+	 */
+	boolean isProtected();
 
-  /**
-   * Visible to all.
-   * @return true if public.
-   */
-  boolean isPublic();
+	/**
+	 * Visible to all.
+	 * @return true if public.
+	 */
+	boolean isPublic();
 
-  /**
-   * Package visibility only, often referred to default visibility when no visibility keywords are assigned.
-   * @return true if default.
-   */
-  boolean isPackagePrivate();
+	/**
+	 * Package visibility only, often referred to default visibility when no visibility keywords are assigned.
+	 * @return true if default.
+	 */
+	boolean isPackagePrivate();
 }

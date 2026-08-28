@@ -19,15 +19,22 @@
 package com.openpojo.reflection.construct.utils;
 
 /**
+ * Comparator that keeps the longer parameter list, that is, the most complete constructor.
+ *
  * @author oshoukry
  */
 public class GreaterThan extends ArrayLengthBasedComparator {
 
-  @Override
-  public boolean compare(final Class<?>[] leftHand, final Class<?>[] rightHand) {
-    int leftHandLength = getLength(leftHand);
-    int rightHandLength = getLength(rightHand);
-    return leftHandLength > rightHandLength;
-  }
+	@Override
+	public boolean compare(final Class<?>[] leftHand, final Class<?>[] rightHand) {
+		int leftHandLength = getLength(leftHand);
+		int rightHandLength = getLength(rightHand);
+		return leftHandLength > rightHandLength;
+	}
 
+	/**
+	 * Creates an instance ready to use.
+	 */
+	public GreaterThan() {
+	}
 }

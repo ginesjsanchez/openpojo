@@ -21,101 +21,111 @@ package com.openpojo.reflection.utils;
 import java.util.Arrays;
 
 /**
+ * Builds the text representation of an object from its fields, handling arrays separately since they have no useful
+ * {@code toString()}.
+ *
  * @author oshoukry
  */
 public class ObjectToString {
 
-  public static String toString(Object o) {
-    return getHandler(o).toString(o);
-  }
+	/**
+	 * Renders an object as text, unfolding arrays element by element.
+	 *
+	 * @param o
+	 *     The object to render.
+	 * @return its text representation.
+	 */
+	public static String toString(Object o) {
+		return getHandler(o).toString(o);
+	}
 
-  private static ObjectToStringHandler getHandler(Object o) {
-    if (o == null)
-      return new ObjectToStringHandler() {
-        public String toString(Object o) {
-          return null;
-        }
-      };
+	private static ObjectToStringHandler getHandler(Object o) {
+		if (o == null)
+			return new ObjectToStringHandler() {
+				public String toString(Object o) {
+					return null;
+				}
+			};
 
-    if (!o.getClass().isArray())
-      return new ObjectToStringHandler() {
-        public String toString(Object o) {
-          return o.toString();
-        }
-      };
+		if (!o.getClass().isArray())
+			return new ObjectToStringHandler() {
+				public String toString(Object o) {
+					return o.toString();
+				}
+			};
 
-    // Array handling
-    // Since Java has no way of auto-boxing an array of primitives, each must be examined independently.
-    Class<?> componentType = o.getClass().getComponentType();
+		// Array handling
+		// Since Java has no way of auto-boxing an array of primitives, each must be examined independently.
+		Class<?> componentType = o.getClass().getComponentType();
 
-    if (componentType == byte.class)
-      return new ObjectToStringHandler() {
-        public String toString(Object o) {
-          return Arrays.toString(byte[].class.cast(o));
-        }
-      };
+		if (componentType == byte.class)
+			return new ObjectToStringHandler() {
+				public String toString(Object o) {
+					return Arrays.toString(byte[].class.cast(o));
+				}
+			};
 
-    if (componentType == char.class)
-      return new ObjectToStringHandler() {
-        public String toString(Object o) {
-          return Arrays.toString(char[].class.cast(o));
-        }
-      };
+		if (componentType == char.class)
+			return new ObjectToStringHandler() {
+				public String toString(Object o) {
+					return Arrays.toString(char[].class.cast(o));
+				}
+			};
 
-    if (componentType == short.class)
-      return new ObjectToStringHandler() {
-        public String toString(Object o) {
-          return Arrays.toString(short[].class.cast(o));
-        }
-      };
+		if (componentType == short.class)
+			return new ObjectToStringHandler() {
+				public String toString(Object o) {
+					return Arrays.toString(short[].class.cast(o));
+				}
+			};
 
-    if (componentType == int.class)
-      return new ObjectToStringHandler() {
-        public String toString(Object o) {
-          return Arrays.toString(int[].class.cast(o));
-        }
-      };
+		if (componentType == int.class)
+			return new ObjectToStringHandler() {
+				public String toString(Object o) {
+					return Arrays.toString(int[].class.cast(o));
+				}
+			};
 
-    if (componentType == long.class)
-      return new ObjectToStringHandler() {
-        public String toString(Object o) {
-          return Arrays.toString(long[].class.cast(o));
-        }
-      };
+		if (componentType == long.class)
+			return new ObjectToStringHandler() {
+				public String toString(Object o) {
+					return Arrays.toString(long[].class.cast(o));
+				}
+			};
 
-    if (componentType == float.class)
-      return new ObjectToStringHandler() {
-        public String toString(Object o) {
-          return Arrays.toString(float[].class.cast(o));
-        }
-      };
+		if (componentType == float.class)
+			return new ObjectToStringHandler() {
+				public String toString(Object o) {
+					return Arrays.toString(float[].class.cast(o));
+				}
+			};
 
-    if (componentType == double.class)
-      return new ObjectToStringHandler() {
-        public String toString(Object o) {
-          return Arrays.toString(double[].class.cast(o));
-        }
-      };
+		if (componentType == double.class)
+			return new ObjectToStringHandler() {
+				public String toString(Object o) {
+					return Arrays.toString(double[].class.cast(o));
+				}
+			};
 
-    if (componentType == boolean.class)
-      return new ObjectToStringHandler() {
-        public String toString(Object o) {
-          return Arrays.toString(boolean[].class.cast(o));
-        }
-      };
+		if (componentType == boolean.class)
+			return new ObjectToStringHandler() {
+				public String toString(Object o) {
+					return Arrays.toString(boolean[].class.cast(o));
+				}
+			};
 
-    return new ObjectToStringHandler() {
-      public String toString(Object o) {
-        return Arrays.deepToString((Object[]) o);
-      }
-    };
-  }
+		return new ObjectToStringHandler() {
+			public String toString(Object o) {
+				return Arrays.deepToString((Object[]) o);
+			}
+		};
+	}
 
-  interface ObjectToStringHandler {
-    String toString(Object o);
-  }
+	interface ObjectToStringHandler {
+		String toString(Object o);
+	}
 
-  private ObjectToString() {
-    throw new UnsupportedOperationException(ObjectToString.class.getName() +  " should not be constructed!");
-  }
+	private ObjectToString() {
+		throw new UnsupportedOperationException(ObjectToString.class.getName() + " should not be constructed!");
+	}
 }

@@ -18,11 +18,6 @@
 
 package com.openpojo.reflection.java.packageloader.reader;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-//import static org.junit.jupiter.api.Assertions.//assertThat;
-import static org.junit.jupiter.api.Assertions.fail;
-
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -37,6 +32,10 @@ import org.junit.jupiter.api.Test;
 import com.openpojo.random.RandomFactory;
 import com.openpojo.reflection.exception.ReflectionException;
 import com.openpojo.reflection.java.packageloader.impl.URLToFileSystemAdapter;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author oshoukry

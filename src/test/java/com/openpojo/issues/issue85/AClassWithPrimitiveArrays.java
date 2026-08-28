@@ -23,88 +23,89 @@ package com.openpojo.issues.issue85;
  */
 @SuppressWarnings("unused")
 class AClassWithPrimitiveArrays {
-  private byte[] bytes;
-  private char[] chars;
-  private short[] shorts;
-  private int[] ints;
-  private long[] longs;
-  private float[] floats;
-  private double[] doubles;
-  private boolean[] booleans;
+	private byte[] bytes;
+	private char[] chars;
+	private short[] shorts;
+	private int[] ints;
+	private long[] longs;
+	private float[] floats;
+	private double[] doubles;
+	private boolean[] booleans;
 
-  public AClassWithPrimitiveArrays(byte[] bytes, char[] chars, short[] shorts, int[] ints, long[] longs, float[] floats,
-                                   double[] doubles, boolean[] booleans) {
-    this.bytes = bytes;
-    this.chars = chars;
-    this.shorts = shorts;
-    this.ints = ints;
-    this.longs = longs;
-    this.floats = floats;
-    this.doubles = doubles;
-    this.booleans = booleans;
-  }
+	public AClassWithPrimitiveArrays(byte[] bytes, char[] chars, short[] shorts, int[] ints, long[] longs,
+			float[] floats,
+			double[] doubles, boolean[] booleans) {
+		this.bytes = bytes;
+		this.chars = chars;
+		this.shorts = shorts;
+		this.ints = ints;
+		this.longs = longs;
+		this.floats = floats;
+		this.doubles = doubles;
+		this.booleans = booleans;
+	}
 
-  public byte[] getBytes() {
-    return bytes;
-  }
+	public byte[] getBytes() {
+		return bytes;
+	}
 
-  public void setBytes(byte[] bytes) {
-    this.bytes = bytes;
-  }
+	public void setBytes(byte[] bytes) {
+		this.bytes = bytes;
+	}
 
-  public char[] getChars() {
-    return chars;
-  }
+	public char[] getChars() {
+		return chars;
+	}
 
-  public void setChars(char[] chars) {
-    this.chars = chars;
-  }
+	public void setChars(char[] chars) {
+		this.chars = chars;
+	}
 
-  public short[] getShorts() {
-    return shorts;
-  }
+	public short[] getShorts() {
+		return shorts;
+	}
 
-  public void setShorts(short[] shorts) {
-    this.shorts = shorts;
-  }
+	public void setShorts(short[] shorts) {
+		this.shorts = shorts;
+	}
 
-  public int[] getInts() {
-    return ints;
-  }
+	public int[] getInts() {
+		return ints;
+	}
 
-  public void setInts(int[] ints) {
-    this.ints = ints;
-  }
+	public void setInts(int[] ints) {
+		this.ints = ints;
+	}
 
-  public long[] getLongs() {
-    return longs;
-  }
+	public long[] getLongs() {
+		return longs;
+	}
 
-  public void setLongs(long[] longs) {
-    this.longs = longs;
-  }
+	public void setLongs(long[] longs) {
+		this.longs = longs;
+	}
 
-  public float[] getFloats() {
-    return floats;
-  }
+	public float[] getFloats() {
+		return floats;
+	}
 
-  public void setFloats(float[] floats) {
-    this.floats = floats;
-  }
+	public void setFloats(float[] floats) {
+		this.floats = floats;
+	}
 
-  public double[] getDoubles() {
-    return doubles;
-  }
+	public double[] getDoubles() {
+		return doubles;
+	}
 
-  public void setDoubles(double[] doubles) {
-    this.doubles = doubles;
-  }
+	public void setDoubles(double[] doubles) {
+		this.doubles = doubles;
+	}
 
-  public boolean[] getBooleans() {
-    return booleans;
-  }
+	public boolean[] getBooleans() {
+		return booleans;
+	}
 
-  public void setBooleans(boolean[] booleans) {
-    this.booleans = booleans;
-  }
+	public void setBooleans(boolean[] booleans) {
+		this.booleans = booleans;
+	}
 }

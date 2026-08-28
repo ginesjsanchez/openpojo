@@ -22,47 +22,47 @@ import java.util.List;
 
 @SuppressWarnings("unused")
 public class Outer {
-  private String outerName;
+	private String outerName;
 
-  public String getOuterName() {
-    return outerName;
-  }
+	public String getOuterName() {
+		return outerName;
+	}
 
-  public void setOuterName(String outerName) {
-    this.outerName = outerName;
-  }
+	public void setOuterName(String outerName) {
+		this.outerName = outerName;
+	}
 
-  public class Level1Inner {
-    private String level1InnerName;
+	public class Level1Inner {
+		private String level1InnerName;
 
-    private Level1Inner(String level1InnerName) {
-      this.level1InnerName = level1InnerName;
-    }
+		private Level1Inner(String level1InnerName) {
+			this.level1InnerName = level1InnerName;
+		}
 
-    public String getLevel1InnerName() {
-      return level1InnerName;
-    }
+		public String getLevel1InnerName() {
+			return level1InnerName;
+		}
 
-    public void setLevel1InnerName(String level1InnerName) {
-      this.level1InnerName = level1InnerName;
-    }
+		public void setLevel1InnerName(String level1InnerName) {
+			this.level1InnerName = level1InnerName;
+		}
 
-    public class Level2Inner {
-      private String level2InnerName;
+		public class Level2Inner {
+			private String level2InnerName;
 
-      private Level2Inner(List<String> names) {
-        if (names.size() > 0)
-          level2InnerName = names.get(0);
-      }
+			private Level2Inner(List<String> names) {
+				if (names.size() > 0)
+					level2InnerName = names.get(0);
+			}
 
-      public String getLevel2InnerName() {
-        return level2InnerName;
-      }
+			public String getLevel2InnerName() {
+				return level2InnerName;
+			}
 
-      public void setLevel2InnerName(String level2InnerName) {
-        this.level2InnerName = level2InnerName;
-      }
+			public void setLevel2InnerName(String level2InnerName) {
+				this.level2InnerName = level2InnerName;
+			}
 
-    }
-  }
+		}
+	}
 }

@@ -29,35 +29,35 @@ import org.objectweb.asm.Opcodes;
  */
 public class AClassWithBadMethodDump implements Opcodes {
 
-  public static byte[] dump(String className) throws Exception {
+	public static byte[] dump(String className) throws Exception {
 
-    ClassWriter cw = new ClassWriter(0);
-    FieldVisitor fv;
-    MethodVisitor mv;
-    AnnotationVisitor av0;
+		ClassWriter cw = new ClassWriter(0);
+		FieldVisitor fv;
+		MethodVisitor mv;
+		AnnotationVisitor av0;
 
-    cw.visit(V1_5, ACC_PUBLIC + ACC_SUPER,
-        className, null, "java/lang/Object",
-        null);
-    {
-      mv = cw.visitMethod(ACC_PUBLIC, "<init>", "()V", null, null);
-      mv.visitCode();
-      mv.visitVarInsn(ALOAD, 0);
-      mv.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
-      mv.visitInsn(RETURN);
-      mv.visitMaxs(1, 1);
-      mv.visitEnd();
-    }
-    {
-      mv = cw.visitMethod(ACC_PRIVATE, "badMethod", "()V", null, null);
-      mv.visitCode();
-      mv.visitLdcInsn("Should not return on void");
-      mv.visitInsn(ARETURN);
-      mv.visitMaxs(1, 1);
-      mv.visitEnd();
-    }
-    cw.visitEnd();
+		cw.visit(V1_5, ACC_PUBLIC + ACC_SUPER,
+				className, null, "java/lang/Object",
+				null);
+		{
+			mv = cw.visitMethod(ACC_PUBLIC, "<init>", "()V", null, null);
+			mv.visitCode();
+			mv.visitVarInsn(ALOAD, 0);
+			mv.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
+			mv.visitInsn(RETURN);
+			mv.visitMaxs(1, 1);
+			mv.visitEnd();
+		}
+		{
+			mv = cw.visitMethod(ACC_PRIVATE, "badMethod", "()V", null, null);
+			mv.visitCode();
+			mv.visitLdcInsn("Should not return on void");
+			mv.visitInsn(ARETURN);
+			mv.visitMaxs(1, 1);
+			mv.visitEnd();
+		}
+		cw.visitEnd();
 
-    return cw.toByteArray();
-  }
+		return cw.toByteArray();
+	}
 }

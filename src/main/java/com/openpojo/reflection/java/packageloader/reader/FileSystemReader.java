@@ -37,75 +37,105 @@ import com.openpojo.reflection.java.packageloader.utils.Helper;
  * @author oshoukry
  */
 public class FileSystemReader {
-  private final File directory;
+	private final File directory;
 
-  private FileSystemReader(File directory) {
-    this.directory = directory;
-  }
+	private FileSystemReader(File directory) {
+		this.directory = directory;
+	}
 
-  public static FileSystemReader getInstance(URL url) {
-      return new FileSystemReader(getDirectory(url));
-  }
+	/**
+	 * Creates a reader for the directory the given URL points at.
+	 *
+	 * @param url
+	 *     URL of a file system directory.
+	 * @return the reader for that directory.
+	 */
+	public static FileSystemReader getInstance(URL url) {
+		return new FileSystemReader(getDirectory(url));
+	}
 
-  public static FileSystemReader getInstance(File directory) {
-    return new FileSystemReader(directory);
-  }
+	/**
+	 * Creates a reader for the given directory.
+	 *
+	 * @param directory
+	 *     The directory to walk.
+	 * @return the reader for that directory.
+	 */
+	public static FileSystemReader getInstance(File directory) {
+		return new FileSystemReader(directory);
+	}
 
-  public Set<Type> getTypesInPackage(String packageName) {
+	/**
+	 * The classes of the given package inside this directory.
+	 *
+	 * @param packageName
+	 *     The package to read.
+	 * @return the types found.
+	 */
+	public Set<Type> getTypesInPackage(String packageName) {
 
-    final Set<Type> types = new HashSet<Type>();
+		final Set<Type> types = new HashSet<>();
 
-    for (final File entry : getEntries()) {
-      final String className = fromJDKPathToJDKPackage(packageName) + Java.PACKAGE_DELIMITER + entry.getName();
-      final Class<?> classEntry = getAsClass(className);
-      if (classEntry != null) {
-        types.add(classEntry);
-      }
-    }
-    return types;
-  }
+		for (final File entry : getEntries()) {
+			final String className = fromJDKPathToJDKPackage(packageName) + Java.PACKAGE_DELIMITER + entry.getName();
+			final Class<?> classEntry = getAsClass(className);
+			if (classEntry != null) {
+				types.add(classEntry);
+			}
+		}
+		return types;
+	}
 
-  public Set<String> getSubPackagesOfPackage(String packageName) {
-    final Set<String> subPaths = new HashSet<String>();
-    for (final File file : getEntries()) {
-      if (file.isDirectory()) {
-        if (packageName != null && packageName.length() > 0)
-          subPaths.add(fromJDKPathToJDKPackage(packageName) + Java.PACKAGE_DELIMITER + file.getName());
-        else
-          subPaths.add(file.getName());
-      }
-    }
-    return subPaths;
-  }
+	/**
+	 * Direct sub-packages of the given one inside this directory.
+	 *
+	 * @param packageName
+	 *     The starting package.
+	 * @return the sub-packages found.
+	 */
+	public Set<String> getSubPackagesOfPackage(String packageName) {
+		final Set<String> subPaths = new HashSet<>();
+		for (final File file : getEntries()) {
+			if (file.isDirectory()) {
+				if (packageName != null && packageName.length() > 0)
+					subPaths.add(fromJDKPathToJDKPackage(packageName) + Java.PACKAGE_DELIMITER + file.getName());
+				else
+					subPaths.add(file.getName());
+			}
+		}
+		return subPaths;
+	}
 
-  private static File getDirectory(URL url) {
-    // convert toURI to decode %20 for spaces, etc.
-    URLToFileSystemAdapter urlToFileSystemAdapter = new URLToFileSystemAdapter(url);
+	private static File getDirectory(URL url) {
+		// convert toURI to decode %20 for spaces, etc.
+		URLToFileSystemAdapter urlToFileSystemAdapter = new URLToFileSystemAdapter(url);
 
-    File directory = urlToFileSystemAdapter.getAsFile();
+		File directory = urlToFileSystemAdapter.getAsFile();
 
-    if (!directory.exists() || !directory.isDirectory())
-      throw ReflectionException.getInstance("Failed to retrieve entries in path: [" + directory.getAbsolutePath() + "] " +
-          "created from URI: [" + urlToFileSystemAdapter.getAsURI() + "].  Please report this issue @ http://openpojo.com");
+		if (!directory.exists() || !directory.isDirectory())
+			throw ReflectionException
+					.getInstance("Failed to retrieve entries in path: [" + directory.getAbsolutePath() + "] " +
+							"created from URI: [" + urlToFileSystemAdapter.getAsURI()
+							+ "].  Please report this issue @ http://openpojo.com");
 
-    return directory;
-  }
+		return directory;
+	}
 
-  private File[] getEntries() {
-    return directory.listFiles();
-  }
+	private File[] getEntries() {
+		return directory.listFiles();
+	}
 
-  private Class<?> getAsClass(final String entry) {
-    if (Helper.isClass(entry)) {
-      String className = Helper.getFQClassName(entry);
+	private Class<?> getAsClass(final String entry) {
+		if (Helper.isClass(entry)) {
+			String className = Helper.getFQClassName(entry);
 
-      return ClassUtil.loadClass(className, false);
-    }
-    return null;
-  }
+			return ClassUtil.loadClass(className, false);
+		}
+		return null;
+	}
 
-  private static String fromJDKPathToJDKPackage(final String path) {
-    return path.replace(Java.PATH_DELIMITER, Java.PACKAGE_DELIMITER);
-  }
+	private static String fromJDKPathToJDKPackage(final String path) {
+		return path.replace(Java.PATH_DELIMITER, Java.PACKAGE_DELIMITER);
+	}
 
 }

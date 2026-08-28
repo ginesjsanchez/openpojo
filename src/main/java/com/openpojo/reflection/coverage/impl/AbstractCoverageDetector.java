@@ -24,19 +24,28 @@ import com.openpojo.reflection.coverage.CoverageDetector;
 import com.openpojo.reflection.java.load.ClassUtil;
 
 /**
+ * Base for the coverage detectors: resolves {@code isLoaded()} by checking whether the telltale class of the tool is
+ * loaded.
+ *
  * @author oshoukry
  */
 public abstract class AbstractCoverageDetector implements CoverageDetector {
 
-  public abstract String getName();
+	public abstract String getName();
 
-  public abstract String getCoverageClassName();
+	public abstract String getCoverageClassName();
 
-  public abstract PojoClassFilter getPojoClassFilter();
+	public abstract PojoClassFilter getPojoClassFilter();
 
-  public abstract PojoClassAdapter getPojoClassAdapter();
+	public abstract PojoClassAdapter getPojoClassAdapter();
 
-  public boolean isLoaded() {
-    return ClassUtil.isClassLoaded(getCoverageClassName());
-  }
+	public boolean isLoaded() {
+		return ClassUtil.isClassLoaded(getCoverageClassName());
+	}
+
+	/**
+	 * Constructor reachable only from subclasses.
+	 */
+	protected AbstractCoverageDetector() {
+	}
 }

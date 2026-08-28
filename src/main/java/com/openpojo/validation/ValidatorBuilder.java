@@ -27,50 +27,86 @@ import com.openpojo.validation.rule.Rule;
 import com.openpojo.validation.test.Tester;
 
 /**
+ * Builds a {@code Validator} by gathering the structural rules and behavioural testers to apply.
+ *
  * @author oshoukry
  */
 public class ValidatorBuilder {
 
-  private List<Rule> rules = new ArrayList<Rule>();
-  private List<Tester> testers = new ArrayList<Tester>();
+	private List<Rule> rules = new ArrayList<>();
+	private List<Tester> testers = new ArrayList<>();
 
-  private ValidatorBuilder() {
-  }
+	private ValidatorBuilder() {
+	}
 
-  public static ValidatorBuilder create() {
-    return new ValidatorBuilder();
-  }
+	/**
+	 * Starts building a validator.
+	 *
+	 * @return an empty builder.
+	 */
+	public static ValidatorBuilder create() {
+		return new ValidatorBuilder();
+	}
 
-  public ValidatorBuilder with(Rule... rules) {
-    if (rules != null)
-      for (Rule rule : rules) {
-        if (rule != null)
-          this.rules.add(rule);
-      }
-    return this;
-  }
+	/**
+	 * Adds structural rules.
+	 *
+	 * @param rules
+	 *     The rules to apply.
+	 * @return this same builder, so calls can be chained.
+	 */
+	public ValidatorBuilder with(Rule... rules) {
+		if (rules != null)
+			for (Rule rule : rules) {
+				if (rule != null)
+					this.rules.add(rule);
+			}
+		return this;
+	}
 
-  public List<Rule> getRules() {
-    return rules;
-  }
+	/**
+	 * Rules added so far.
+	 *
+	 * @return the rules gathered so far.
+	 */
+	public List<Rule> getRules() {
+		return rules;
+	}
 
-  public ValidatorBuilder with(Tester... testers) {
-    if (testers != null)
-      for (Tester tester : testers) {
-        if (tester != null)
-          this.testers.add(tester);
-      }
-    return this;
-  }
+	/**
+	 * Adds behavioural testers.
+	 *
+	 * @param testers
+	 *     The testers to apply.
+	 * @return this same builder, so calls can be chained.
+	 */
+	public ValidatorBuilder with(Tester... testers) {
+		if (testers != null)
+			for (Tester tester : testers) {
+				if (tester != null)
+					this.testers.add(tester);
+			}
+		return this;
+	}
 
-  public List<Tester> getTesters() {
-    return testers;
-  }
+	/**
+	 * Testers added so far.
+	 *
+	 * @return the testers gathered so far.
+	 */
+	public List<Tester> getTesters() {
+		return testers;
+	}
 
-  public Validator build() {
-    if (rules.size() == 0 && testers.size() == 0)
-      throw ValidationException.getInstance("You must add at least 1 Rule or Tester before building Validator");
-    return new DefaultValidator(rules, testers);
-  }
+	/**
+	 * Closes the build and returns the validator with everything gathered so far.
+	 *
+	 * @return the validator, ready to use.
+	 */
+	public Validator build() {
+		if (rules.size() == 0 && testers.size() == 0)
+			throw ValidationException.getInstance("You must add at least 1 Rule or Tester before building Validator");
+		return new DefaultValidator(rules, testers);
+	}
 
 }

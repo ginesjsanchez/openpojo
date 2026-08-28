@@ -23,5 +23,5 @@ package com.openpojo.issues.issue31.sample;
  */
 public interface Truck {
 
-  Wheel getWheel();
+	Wheel getWheel();
 }

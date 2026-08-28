@@ -24,19 +24,27 @@ import java.lang.reflect.TypeVariable;
 import com.openpojo.reflection.java.type.TypeResolver;
 
 /**
+ * Resolves a type variable, such as the {@code T} in {@code List<T>}, to its first bound.
+ *
  * @author oshoukry
  */
-public class TypeVariableResolver implements TypeResolver<TypeVariable> {
+public class TypeVariableResolver implements TypeResolver<TypeVariable<?>> {
 
-  public Type resolveType(TypeVariable type) {
-    return type.getBounds()[0];
-  }
+	public Type resolveType(TypeVariable<?> type) {
+		return type.getBounds()[0];
+	}
 
-  public Type getEnclosingType(TypeVariable type) {
-    return type.getBounds()[0];
-  }
+	public Type getEnclosingType(TypeVariable<?> type) {
+		return type.getBounds()[0];
+	}
 
-  public Type[] getParameterTypes(TypeVariable type) {
-    return type.getBounds();
-  }
+	public Type[] getParameterTypes(TypeVariable<?> type) {
+		return type.getBounds();
+	}
+
+	/**
+	 * Creates an instance ready to use.
+	 */
+	public TypeVariableResolver() {
+	}
 }

@@ -18,8 +18,6 @@
 
 package com.openpojo.random.collection;
 
-import static org.junit.jupiter.api.Assertions.fail;
-
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,6 +38,8 @@ import com.openpojo.validation.Validator;
 import com.openpojo.validation.ValidatorBuilder;
 import com.openpojo.validation.rule.impl.SetterMustExistRule;
 import com.openpojo.validation.test.impl.SetterTester;
+
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author oshoukry
@@ -72,7 +72,7 @@ public class CollectionRandomGeneratorTest {
 
 	@Test
 	public void whenGenerateWithCollection_ReturnNonEmpty() {
-		Collection collection = CollectionRandomGenerator.getInstance().doGenerate(Collection.class);
+		Collection<?> collection = CollectionRandomGenerator.getInstance().doGenerate(Collection.class);
 		Assertions.assertNotNull(collection);
 		Assertions.assertTrue(collection.size() > 0);
 		Assertions.assertTrue(collection instanceof ArrayList);
@@ -95,12 +95,11 @@ public class CollectionRandomGeneratorTest {
 
 			@Override
 			public List<Type> getParameterTypes() {
-				return Arrays.asList(new Type[] { String.class });
+				return Arrays.asList(new Type[]{String.class});
 			}
 		};
 
-		Collection<String> aCollectionOfStrings;
-		aCollectionOfStrings = CollectionRandomGenerator.getInstance().doGenerate(parameterizable);
+		Collection<?> aCollectionOfStrings = CollectionRandomGenerator.getInstance().doGenerate(parameterizable);
 		Assertions.assertNotNull(aCollectionOfStrings);
 		Assertions.assertTrue(aCollectionOfStrings.size() > 0);
 		for (Object s : aCollectionOfStrings) {
@@ -111,7 +110,7 @@ public class CollectionRandomGeneratorTest {
 
 	@Test
 	public void testEndToEnd() {
-		Collection collection = RandomFactory.getRandomValue(Collection.class);
+		Collection<?> collection = RandomFactory.getRandomValue(Collection.class);
 		Assertions.assertNotNull(collection, "Should not be null");
 		Assertions.assertTrue(collection.size() > 0, "Should not be empty");
 		Assertions.assertTrue(collection instanceof ArrayList, "Should be an ArrayList");

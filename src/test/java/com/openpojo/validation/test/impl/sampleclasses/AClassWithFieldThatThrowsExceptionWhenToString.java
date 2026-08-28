@@ -23,13 +23,13 @@ package com.openpojo.validation.test.impl.sampleclasses;
  */
 @SuppressWarnings("unused")
 public class AClassWithFieldThatThrowsExceptionWhenToString {
-  private AClassThatThrowsExceptionWhenToString someClass;
+	private AClassThatThrowsExceptionWhenToString someClass;
 
-  public AClassThatThrowsExceptionWhenToString getSomeClass() {
-    return someClass;
-  }
+	public AClassThatThrowsExceptionWhenToString getSomeClass() {
+		return someClass;
+	}
 
-  public void setSomeClass(AClassThatThrowsExceptionWhenToString someClass) {
-    this.someClass = someClass;
-  }
+	public void setSomeClass(AClassThatThrowsExceptionWhenToString someClass) {
+		this.someClass = someClass;
+	}
 }

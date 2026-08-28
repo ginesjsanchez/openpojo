@@ -25,13 +25,13 @@ import java.util.Collection;
  */
 @SuppressWarnings("unused")
 public class AClassWithGenericCollection {
-  private Collection<String> myCollection;
+	private Collection<String> myCollection;
 
-  public Collection<String> getMyCollection() {
-    return myCollection;
-  }
+	public Collection<String> getMyCollection() {
+		return myCollection;
+	}
 
-  public void setMyCollection(Collection<String> myCollection) {
-    this.myCollection = myCollection;
-  }
+	public void setMyCollection(Collection<String> myCollection) {
+		this.myCollection = myCollection;
+	}
 }

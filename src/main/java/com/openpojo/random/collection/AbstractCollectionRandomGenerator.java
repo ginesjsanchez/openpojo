@@ -27,26 +27,36 @@ import com.openpojo.random.collection.util.BaseCollectionRandomGenerator;
 import com.openpojo.random.util.Helper;
 
 /**
+ * Generates values for {@code AbstractCollection}, returning a {@code ArrayList} holding between 1 and 5 random
+ * elements.
+ *
  * @author oshoukry
  */
 public class AbstractCollectionRandomGenerator extends BaseCollectionRandomGenerator {
-  private static final Class<?>[] TYPES = new Class<?>[] { AbstractCollection.class };
-  private static final AbstractCollectionRandomGenerator INSTANCE = new AbstractCollectionRandomGenerator();
+	private static final Class<?>[] TYPES = new Class<?>[]{AbstractCollection.class};
+	private static final AbstractCollectionRandomGenerator INSTANCE = new AbstractCollectionRandomGenerator();
 
-  public static AbstractCollectionRandomGenerator getInstance() {
-    return INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared generator.
+	 */
+	public static AbstractCollectionRandomGenerator getInstance() {
+		return INSTANCE;
+	}
 
-  public Collection<Class<?>> getTypes() {
-    return Arrays.asList(TYPES);
-  }
+	@Override
+	public Collection<Class<?>> getTypes() {
+		return Arrays.asList(TYPES);
+	}
 
-  @Override
-  protected Collection getBasicInstance(Class<?> type) {
-    Helper.assertIsAssignableTo(type, getTypes());
-    return new ArrayList();
-  }
+	@Override
+	protected Collection<Object> getBasicInstance(Class<?> type) {
+		Helper.assertIsAssignableTo(type, getTypes());
+		return new ArrayList<>();
+	}
 
-  private AbstractCollectionRandomGenerator() {
-  }
+	private AbstractCollectionRandomGenerator() {
+	}
 }

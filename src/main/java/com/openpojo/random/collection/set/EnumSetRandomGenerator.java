@@ -33,13 +33,22 @@ import com.openpojo.random.util.SomeEnum;
 import com.openpojo.reflection.Parameterizable;
 
 /**
+ * Generates an {@code EnumSet} from random {@code SomeEnum} values, the filler enum openpojo uses when the real type
+ * is unknown.
+ *
  * @author oshoukry
  */
 public class EnumSetRandomGenerator extends BaseCollectionRandomGenerator {
 	private static final Random RANDOM = new Random(new Date().getTime());
-	private static final Class<?>[] TYPES = new Class<?>[] { EnumSet.class };
+	private static final Class<?>[] TYPES = new Class<?>[]{EnumSet.class};
 	private static final EnumSetRandomGenerator INSTANCE = new EnumSetRandomGenerator();
 
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared generator.
+	 */
 	public static EnumSetRandomGenerator getInstance() {
 		return INSTANCE;
 	}
@@ -50,24 +59,24 @@ public class EnumSetRandomGenerator extends BaseCollectionRandomGenerator {
 	}
 
 	@Override
-	protected Collection<?> getBasicInstance(Class<?> type) {
+	protected Collection<Object> getBasicInstance(Class<?> type) {
 		Helper.assertIsAssignableTo(type, getTypes());
-		List<SomeEnum> someEnums = new ArrayList<SomeEnum>();
+		List<SomeEnum> someEnums = new ArrayList<>();
 		for (int i = 0; i < CollectionHelper.MAX_RANDOM_ELEMENTS; i++) {
 			someEnums.add(SomeEnum.values()[RANDOM.nextInt(SomeEnum.values().length - 1)]);
 		}
 
-		return EnumSet.copyOf(someEnums);
+		return CollectionHelper.asCollection(EnumSet.copyOf(someEnums));
 	}
 
 	@Override
-	public Collection<?> doGenerate(Class<?> type) {
+	public Collection<Object> doGenerate(Class<?> type) {
 		return getBasicInstance(type);
 	}
 
 	@Override
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public Collection<?> doGenerate(Parameterizable parameterizedType) {
+	@SuppressWarnings({"unchecked", "rawtypes"})
+	public Collection<Object> doGenerate(Parameterizable parameterizedType) {
 		Helper.assertIsAssignableTo(parameterizedType.getType(), getTypes());
 		return EnumSet.allOf((Class) parameterizedType.getParameterTypes().get(0));
 	}

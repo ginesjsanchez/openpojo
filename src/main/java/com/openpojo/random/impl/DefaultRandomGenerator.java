@@ -20,7 +20,8 @@ package com.openpojo.random.impl;
 
 import java.util.Collection;
 
-import com.openpojo.log.LoggerFactory;
+import org.slf4j.LoggerFactory;
+
 import com.openpojo.random.RandomGenerator;
 import com.openpojo.random.dynamic.ArrayRandomGenerator;
 import com.openpojo.random.dynamic.EnumRandomGenerator;
@@ -31,36 +32,46 @@ import com.openpojo.reflection.construct.InstanceFactory;
 import com.openpojo.reflection.impl.PojoClassFactory;
 
 /**
+ * Last resort generator: the one used when no registered generator covers the requested type. Depending on the case
+ * it delegates to the interface, enum or array generator, and failing that it builds the instance by reflection.
+ *
  * @author oshoukry
  */
 public class DefaultRandomGenerator implements RandomGenerator {
-  private final RandomInstanceFromInterfaceRandomGenerator interfaceRandomGenerator =
-      RandomInstanceFromInterfaceRandomGenerator.getInstance();
-  private final EnumRandomGenerator enumRandomGenerator = EnumRandomGenerator.getInstance();
-  private final ArrayRandomGenerator arrayRandomGenerator = ArrayRandomGenerator.getInstance();
+	private final RandomInstanceFromInterfaceRandomGenerator interfaceRandomGenerator = RandomInstanceFromInterfaceRandomGenerator
+			.getInstance();
+	private final EnumRandomGenerator enumRandomGenerator = EnumRandomGenerator.getInstance();
+	private final ArrayRandomGenerator arrayRandomGenerator = ArrayRandomGenerator.getInstance();
 
-  public Collection<Class<?>> getTypes() {
-    throw RandomGeneratorException.getInstance("UnImplemented, this default RandomGenerator should be registered as " +
-        "Default, and has " + "no explicit Types declared");
-  }
+	public Collection<Class<?>> getTypes() {
+		throw RandomGeneratorException
+				.getInstance("UnImplemented, this default RandomGenerator should be registered as " +
+						"Default, and has " + "no explicit Types declared");
+	}
 
-  public Object doGenerate(final Class<?> type) {
-    final PojoClass typePojoClass = PojoClassFactory.getPojoClass(type);
-    if (typePojoClass.isInterface()) {
-      return interfaceRandomGenerator.doGenerate(type);
-    }
+	public Object doGenerate(final Class<?> type) {
+		final PojoClass typePojoClass = PojoClassFactory.getPojoClass(type);
+		if (typePojoClass.isInterface()) {
+			return interfaceRandomGenerator.doGenerate(type);
+		}
 
-    if (typePojoClass.isEnum()) {
-      return enumRandomGenerator.doGenerate(type);
-    }
+		if (typePojoClass.isEnum()) {
+			return enumRandomGenerator.doGenerate(type);
+		}
 
-    if (typePojoClass.isArray()) {
-      return arrayRandomGenerator.doGenerate(type);
-    }
+		if (typePojoClass.isArray()) {
+			return arrayRandomGenerator.doGenerate(type);
+		}
 
-    LoggerFactory.getLogger(DefaultRandomGenerator.class).debug("Creating basic instance for type=[{0}] using " +
-        "InstanceFactory", type);
-    return InstanceFactory.getLeastCompleteInstance(PojoClassFactory.getPojoClass(type));
+		LoggerFactory.getLogger(DefaultRandomGenerator.class).debug("Creating basic instance for type=[{}] using " +
+				"InstanceFactory", type);
+		return InstanceFactory.getLeastCompleteInstance(PojoClassFactory.getPojoClass(type));
 
-  }
+	}
+
+	/**
+	 * Creates an instance ready to use.
+	 */
+	public DefaultRandomGenerator() {
+	}
 }

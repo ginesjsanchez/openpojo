@@ -18,8 +18,6 @@
 
 package com.openpojo.random.dynamic;
 
-import static org.junit.jupiter.api.Assertions.fail;
-
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -34,6 +32,8 @@ import com.openpojo.reflection.PojoMethod;
 import com.openpojo.reflection.exception.ReflectionException;
 import com.openpojo.reflection.impl.PojoClassFactory;
 import com.openpojo.validation.affirm.Affirm;
+
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class RandomInstanceFromInterfaceRandomGeneratorTest {
 

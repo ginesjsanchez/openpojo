@@ -23,7 +23,6 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import static com.openpojo.reflection.java.version.VersionParser.getVersionParts;
-import static org.hamcrest.Matchers.is;
 //import static org.junit.jupiter.api.Assertions.//assertThat;
 
 /**
@@ -31,56 +30,56 @@ import static org.hamcrest.Matchers.is;
  */
 public class VersionParserTest {
 
-  @Test
-  public void shouldReturnEmptyListForVersionNull() {
-    //assertThat(getVersionParts(null).size(), is(0));
-  }
+	@Test
+	public void shouldReturnEmptyListForVersionNull() {
+		//assertThat(getVersionParts(null).size(), is(0));
+	}
 
-  @Test
-  public void shouldReturnEmptyListForVersionPartsWhenString() {
-    //assertThat(getVersionParts("SomeString").size(), is(0));
-  }
+	@Test
+	public void shouldReturnEmptyListForVersionPartsWhenString() {
+		//assertThat(getVersionParts("SomeString").size(), is(0));
+	}
 
-  @Test
-  public void shouldReturnMajorWhenOnlyMajorPresent() {
-    Integer major = 5;
+	@Test
+	public void shouldReturnMajorWhenOnlyMajorPresent() {
+		Integer major = 5;
 
-    final List<Integer> versionParts = getVersionParts("" + major);
-    //assertThat(versionParts.size(), is(1));
-    //assertThat(versionParts.get(0), is(major));
-  }
+		final List<Integer> versionParts = getVersionParts("" + major);
+		//assertThat(versionParts.size(), is(1));
+		//assertThat(versionParts.get(0), is(major));
+	}
 
-  @Test
-  public void shouldGetMajorAndMinor() {
-    Integer major = 6;
-    Integer minor = 2;
+	@Test
+	public void shouldGetMajorAndMinor() {
+		Integer major = 6;
+		Integer minor = 2;
 
-    final List<Integer> versionParts = getVersionParts("" + major + "." + minor);
+		final List<Integer> versionParts = getVersionParts("" + major + "." + minor);
 
-    //assertThat(versionParts.size(), is(2));
-    //assertThat(versionParts.get(0), is(major));
-    //assertThat(versionParts.get(1), is(minor));
-  }
+		//assertThat(versionParts.size(), is(2));
+		//assertThat(versionParts.get(0), is(major));
+		//assertThat(versionParts.get(1), is(minor));
+	}
 
-  @Test
-  public void shouldSkipOverStrings() {
-    Integer major = 7;
-    Integer minor = 5;
+	@Test
+	public void shouldSkipOverStrings() {
+		Integer major = 7;
+		Integer minor = 5;
 
-    final List<Integer> versionParts = getVersionParts("" + major + "." + minor + "-BETA");
-    //assertThat(versionParts.size(), is(2));
-    //assertThat(versionParts.get(0), is(major));
-    //assertThat(versionParts.get(1), is(minor));
-  }
+		final List<Integer> versionParts = getVersionParts("" + major + "." + minor + "-BETA");
+		//assertThat(versionParts.size(), is(2));
+		//assertThat(versionParts.get(0), is(major));
+		//assertThat(versionParts.get(1), is(minor));
+	}
 
-  @Test
-  public void shouldSkipDotsThatAreBetweenStrings() {
-    Integer major = 9;
-    Integer minor = 3;
+	@Test
+	public void shouldSkipDotsThatAreBetweenStrings() {
+		Integer major = 9;
+		Integer minor = 3;
 
-    final List<Integer> versionParts = getVersionParts("" + major + ".BETA." + minor);
-    //assertThat(versionParts.size(), is(2));
-    //assertThat(versionParts.get(0), is(major));
-    //assertThat(versionParts.get(1), is(minor));
-  }
+		final List<Integer> versionParts = getVersionParts("" + major + ".BETA." + minor);
+		//assertThat(versionParts.size(), is(2));
+		//assertThat(versionParts.get(0), is(major));
+		//assertThat(versionParts.get(1), is(minor));
+	}
 }

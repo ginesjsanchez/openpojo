@@ -23,36 +23,47 @@ import java.util.Collection;
 import java.util.List;
 
 import com.openpojo.random.collection.util.BaseCollectionRandomGenerator;
+import com.openpojo.random.collection.util.CollectionHelper;
 import com.openpojo.random.util.Helper;
 import com.openpojo.reflection.construct.InstanceFactory;
 import com.openpojo.reflection.impl.PojoClassFactory;
 import com.openpojo.reflection.java.load.ClassUtil;
 
 /**
+ * Generates values for {@code TransferQueue}, returning a {@code LinkedTransferQueue} holding between 1 and 5 random
+ * elements.
+ *
  * @author oshoukry
  */
 public class TransferQueueRandomGenerator extends BaseCollectionRandomGenerator {
-  private static final String TYPE = "java.util.concurrent.TransferQueue";
-  private static final String CONCRETE_TYPE = "java.util.concurrent.LinkedTransferQueue";
-  private static final TransferQueueRandomGenerator INSTANCE = new TransferQueueRandomGenerator();
+	private static final String TYPE = "java.util.concurrent.TransferQueue";
+	private static final String CONCRETE_TYPE = "java.util.concurrent.LinkedTransferQueue";
+	private static final TransferQueueRandomGenerator INSTANCE = new TransferQueueRandomGenerator();
 
-  public static TransferQueueRandomGenerator getInstance() {
-    return INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared generator.
+	 */
+	public static TransferQueueRandomGenerator getInstance() {
+		return INSTANCE;
+	}
 
-  public Collection<Class<?>> getTypes() {
-    List<Class<?>> types = new ArrayList<Class<?>>();
-    if (ClassUtil.isClassLoaded(TYPE) && ClassUtil.isClassLoaded(CONCRETE_TYPE))
-      types.add(ClassUtil.loadClass(TYPE));
-    return types;
-  }
+	public Collection<Class<?>> getTypes() {
+		List<Class<?>> types = new ArrayList<>();
+		if (ClassUtil.isClassLoaded(TYPE) && ClassUtil.isClassLoaded(CONCRETE_TYPE))
+			types.add(ClassUtil.loadClass(TYPE));
+		return types;
+	}
 
-  @Override
-  protected Collection getBasicInstance(Class<?> type) {
-    Helper.assertIsAssignableTo(type, getTypes());
-    return (Collection) InstanceFactory.getInstance(PojoClassFactory.getPojoClass(ClassUtil.loadClass(CONCRETE_TYPE)));
-  }
+	@Override
+	protected Collection<Object> getBasicInstance(Class<?> type) {
+		Helper.assertIsAssignableTo(type, getTypes());
+		return CollectionHelper.asCollection((Collection<?>) InstanceFactory
+				.getInstance(PojoClassFactory.getPojoClass(ClassUtil.loadClass(CONCRETE_TYPE))));
+	}
 
-  private TransferQueueRandomGenerator() {
-  }
+	private TransferQueueRandomGenerator() {
+	}
 }

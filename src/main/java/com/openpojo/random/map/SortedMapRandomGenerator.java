@@ -30,26 +30,35 @@ import com.openpojo.random.util.Helper;
 import com.openpojo.random.util.SerializableComparableObject;
 
 /**
+ * Generates values for {@code SortedMap}, returning a {@code TreeMap} holding between 1 and 5 random entries.
+ *
  * @author oshoukry
  */
 public class SortedMapRandomGenerator extends BaseMapRandomGenerator {
-  private static final Class<?>[] TYPES = new Class<?>[] { SortedMap.class };
-  private static final SortedMapRandomGenerator INSTANCE = new SortedMapRandomGenerator();
+	private static final Class<?>[] TYPES = new Class<?>[]{SortedMap.class};
+	private static final SortedMapRandomGenerator INSTANCE = new SortedMapRandomGenerator();
 
-  public static SortedMapRandomGenerator getInstance() {
-    return INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared generator.
+	 */
+	public static SortedMapRandomGenerator getInstance() {
+		return INSTANCE;
+	}
 
-  public Collection<Class<?>> getTypes() {
-    return Arrays.asList(TYPES);
-  }
+	public Collection<Class<?>> getTypes() {
+		return Arrays.asList(TYPES);
+	}
 
-  @Override
-  protected Map getBasicInstance(Class<?> type) {
-    Helper.assertIsAssignableTo(type, getTypes());
-    return MapHelper.buildMap(new TreeMap(), SerializableComparableObject.class, SerializableComparableObject.class);
-  }
+	@Override
+	protected Map<Object, Object> getBasicInstance(Class<?> type) {
+		Helper.assertIsAssignableTo(type, getTypes());
+		return MapHelper.buildMap(new TreeMap<>(), SerializableComparableObject.class,
+				SerializableComparableObject.class);
+	}
 
-  private SortedMapRandomGenerator() {
-  }
+	private SortedMapRandomGenerator() {
+	}
 }

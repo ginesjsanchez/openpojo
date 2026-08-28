@@ -23,27 +23,51 @@ import java.lang.reflect.Method;
 import com.openpojo.random.exception.RandomGeneratorException;
 
 /**
+ * Reflection helpers for the date and time generators, which work with types that may not be present at runtime.
+ *
  * @author oshoukry
  */
 public class ReflectionHelper {
 
-  public static Object invokeMethod(Method method, Object instance, Object ... params) {
-    try {
-      return method.invoke(instance, params);
-    } catch (Exception e) {
-      throw RandomGeneratorException.getInstance(e.getMessage(), e);
-    }
-  }
+	/**
+	 * Invokes a method obtained by reflection.
+	 *
+	 * @param method
+	 *     The method to invoke.
+	 * @param instance
+	 *     The instance to invoke it on, or {@code null} if it is static.
+	 * @param params
+	 *     The call arguments.
+	 * @return whatever the method returns.
+	 */
+	public static Object invokeMethod(Method method, Object instance, Object... params) {
+		try {
+			return method.invoke(instance, params);
+		} catch (Exception e) {
+			throw RandomGeneratorException.getInstance(e.getMessage(), e);
+		}
+	}
 
-  public static Method getMethod(Class <?> onClass, String methodName, Class<?> ... types) {
-    try {
-      return onClass.getMethod(methodName, types);
-    } catch (Exception e) {
-      throw RandomGeneratorException.getInstance(e.getMessage(), e);
-    }
-  }
+	/**
+	 * Looks a method up by name and parameter types, without propagating the failure if it is not there.
+	 *
+	 * @param onClass
+	 *     The class to search in.
+	 * @param methodName
+	 *     The method name.
+	 * @param types
+	 *     The types of its parameters.
+	 * @return the method, or {@code null} if it is not there.
+	 */
+	public static Method getMethod(Class<?> onClass, String methodName, Class<?>... types) {
+		try {
+			return onClass.getMethod(methodName, types);
+		} catch (Exception e) {
+			throw RandomGeneratorException.getInstance(e.getMessage(), e);
+		}
+	}
 
-  private ReflectionHelper() {
-    throw new UnsupportedOperationException(ReflectionHelper.class.getName() +  " should not be constructed!");
-  }
+	private ReflectionHelper() {
+		throw new UnsupportedOperationException(ReflectionHelper.class.getName() + " should not be constructed!");
+	}
 }

@@ -23,7 +23,8 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import com.openpojo.log.LoggerFactory;
+import org.slf4j.LoggerFactory;
+
 import com.openpojo.reflection.PojoClass;
 import com.openpojo.reflection.PojoClassFilter;
 import com.openpojo.reflection.PojoPackage;
@@ -41,67 +42,75 @@ import com.openpojo.registry.ServiceRegistrar;
 import static com.openpojo.reflection.java.bytecode.asm.SubClassDefinition.GENERATED_CLASS_POSTFIX;
 
 /**
+ * Default implementation of the class lookup: resolves {@code PojoClass} with a cache and walks packages recursively.
+ *
  * @author oshoukry
  */
 public class DefaultPojoClassLookupService implements Service, PojoClassLookupService {
 
-  public DefaultPojoClassLookupService() {
-  }
+	/**
+	 * Creates the service with the default configuration.
+	 */
+	public DefaultPojoClassLookupService() {
+	}
 
-  public String getName() {
-    return this.getClass().getName();
-  }
+	public String getName() {
+		return this.getClass().getName();
+	}
 
-  public List<PojoClass> enumerateClassesByExtendingType(final String packageName, final Class<?> type,
-                                                         final PojoClassFilter pojoClassFilter) {
+	public List<PojoClass> enumerateClassesByExtendingType(final String packageName, final Class<?> type,
+			final PojoClassFilter pojoClassFilter) {
 
-    final FilterBasedOnInheritance inheritanceFilter = new FilterBasedOnInheritance(type);
-    final FilterChain filterChain = new FilterChain(inheritanceFilter, pojoClassFilter);
-    return getPojoClassesRecursively(packageName, filterChain);
-  }
+		final FilterBasedOnInheritance inheritanceFilter = new FilterBasedOnInheritance(type);
+		final FilterChain filterChain = new FilterChain(inheritanceFilter, pojoClassFilter);
+		return getPojoClassesRecursively(packageName, filterChain);
+	}
 
-  public PojoClass getPojoClass(final Class<?> clazz) {
-    PojoClass pojoClass = PojoCache.getPojoClass(clazz.getName());
-    if (pojoClass == null) {
-      try {
-        pojoClass = new PojoClassImpl(clazz, PojoFieldFactory.getPojoFields(clazz), PojoMethodFactory.getPojoMethods(clazz));
-        pojoClass = ServiceRegistrar.getInstance().getPojoCoverageFilterService().adapt(pojoClass);
-      } catch (LinkageError le) {
-        if (clazz.getName().endsWith(GENERATED_CLASS_POSTFIX))
-          throw le;
-        LoggerFactory.getLogger(this.getClass()).warn("Failed to load class [{0}], exception [{1}]", clazz, le);
-      }
-      PojoCache.addPojoClass(clazz.getName(), pojoClass);
-    }
-    return pojoClass;
-  }
+	public PojoClass getPojoClass(final Class<?> clazz) {
+		PojoClass pojoClass = PojoCache.getPojoClass(clazz.getName());
+		if (pojoClass == null) {
+			try {
+				pojoClass = new PojoClassImpl(clazz, PojoFieldFactory.getPojoFields(clazz),
+						PojoMethodFactory.getPojoMethods(clazz));
+				pojoClass = ServiceRegistrar.getInstance().getPojoCoverageFilterService().adapt(pojoClass);
+			} catch (LinkageError le) {
+				if (clazz.getName().endsWith(GENERATED_CLASS_POSTFIX))
+					throw le;
+				// The Throwable goes last with no placeholder of its own: SLF4J takes it as the
+				// exception and logs its stack trace, it does not substitute it into a {}.
+				LoggerFactory.getLogger(this.getClass()).warn("Failed to load class [{}]", clazz, le);
+			}
+			PojoCache.addPojoClass(clazz.getName(), pojoClass);
+		}
+		return pojoClass;
+	}
 
-  public List<PojoClass> getPojoClasses(final String packageName) {
-    return getPojoClasses(packageName, null);
-  }
+	public List<PojoClass> getPojoClasses(final String packageName) {
+		return getPojoClasses(packageName, null);
+	}
 
-  public List<PojoClass> getPojoClasses(final String packageName, final PojoClassFilter pojoClassFilter) {
-    return PojoPackageFactory.getPojoPackage(packageName).getPojoClasses(getFinalFilterChain(pojoClassFilter));
-  }
+	public List<PojoClass> getPojoClasses(final String packageName, final PojoClassFilter pojoClassFilter) {
+		return PojoPackageFactory.getPojoPackage(packageName).getPojoClasses(getFinalFilterChain(pojoClassFilter));
+	}
 
-  public List<PojoClass> getPojoClassesRecursively(final String packageName, final PojoClassFilter pojoClassFilter) {
-    final List<PojoClass> pojoClasses = new LinkedList<PojoClass>();
-    final PojoClassFilter finalFilterChain = getFinalFilterChain(pojoClassFilter);
+	public List<PojoClass> getPojoClassesRecursively(final String packageName, final PojoClassFilter pojoClassFilter) {
+		final List<PojoClass> pojoClasses = new LinkedList<>();
+		final PojoClassFilter finalFilterChain = getFinalFilterChain(pojoClassFilter);
 
-    final PojoPackage pojoPackage = PojoPackageFactory.getPojoPackage(packageName);
+		final PojoPackage pojoPackage = PojoPackageFactory.getPojoPackage(packageName);
 
-    Queue<PojoPackage> pending = new ConcurrentLinkedQueue<PojoPackage>();
-    pending.add(pojoPackage);
+		Queue<PojoPackage> pending = new ConcurrentLinkedQueue<>();
+		pending.add(pojoPackage);
 
-    while (!pending.isEmpty()) {
-      final PojoPackage entry = pending.remove();
-      pending.addAll(entry.getPojoSubPackages());
-      pojoClasses.addAll(entry.getPojoClasses(finalFilterChain));
-    }
-    return pojoClasses;
-  }
+		while (!pending.isEmpty()) {
+			final PojoPackage entry = pending.remove();
+			pending.addAll(entry.getPojoSubPackages());
+			pojoClasses.addAll(entry.getPojoClasses(finalFilterChain));
+		}
+		return pojoClasses;
+	}
 
-  private PojoClassFilter getFinalFilterChain(PojoClassFilter pojoClassFilter) {
-    return new FilterChain(pojoClassFilter, ServiceRegistrar.getInstance().getPojoCoverageFilterService());
-  }
+	private PojoClassFilter getFinalFilterChain(PojoClassFilter pojoClassFilter) {
+		return new FilterChain(pojoClassFilter, ServiceRegistrar.getInstance().getPojoCoverageFilterService());
+	}
 }

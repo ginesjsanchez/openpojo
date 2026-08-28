@@ -1,9 +1,28 @@
-# OpenPojo [![Build Status](https://travis-ci.com/OpenPojo/openpojo.svg?branch=master)](https://travis-ci.com/OpenPojo/openpojo) [![Coverage Status](https://coveralls.io/repos/OpenPojo/openpojo/badge.svg?branch=master)](https://coveralls.io/r/OpenPojo/openpojo?branch=master) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.openpojo/openpojo/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.openpojo/openpojo)
-POJO Testing &amp; Identity Management Made Trivial 
+# GJS OpenPojo
 
-Maven Group Plugin | Latest Version
------------------- | ---------------
-org.gjs.java.openpojo | [1.0.0-SANPSHOT](https://github.com/ginesjsanchez/openpojo/tree/main)
+POJO Testing &amp; Identity Management Made Trivial
+
+A Java 21 port of [OpenPojo](https://github.com/oshoukry/openpojo) 0.9.2, by Osman Shoukry.
+
+```xml
+<dependency>
+  <groupId>org.gjs.java.tools</groupId>
+  <artifactId>openpojo</artifactId>
+  <version>1.0.0-RC.2</version>
+  <scope>test</scope>
+</dependency>
+```
+
+Requires JDK 21.
+
+The only mandatory dependency is `org.slf4j:slf4j-api`. openpojo ships **no logging
+binding**: it uses whichever one your application has configured. If there is none,
+SLF4J warns once and discards the messages.
+
+The remaining integrations are optional and detected at runtime, so openpojo does not
+drag them onto your classpath: JUnit 5 for assertions (without it, failures are plain
+`AssertionError`, which every test framework reports), and ASM to generate subclasses
+of abstract types.
 
 #### Testing Example
 ```java
@@ -62,4 +81,4 @@ public class Person {
 }
 ```
 
-For more examples and the tutorials see the [Wiki](https://github.com/oshoukry/openpojo/wiki)
+More examples and tutorials in the [original project's wiki](https://github.com/oshoukry/openpojo/wiki).

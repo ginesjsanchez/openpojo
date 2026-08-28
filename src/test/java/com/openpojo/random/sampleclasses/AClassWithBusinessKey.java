@@ -25,11 +25,11 @@ import com.openpojo.business.annotation.BusinessKey;
  */
 public class AClassWithBusinessKey {
 
-  @BusinessKey
-  private String someKey;
+	@BusinessKey
+	private String someKey;
 
-  @SuppressWarnings("unused")
-  public String getSomeKey() {
-    return someKey;
-  }
+	@SuppressWarnings("unused")
+	public String getSomeKey() {
+		return someKey;
+	}
 }

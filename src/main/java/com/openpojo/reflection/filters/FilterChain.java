@@ -27,50 +27,68 @@ import com.openpojo.reflection.PojoClass;
 import com.openpojo.reflection.PojoClassFilter;
 
 /**
+ * Chains several {@code PojoClassFilter}: a class only passes if all of them accept it.
+ *
  * @author oshoukry
  */
 public class FilterChain implements PojoClassFilter {
-  private final Set<PojoClassFilter> pojoClassFilters = new LinkedHashSet<PojoClassFilter>();
+	private final Set<PojoClassFilter> pojoClassFilters = new LinkedHashSet<>();
 
-  public FilterChain(final PojoClassFilter... pojoClassFilters) {
-    if (pojoClassFilters != null)
-      for (PojoClassFilter pojoClassFilter : pojoClassFilters) {
-        if (pojoClassFilter != null) {
-          this.pojoClassFilters.add(pojoClassFilter);
-        }
-      }
-  }
+	/**
+	 * Chains the given filters; nulls are ignored.
+	 *
+	 * @param pojoClassFilters
+	 *     The filters to apply together.
+	 */
+	public FilterChain(final PojoClassFilter... pojoClassFilters) {
+		if (pojoClassFilters != null)
+			for (PojoClassFilter pojoClassFilter : pojoClassFilters) {
+				if (pojoClassFilter != null) {
+					this.pojoClassFilters.add(pojoClassFilter);
+				}
+			}
+	}
 
-  public boolean include(final PojoClass pojoClass) {
-    for (PojoClassFilter pojoClassFilter : pojoClassFilters) {
-      if (!pojoClassFilter.include(pojoClass))
-        return false;
-    }
-    return true;
-  }
+	public boolean include(final PojoClass pojoClass) {
+		for (PojoClassFilter pojoClassFilter : pojoClassFilters) {
+			if (!pojoClassFilter.include(pojoClass))
+				return false;
+		}
+		return true;
+	}
 
-  public Collection<PojoClassFilter> getPojoClassFilters() {
-    return Collections.unmodifiableSet(pojoClassFilters);
-  }
+	/**
+	 * The filters making up the chain.
+	 *
+	 * @return the filters, with nulls left out.
+	 */
+	public Collection<PojoClassFilter> getPojoClassFilters() {
+		return Collections.unmodifiableSet(pojoClassFilters);
+	}
 
-  public int size() {
-    return pojoClassFilters.size();
-  }
+	/**
+	 * Number of filters in the chain.
+	 *
+	 * @return how many filters there are.
+	 */
+	public int size() {
+		return pojoClassFilters.size();
+	}
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o)
-      return true;
-    if (o == null || getClass() != o.getClass())
-      return false;
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
 
-    FilterChain that = (FilterChain) o;
+		FilterChain that = (FilterChain) o;
 
-    return pojoClassFilters.equals(that.pojoClassFilters);
-  }
+		return pojoClassFilters.equals(that.pojoClassFilters);
+	}
 
-  @Override
-  public int hashCode() {
-    return pojoClassFilters.hashCode();
-  }
+	@Override
+	public int hashCode() {
+		return pojoClassFilters.hashCode();
+	}
 }

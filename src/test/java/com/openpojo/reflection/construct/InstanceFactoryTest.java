@@ -18,13 +18,6 @@
 
 package com.openpojo.reflection.construct;
 
-import static com.openpojo.reflection.impl.PojoClassFactory.getPojoClass;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
-
 import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
@@ -47,6 +40,13 @@ import com.openpojo.reflection.construct.sampleclasses.SomeEnum;
 import com.openpojo.reflection.exception.ReflectionException;
 import com.openpojo.validation.affirm.Affirm;
 
+import static com.openpojo.reflection.impl.PojoClassFactory.getPojoClass;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
 /**
  * @author oshoukry
  */
@@ -59,7 +59,7 @@ public class InstanceFactoryTest {
 		final Object obj1 = getInstance(clazz, (Object[]) null);
 		Affirm.affirmNotNull("Should have created an object", obj1);
 
-		final Object obj2 = getInstance(clazz, new Object[] {});
+		final Object obj2 = getInstance(clazz, new Object[]{});
 		Affirm.affirmTrue("Should have created a different object", obj1 != obj2);
 	}
 

@@ -28,27 +28,39 @@ import com.openpojo.reflection.PojoClassFilter;
  * @author oshoukry
  */
 public class FilterCloverClasses implements PojoClassFilter {
-  private static final String DEFAULT_CLOVER_TAG = "$__CLR";
+	private static final String DEFAULT_CLOVER_TAG = "$__CLR";
 
-  public boolean include(final PojoClass pojoClass) {
-    return !pojoClass.getName().contains(DEFAULT_CLOVER_TAG);
-  }
+	public boolean include(final PojoClass pojoClass) {
+		return !pojoClass.getName().contains(DEFAULT_CLOVER_TAG);
+	}
 
-  @Override
-  public boolean equals(Object o) {
-    return this == o || !(o == null || getClass() != o.getClass());
-  }
+	@Override
+	public boolean equals(Object o) {
+		return this == o || !(o == null || getClass() != o.getClass());
+	}
 
-  @Override
-  public int hashCode() {
-    return this.getClass().hashCode();
-  }
+	@Override
+	public int hashCode() {
+		return this.getClass().hashCode();
+	}
 
-  public static FilterCloverClasses getInstance() {
-    return Instance.INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared instance.
+	 */
+	public static FilterCloverClasses getInstance() {
+		return Instance.INSTANCE;
+	}
 
-  private static class Instance {
-    private static final FilterCloverClasses INSTANCE = new FilterCloverClasses();
-  }
+	private static class Instance {
+		private static final FilterCloverClasses INSTANCE = new FilterCloverClasses();
+	}
+
+	/**
+	 * Creates an instance ready to use.
+	 */
+	public FilterCloverClasses() {
+	}
 }

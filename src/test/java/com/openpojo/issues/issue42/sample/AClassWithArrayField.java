@@ -24,14 +24,13 @@ package com.openpojo.issues.issue42.sample;
 @SuppressWarnings("unused")
 public class AClassWithArrayField {
 
-  private byte[] picture;
+	private byte[] picture;
 
-  public byte[] getPicture() {
-    return picture.clone();
-  }
+	public byte[] getPicture() {
+		return picture.clone();
+	}
 
-  public void setPicture(byte[] picture) {
-    this.picture = picture.clone();
-  }
+	public void setPicture(byte[] picture) {
+		this.picture = picture.clone();
+	}
 }
-

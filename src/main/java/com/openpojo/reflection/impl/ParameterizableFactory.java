@@ -27,35 +27,46 @@ import com.openpojo.reflection.Parameterizable;
 import com.openpojo.reflection.java.type.Resolver;
 
 /**
+ * Wraps a {@code java.lang.reflect.Type} into a {@code Parameterizable}, resolving wildcards and type variables
+ * first.
+ *
  * @author oshoukry
  */
 public class ParameterizableFactory {
 
-  public static Parameterizable getInstance(Type type) {
-    return new ParameterizableImpl(type);
-  }
+	/**
+	 * Wraps a type from the Java reflection API, resolving wildcards and type variables first to settle on the
+	 * effective type.
+	 *
+	 * @param type
+	 *     The type to wrap.
+	 * @return the matching {@code Parameterizable}.
+	 */
+	public static Parameterizable getInstance(Type type) {
+		return new ParameterizableImpl(type);
+	}
 
-  private static class ParameterizableImpl implements Parameterizable {
-    private final Type type;
+	private static class ParameterizableImpl implements Parameterizable {
+		private final Type type;
 
-    public ParameterizableImpl(Type type) {
-      this.type = type;
-    }
+		public ParameterizableImpl(Type type) {
+			this.type = type;
+		}
 
-    public Class<?> getType() {
-      return (Class<?>) Resolver.resolve(type);
-    }
+		public Class<?> getType() {
+			return (Class<?>) Resolver.resolve(type);
+		}
 
-    public boolean isParameterized() {
-      return type instanceof ParameterizedType;
-    }
+		public boolean isParameterized() {
+			return type instanceof ParameterizedType;
+		}
 
-    public List<Type> getParameterTypes() {
-      return Arrays.asList(Resolver.getParameterTypes(type));
-    }
-  }
+		public List<Type> getParameterTypes() {
+			return Arrays.asList(Resolver.getParameterTypes(type));
+		}
+	}
 
-  private ParameterizableFactory() {
-      throw new UnsupportedOperationException(ParameterizableFactory.class.getName() + " should not be constructed!");
-  }
+	private ParameterizableFactory() {
+		throw new UnsupportedOperationException(ParameterizableFactory.class.getName() + " should not be constructed!");
+	}
 }

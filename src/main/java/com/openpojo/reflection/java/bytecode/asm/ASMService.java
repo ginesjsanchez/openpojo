@@ -20,14 +20,17 @@ package com.openpojo.reflection.java.bytecode.asm;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.openpojo.cache.CacheStorage;
 import com.openpojo.cache.CacheStorageFactory;
-import com.openpojo.log.Logger;
-import com.openpojo.log.LoggerFactory;
 import com.openpojo.reflection.exception.ReflectionException;
 
 /**
+ * Entry point to subclass generation with ASM. It caches the subclasses already generated so a new class is not
+ * created on every request.
+ *
  * @author oshoukry
  */
 public class ASMService {
@@ -38,22 +41,48 @@ public class ASMService {
 	private ASMService() {
 	}
 
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared instance.
+	 */
 	public static ASMService getInstance() {
 		return Instance.INSTANCE;
 	}
 
+	/**
+	 * Generates a subclass of the given class with ASM, reusing the one already generated if there is one.
+	 *
+	 * @param <T>
+	 *     The type of the base class.
+	 * @param clazz
+	 *     The class to extend.
+	 * @return the generated subclass.
+	 */
 	public <T> Class<? extends T> createSubclassFor(Class<T> clazz) {
 		SubClassDefinition subClassDefinition = new DefaultSubClassDefinition(clazz);
 		return createSubclassFor(clazz, subClassDefinition);
 	}
 
+	/**
+	 * Generates a subclass following a specific definition.
+	 *
+	 * @param <T>
+	 *     The type of the base class.
+	 * @param clazz
+	 *     The class to extend.
+	 * @param subClassDefinition
+	 *     The definition of the subclass to generate.
+	 * @return the generated subclass.
+	 */
 	@SuppressWarnings("unchecked")
 	public <T> Class<? extends T> createSubclassFor(Class<T> clazz, SubClassDefinition subClassDefinition) {
 		Class<? extends T> generatedClass = (Class<? extends T>) alreadyGeneratedClasses
 				.get(subClassDefinition.getGeneratedClassName());
 
 		if (generatedClass != null) {
-			logger.info("Reusing already generated sub-class for class [{0}]", clazz.getName());
+			logger.info("Reusing already generated sub-class for class [{}]", clazz.getName());
 		} else {
 			try {
 				generatedClass = (Class<? extends T>) simpleClassLoader.loadThisClass(

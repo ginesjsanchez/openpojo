@@ -26,18 +26,26 @@ import com.openpojo.validation.test.Tester;
 import com.openpojo.validation.utils.IdentityHandlerStub;
 
 /**
+ * Checks that {@code toString()} can be invoked without failing on an instance holding random values.
+ *
  * @author oshoukry
  */
 public class ToStringTester implements Tester {
 
-  public void run(PojoClass pojoClass) {
-    Object instance = RandomFactory.getRandomValue(pojoClass.getClazz());
+	public void run(PojoClass pojoClass) {
+		Object instance = RandomFactory.getRandomValue(pojoClass.getClazz());
 
-    IdentityHandlerStub identityHandlerStub = new IdentityHandlerStub(instance);
-    identityHandlerStub.setToStringReturn(RandomFactory.getRandomValue(String.class));
+		IdentityHandlerStub identityHandlerStub = new IdentityHandlerStub(instance);
+		identityHandlerStub.setToStringReturn(RandomFactory.getRandomValue(String.class));
 
-    IdentityFactory.registerIdentityHandler(identityHandlerStub);
+		IdentityFactory.registerIdentityHandler(identityHandlerStub);
 
-    Affirm.affirmEquals("Expected string mismatch", identityHandlerStub.getToStringReturn(), instance.toString());
-  }
+		Affirm.affirmEquals("Expected string mismatch", identityHandlerStub.getToStringReturn(), instance.toString());
+	}
+
+	/**
+	 * Creates an instance ready to use.
+	 */
+	public ToStringTester() {
+	}
 }

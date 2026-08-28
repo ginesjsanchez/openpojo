@@ -20,37 +20,38 @@ package com.openpojo.random.impl;
 
 import java.sql.Timestamp;
 
-import com.openpojo.random.RandomGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import com.openpojo.random.RandomGenerator;
 
 /**
  * @author oshoukry
  */
 public class TimestampRandomGeneratorTest {
-  private RandomGenerator timestampRandomGenerator;
-  Class<?> timestampClass = Timestamp.class;
-  private static final int EXPECTED_TYPES = 1;
+	private RandomGenerator timestampRandomGenerator;
+	Class<?> timestampClass = Timestamp.class;
+	private static final int EXPECTED_TYPES = 1;
 
-  @BeforeEach
-  public void setUp() {
-    timestampRandomGenerator = TimestampRandomGenerator.getInstance();
-  }
+	@BeforeEach
+	public void setUp() {
+		timestampRandomGenerator = TimestampRandomGenerator.getInstance();
+	}
 
-  /**
-   * Test method for {@link com.openpojo.random.impl.TimestampRandomGenerator#doGenerate(java.lang.Class)}.
-   */
-  @Test
-  public final void testDoGenerate() {
-    CommonCode.testDoGenerateForClass(timestampRandomGenerator, timestampClass);
-  }
+	/**
+	 * Test method for {@link com.openpojo.random.impl.TimestampRandomGenerator#doGenerate(java.lang.Class)}.
+	 */
+	@Test
+	public final void testDoGenerate() {
+		CommonCode.testDoGenerateForClass(timestampRandomGenerator, timestampClass);
+	}
 
-  /**
-   * Test method for {@link com.openpojo.random.impl.TimestampRandomGenerator#getTypes()}.
-   */
-  @Test
-  public final void testGetTypes() {
-    CommonCode.testGetType(timestampRandomGenerator, timestampClass, EXPECTED_TYPES);
-  }
+	/**
+	 * Test method for {@link com.openpojo.random.impl.TimestampRandomGenerator#getTypes()}.
+	 */
+	@Test
+	public final void testGetTypes() {
+		CommonCode.testGetType(timestampRandomGenerator, timestampClass, EXPECTED_TYPES);
+	}
 
 }

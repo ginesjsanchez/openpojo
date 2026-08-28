@@ -18,8 +18,6 @@
 
 package com.openpojo.random.map.util;
 
-import static org.junit.jupiter.api.Assertions.fail;
-
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,6 +40,8 @@ import com.openpojo.reflection.Parameterizable;
 import com.openpojo.reflection.PojoClass;
 import com.openpojo.reflection.PojoMethod;
 import com.openpojo.reflection.impl.PojoClassFactory;
+
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author oshoukry
@@ -201,7 +201,7 @@ public abstract class BaseMapRandomGeneratorTest {
 
 	protected Parameterizable getParameterizedType() {
 		return new Parameterizable() {
-			private Type[] types = new Type[] { getGenericType1(), getGenericType2() };
+			private Type[] types = new Type[]{getGenericType1(), getGenericType2()};
 
 			@Override
 			public Class<?> getType() {

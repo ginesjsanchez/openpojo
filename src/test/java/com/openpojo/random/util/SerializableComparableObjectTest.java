@@ -18,34 +18,35 @@
 
 package com.openpojo.random.util;
 
-import com.openpojo.validation.affirm.Affirm;
 import org.junit.jupiter.api.Test;
+
+import com.openpojo.validation.affirm.Affirm;
 
 /**
  * @author oshoukry
  */
 public class SerializableComparableObjectTest {
 
-  @Test
-  public void shouldWireCompareToOverHashCodeValue() {
-    SerializableComparableObject firstInstance = new SerializableComparableObject();
-    SerializableComparableObjectStub secondInstance = new SerializableComparableObjectStub();
+	@Test
+	public void shouldWireCompareToOverHashCodeValue() {
+		SerializableComparableObject firstInstance = new SerializableComparableObject();
+		SerializableComparableObjectStub secondInstance = new SerializableComparableObjectStub();
 
-    secondInstance.hashCode = firstInstance.hashCode() - 1;
-    Affirm.affirmEquals("CompareTo should return 1", 1, firstInstance.compareTo(secondInstance));
+		secondInstance.hashCode = firstInstance.hashCode() - 1;
+		Affirm.affirmEquals("CompareTo should return 1", 1, firstInstance.compareTo(secondInstance));
 
-    secondInstance.hashCode = firstInstance.hashCode() + 1;
-    Affirm.affirmEquals("CompareTo should return -1", -1, firstInstance.compareTo(secondInstance));
+		secondInstance.hashCode = firstInstance.hashCode() + 1;
+		Affirm.affirmEquals("CompareTo should return -1", -1, firstInstance.compareTo(secondInstance));
 
-    secondInstance.hashCode = firstInstance.hashCode();
-    Affirm.affirmEquals("CompareTo should return 0", 0, firstInstance.compareTo(secondInstance));
-  }
+		secondInstance.hashCode = firstInstance.hashCode();
+		Affirm.affirmEquals("CompareTo should return 0", 0, firstInstance.compareTo(secondInstance));
+	}
 
-  private class SerializableComparableObjectStub extends SerializableComparableObject {
-    private int hashCode;
+	private class SerializableComparableObjectStub extends SerializableComparableObject {
+		private int hashCode;
 
-    public int hashCode() {
-      return hashCode;
-    }
-  }
+		public int hashCode() {
+			return hashCode;
+		}
+	}
 }

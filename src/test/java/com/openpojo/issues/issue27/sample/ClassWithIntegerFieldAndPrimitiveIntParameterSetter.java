@@ -23,10 +23,10 @@ package com.openpojo.issues.issue27.sample;
  */
 public class ClassWithIntegerFieldAndPrimitiveIntParameterSetter {
 
-  @SuppressWarnings("unused")
-  private Integer myInteger;
+	@SuppressWarnings("unused")
+	private Integer myInteger;
 
-  public void setMyInteger(final int myInteger) {
-    this.myInteger = myInteger;
-  }
+	public void setMyInteger(final int myInteger) {
+		this.myInteger = myInteger;
+	}
 }

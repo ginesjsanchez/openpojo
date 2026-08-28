@@ -20,47 +20,48 @@ package com.openpojo.random.collection.queue;
 
 import java.util.Collection;
 
+import org.junit.jupiter.api.BeforeEach;
+
 import com.openpojo.random.ParameterizableRandomGenerator;
 import com.openpojo.random.collection.support.SimpleType;
 import com.openpojo.random.collection.util.BaseCollectionRandomGeneratorTest;
 import com.openpojo.reflection.java.load.ClassUtil;
-//import org.junit.Assume;
-import org.junit.jupiter.api.BeforeEach;
 
 /**
  * @author oshoukry
  */
 public class ConcurrentLinkedDequeRandomGeneratorTest extends BaseCollectionRandomGeneratorTest {
-  private static final String EXPECTED_TYPE_CLASS_NAME = "java.util.concurrent.ConcurrentLinkedDeque";
+	private static final String EXPECTED_TYPE_CLASS_NAME = "java.util.concurrent.ConcurrentLinkedDeque";
 
-  @BeforeEach
-  public void requirement() {
-    //Assume.assumeTrue(EXPECTED_TYPE_CLASS_NAME + " is not loaded, skipping test", ClassUtil.isClassLoaded(EXPECTED_TYPE_CLASS_NAME));
-  }
+	@BeforeEach
+	public void requirement() {
+		// Assume.assumeTrue(EXPECTED_TYPE_CLASS_NAME + " is not loaded, skipping test",
+		// ClassUtil.isClassLoaded(EXPECTED_TYPE_CLASS_NAME));
+	}
 
-  @Override
-  protected ParameterizableRandomGenerator getInstance() {
-    return ConcurrentLinkedDequeRandomGenerator.getInstance();
-  }
+	@Override
+	protected ParameterizableRandomGenerator getInstance() {
+		return ConcurrentLinkedDequeRandomGenerator.getInstance();
+	}
 
-  @Override
-  protected Class<? extends ParameterizableRandomGenerator> getGeneratorClass() {
-    return ConcurrentLinkedDequeRandomGenerator.class;
-  }
+	@Override
+	protected Class<? extends ParameterizableRandomGenerator> getGeneratorClass() {
+		return ConcurrentLinkedDequeRandomGenerator.class;
+	}
 
-  @Override
-  @SuppressWarnings("unchecked")
-  protected Class<? extends Collection> getExpectedTypeClass() {
-    return (Class<? extends Collection>) ClassUtil.loadClass(EXPECTED_TYPE_CLASS_NAME);
-  }
+	@Override
+	@SuppressWarnings("unchecked")
+	protected Class<? extends Collection<?>> getExpectedTypeClass() {
+		return (Class<? extends Collection<?>>) ClassUtil.loadClass(EXPECTED_TYPE_CLASS_NAME);
+	}
 
-  @Override
-  protected Class<? extends Collection> getGeneratedTypeClass() {
-    return getExpectedTypeClass();
-  }
+	@Override
+	protected Class<? extends Collection<?>> getGeneratedTypeClass() {
+		return getExpectedTypeClass();
+	}
 
-  @Override
-  protected Class<?> getGenericType() {
-    return SimpleType.class;
-  }
+	@Override
+	protected Class<?> getGenericType() {
+		return SimpleType.class;
+	}
 }

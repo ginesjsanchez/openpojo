@@ -26,26 +26,35 @@ import com.openpojo.random.collection.util.BaseCollectionRandomGenerator;
 import com.openpojo.random.util.Helper;
 
 /**
+ * Generates a {@code CopyOnWriteArrayList} holding between 1 and 5 random elements.
+ *
  * @author oshoukry
  */
 public class CopyOnWriteArrayListRandomGenerator extends BaseCollectionRandomGenerator {
-  private static final Class<?>[] TYPES = new Class<?>[] { CopyOnWriteArrayList.class };
-  private static final CopyOnWriteArrayListRandomGenerator INSTANCE = new CopyOnWriteArrayListRandomGenerator();
+	private static final Class<?>[] TYPES = new Class<?>[]{CopyOnWriteArrayList.class};
+	private static final CopyOnWriteArrayListRandomGenerator INSTANCE = new CopyOnWriteArrayListRandomGenerator();
 
-  public static CopyOnWriteArrayListRandomGenerator getInstance() {
-    return INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared generator.
+	 */
+	public static CopyOnWriteArrayListRandomGenerator getInstance() {
+		return INSTANCE;
+	}
 
-  public Collection<Class<?>> getTypes() {
-    return Arrays.asList(TYPES);
-  }
+	@Override
+	public Collection<Class<?>> getTypes() {
+		return Arrays.asList(TYPES);
+	}
 
-  @Override
-  protected Collection getBasicInstance(Class<?> type) {
-    Helper.assertIsAssignableTo(type, getTypes());
-    return new CopyOnWriteArrayList();
-  }
+	@Override
+	protected Collection<Object> getBasicInstance(Class<?> type) {
+		Helper.assertIsAssignableTo(type, getTypes());
+		return new CopyOnWriteArrayList<>();
+	}
 
-  private CopyOnWriteArrayListRandomGenerator() {
-  }
+	private CopyOnWriteArrayListRandomGenerator() {
+	}
 }

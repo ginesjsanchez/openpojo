@@ -36,7 +36,7 @@ public class IssueTest {
 	 */
 	@Test
 	public void shouldNotThrowNoClassDefFoundError() {
-		final Package aPackage = org.testng.Assert.class.getPackage();
+		final Package aPackage = org.junit.jupiter.api.Assertions.class.getPackage();
 		final String packageName = aPackage.getName();
 		List<PojoClass> pojoClasses = PojoClassFactory.getPojoClassesRecursively(packageName, null);
 		Assertions.assertTrue(pojoClasses.size() > 0);

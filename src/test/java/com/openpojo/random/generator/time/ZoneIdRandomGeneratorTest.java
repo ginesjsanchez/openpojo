@@ -18,36 +18,35 @@
 
 package com.openpojo.random.generator.time;
 
+import org.junit.jupiter.api.BeforeEach;
+
 import com.openpojo.random.RandomGenerator;
 import com.openpojo.random.generator.AbstractGeneratorTest;
 import com.openpojo.reflection.PojoClass;
 import com.openpojo.reflection.impl.PojoClassFactory;
-import com.openpojo.reflection.java.load.ClassUtil;
-//import org.junit.Assume;
-import org.junit.jupiter.api.BeforeEach;
 
 /**
  * @author oshoukry
  */
 public class ZoneIdRandomGeneratorTest extends AbstractGeneratorTest {
-  private static final String JAVA_TIME_ZONE_ID = "java.time.ZoneId";
-  private PojoClass pojoClass;
+	private static final String JAVA_TIME_ZONE_ID = "java.time.ZoneId";
+	private PojoClass pojoClass;
 
-  @BeforeEach
-  public void setup() {
-    //Assume.assumeTrue(ClassUtil.isClassLoaded(JAVA_TIME_ZONE_ID));
-    pojoClass = PojoClassFactory.getPojoClass(ZoneIdRandomGenerator.class);
-  }
+	@BeforeEach
+	public void setup() {
+		//Assume.assumeTrue(ClassUtil.isClassLoaded(JAVA_TIME_ZONE_ID));
+		pojoClass = PojoClassFactory.getPojoClass(ZoneIdRandomGenerator.class);
+	}
 
-  protected PojoClass getPojoClass() {
-    return pojoClass;
-  }
+	protected PojoClass getPojoClass() {
+		return pojoClass;
+	}
 
-  protected String getTypeName() {
-    return JAVA_TIME_ZONE_ID;
-  }
+	protected String getTypeName() {
+		return JAVA_TIME_ZONE_ID;
+	}
 
-  protected RandomGenerator getRandomGenerator() {
-    return ZoneIdRandomGenerator.getInstance();
-  }
+	protected RandomGenerator getRandomGenerator() {
+		return ZoneIdRandomGenerator.getInstance();
+	}
 }

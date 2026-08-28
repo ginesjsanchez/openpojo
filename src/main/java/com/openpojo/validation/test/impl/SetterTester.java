@@ -18,7 +18,8 @@
 
 package com.openpojo.validation.test.impl;
 
-import com.openpojo.log.LoggerFactory;
+import org.slf4j.LoggerFactory;
+
 import com.openpojo.random.RandomFactory;
 import com.openpojo.reflection.PojoClass;
 import com.openpojo.reflection.PojoField;
@@ -36,27 +37,33 @@ import static com.openpojo.validation.utils.ToStringHelper.safeToString;
  */
 public class SetterTester implements Tester {
 
-  public void run(final PojoClass pojoClass) {
-    final Object classInstance = ValidationHelper.getBasicInstance(pojoClass);
-    for (final PojoField fieldEntry : pojoClass.getPojoFields()) {
-      if (fieldEntry.hasSetter()) {
-        final Object value;
+	public void run(final PojoClass pojoClass) {
+		final Object classInstance = ValidationHelper.getBasicInstance(pojoClass);
+		for (final PojoField fieldEntry : pojoClass.getPojoFields()) {
+			if (fieldEntry.hasSetter()) {
+				final Object value;
 
-        value = RandomFactory.getRandomValue(fieldEntry);
+				value = RandomFactory.getRandomValue(fieldEntry);
 
-        SameInstanceIdentityHandlerStub.registerIdentityHandlerStubForValue(value);
-        LoggerFactory.getLogger(this.getClass()).debug("Testing Field [{0}] with value [{1}]",
-            fieldEntry, safeToString(value));
+				SameInstanceIdentityHandlerStub.registerIdentityHandlerStubForValue(value);
+				LoggerFactory.getLogger(this.getClass()).debug("Testing Field [{}] with value [{}]",
+						fieldEntry, safeToString(value));
 
-        fieldEntry.invokeSetter(classInstance, value);
+				fieldEntry.invokeSetter(classInstance, value);
 
-        Affirm.affirmEquals("Setter test failed, non equal value for field=[" + fieldEntry + "]", value,
-            fieldEntry.get(classInstance));
+				Affirm.affirmEquals("Setter test failed, non equal value for field=[" + fieldEntry + "]", value,
+						fieldEntry.get(classInstance));
 
-        SameInstanceIdentityHandlerStub.unregisterIdentityHandlerStubForValue(value);
-      } else {
-        LoggerFactory.getLogger(this.getClass()).debug("Field [{0}] has no setter skipping", fieldEntry);
-      }
-    }
-  }
+				SameInstanceIdentityHandlerStub.unregisterIdentityHandlerStubForValue(value);
+			} else {
+				LoggerFactory.getLogger(this.getClass()).debug("Field [{}] has no setter skipping", fieldEntry);
+			}
+		}
+	}
+
+	/**
+	 * Creates an instance ready to use.
+	 */
+	public SetterTester() {
+	}
 }

@@ -28,38 +28,47 @@ import com.openpojo.reflection.adapt.PojoClassAdapter;
 import com.openpojo.reflection.impl.PojoClassImpl;
 
 /**
+ * Hides the fields Cobertura injects when instrumenting the bytecode, so they are not validated as if they belonged
+ * to the POJO.
+ *
  * @author oshoukry
  */
 public class CoberturaPojoClassAdapter implements PojoClassAdapter {
 
-  private static final String COBERTURA_INJECTED = "__cobertura_";
+	private static final String COBERTURA_INJECTED = "__cobertura_";
 
-  private CoberturaPojoClassAdapter() {
+	private CoberturaPojoClassAdapter() {
 
-  }
+	}
 
-  public PojoClass adapt(PojoClass pojoClass) {
-    final List<PojoField> cleansedPojoFields = new ArrayList<PojoField>();
-    for (final PojoField pojoField : pojoClass.getPojoFields()) {
-      if (!pojoField.getName().startsWith(COBERTURA_INJECTED)) {
-        cleansedPojoFields.add(pojoField);
-      }
-    }
-    final List<PojoMethod> cleansedPojoMethods = new ArrayList<PojoMethod>();
-    for (final PojoMethod pojoMethod : pojoClass.getPojoMethods()) {
-      if (!pojoMethod.getName().startsWith(COBERTURA_INJECTED)) {
-        cleansedPojoMethods.add(pojoMethod);
-      }
-    }
-    return new PojoClassImpl(pojoClass.getClazz(), cleansedPojoFields, cleansedPojoMethods);
-  }
+	public PojoClass adapt(PojoClass pojoClass) {
+		final List<PojoField> cleansedPojoFields = new ArrayList<>();
+		for (final PojoField pojoField : pojoClass.getPojoFields()) {
+			if (!pojoField.getName().startsWith(COBERTURA_INJECTED)) {
+				cleansedPojoFields.add(pojoField);
+			}
+		}
+		final List<PojoMethod> cleansedPojoMethods = new ArrayList<>();
+		for (final PojoMethod pojoMethod : pojoClass.getPojoMethods()) {
+			if (!pojoMethod.getName().startsWith(COBERTURA_INJECTED)) {
+				cleansedPojoMethods.add(pojoMethod);
+			}
+		}
+		return new PojoClassImpl(pojoClass.getClazz(), cleansedPojoFields, cleansedPojoMethods);
+	}
 
-  public static PojoClassAdapter getInstance() {
-    return Instance.INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared instance.
+	 */
+	public static PojoClassAdapter getInstance() {
+		return Instance.INSTANCE;
+	}
 
-  private static class Instance {
-    private static final PojoClassAdapter INSTANCE = new CoberturaPojoClassAdapter();
-  }
+	private static class Instance {
+		private static final PojoClassAdapter INSTANCE = new CoberturaPojoClassAdapter();
+	}
 
 }

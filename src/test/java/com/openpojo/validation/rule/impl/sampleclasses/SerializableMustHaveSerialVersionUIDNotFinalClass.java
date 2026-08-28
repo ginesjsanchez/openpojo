@@ -26,7 +26,7 @@ import java.io.Serializable;
 @SuppressWarnings("serial")
 public class SerializableMustHaveSerialVersionUIDNotFinalClass implements Serializable {
 
-  @SuppressWarnings("unused")
-  private static long serialVersionUID = 1L;
+	@SuppressWarnings("unused")
+	private static long serialVersionUID = 1L;
 
 }

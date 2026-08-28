@@ -18,8 +18,6 @@
 
 package com.openpojo.random.collection.util;
 
-import static org.junit.jupiter.api.Assertions.fail;
-
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,6 +37,8 @@ import com.openpojo.reflection.Parameterizable;
 import com.openpojo.reflection.PojoClass;
 import com.openpojo.reflection.PojoMethod;
 import com.openpojo.reflection.impl.PojoClassFactory;
+
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author oshoukry
@@ -149,7 +149,7 @@ public abstract class BaseCollectionRandomGeneratorTest {
 
 	@Test
 	public void shouldGenerateCorrectTypeCollectionForRequestedCollection() {
-		Collection someObject = (Collection) getInstance().doGenerate(getExpectedTypeClass());
+		Collection<?> someObject = (Collection<?>) getInstance().doGenerate(getExpectedTypeClass());
 		Assertions.assertNotNull(someObject);
 		Assertions.assertEquals(getGeneratedTypeClass(), someObject.getClass());
 		if (validateCollectionContents())
@@ -158,7 +158,7 @@ public abstract class BaseCollectionRandomGeneratorTest {
 
 	@Test
 	public void shouldGenerateParametrizableCorrectCollectionForRequest() {
-		Collection<?> collectionOfType = (Collection) getInstance().doGenerate(getParameterizedType());
+		Collection<?> collectionOfType = (Collection<?>) getInstance().doGenerate(getParameterizedType());
 
 		Assertions.assertNotNull(collectionOfType);
 		if (validateCollectionContents())
@@ -188,13 +188,13 @@ public abstract class BaseCollectionRandomGeneratorTest {
 
 	@Test
 	public void endToEndWithGenerics() {
-		Collection<?> generatedCollection = (Collection) RandomFactory.getRandomValue(getParameterizedType());
+		Collection<?> generatedCollection = (Collection<?>) RandomFactory.getRandomValue(getParameterizedType());
 		assertCollectionHasExpectedTypes(generatedCollection, getGenericType());
 	}
 
 	protected Parameterizable getParameterizedType() {
 		return new Parameterizable() {
-			private Type[] types = new Type[] { getGenericType() };
+			private Type[] types = new Type[]{getGenericType()};
 
 			@Override
 			public Class<?> getType() {

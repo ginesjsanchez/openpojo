@@ -25,83 +25,106 @@ import java.util.Set;
 
 import com.openpojo.business.BusinessIdentity;
 import com.openpojo.business.annotation.BusinessKey;
-import com.openpojo.reflection.java.packageloader.env.JavaClassPathClassLoader;
 
 /**
+ * Package discovery rests solely on {@link ClassLoader#getResources(String)}, through {@link PackageLoader}. A manual
+ * scan of java.class.path used to be merged in as well; it was dropped as unnecessary, and because it followed the
+ * declared classpath rather than the real loading context (fat jars, module path, custom class loaders).
+ *
  * @author oshoukry
  */
 public final class Package {
-  private static final JavaClassPathClassLoader JAVA_CLASSPATH_CLASS_LOADER = JavaClassPathClassLoader.getInstance();
 
-  @BusinessKey
-  private final String packageName;
+	@BusinessKey
+	private final String packageName;
 
-  public Package(final String packageName) {
-    this.packageName = packageName;
-  }
+	/**
+	 * Creates the abstraction of a package from its name.
+	 *
+	 * @param packageName
+	 *     The fully qualified package name.
+	 */
+	public Package(final String packageName) {
+		this.packageName = packageName;
+	}
 
-  public String getPackageName() {
-    return packageName;
-  }
+	/**
+	 * Name of the package represented.
+	 *
+	 * @return the fully qualified package name.
+	 */
+	public String getPackageName() {
+		return packageName;
+	}
 
-  public boolean isValid() {
-    return getPackageLoaders().size() > 0 || JAVA_CLASSPATH_CLASS_LOADER.hasPackage(packageName);
-  }
+	/**
+	 * Tells whether the package actually exists.
+	 *
+	 * @return {@code true} if the package exists somewhere on the classpath.
+	 */
+	public boolean isValid() {
+		return !getPackageLoaders().isEmpty();
+	}
 
-  public Set<Type> getTypes() {
-    Set<Type> types = new HashSet<Type>();
-    for (PackageLoader packageLoader : getPackageLoaders()) {
-      for (Type type : packageLoader.getTypes()) {
-        types.add(type);
-      }
-    }
+	/**
+	 * The classes held by this package, gathering every place on the classpath where it shows up.
+	 *
+	 * @return the types found.
+	 */
+	public Set<Type> getTypes() {
+		Set<Type> types = new HashSet<>();
+		for (PackageLoader packageLoader : getPackageLoaders()) {
+			for (Type type : packageLoader.getTypes()) {
+				types.add(type);
+			}
+		}
+		return types;
+	}
 
-    types.addAll(JAVA_CLASSPATH_CLASS_LOADER.getTypesInPackage(packageName));
-    return types;
-  }
+	/**
+	 * Packages hanging directly off this one.
+	 *
+	 * @return the sub-packages found.
+	 */
+	public Set<Package> getSubPackages() {
+		Set<Package> subPackages = new HashSet<>();
+		Set<String> subPackageNames = new HashSet<>();
+		for (PackageLoader packageLoader : getPackageLoaders()) {
+			subPackageNames.addAll(packageLoader.getSubPackages());
+		}
 
-  public Set<Package> getSubPackages() {
-    Set<Package> subPackages = new HashSet<Package>();
-    Set<String> subPackageNames = new HashSet<String>();
-    for (PackageLoader packageLoader : getPackageLoaders()) {
-      subPackageNames.addAll(packageLoader.getSubPackages());
-    }
+		for (String packageName : subPackageNames) {
+			subPackages.add(new Package(packageName));
+		}
 
-    Set<String> subPackagesFor = JAVA_CLASSPATH_CLASS_LOADER.getSubPackagesFor(packageName);
-    subPackageNames.addAll(subPackagesFor);
+		return subPackages;
+	}
 
-    for (String packageName : subPackageNames) {
-      subPackages.add(new Package(packageName));
-    }
+	private Set<PackageLoader> getPackageLoaders() {
+		Set<PackageLoader> packageLoaders = new HashSet<>();
 
-    return subPackages;
-  }
+		Set<URL> resources = PackageLoader.getThreadResources(packageName);
+		for (URL resource : resources) {
+			packageLoaders.add(PackageLoader.getPackageLoaderByURL(resource, packageName));
+		}
 
-  private Set<PackageLoader> getPackageLoaders() {
-    Set<PackageLoader> packageLoaders = new HashSet<PackageLoader>();
+		return packageLoaders;
+	}
 
-    Set<URL> resources = PackageLoader.getThreadResources(packageName);
-    for (URL resource : resources) {
-      packageLoaders.add(PackageLoader.getPackageLoaderByURL(resource, packageName));
-    }
+	@Override
+	public int hashCode() {
+		return BusinessIdentity.getHashCode(this);
+	}
 
-    return packageLoaders;
-  }
+	@Override
+	@SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
+	public boolean equals(final Object obj) {
+		return BusinessIdentity.areEqual(this, obj);
+	}
 
-  @Override
-  public int hashCode() {
-    return BusinessIdentity.getHashCode(this);
-  }
-
-  @Override
-  @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
-  public boolean equals(final Object obj) {
-    return BusinessIdentity.areEqual(this, obj);
-  }
-
-  @Override
-  public String toString() {
-    return BusinessIdentity.toString(this);
-  }
+	@Override
+	public String toString() {
+		return BusinessIdentity.toString(this);
+	}
 
 }

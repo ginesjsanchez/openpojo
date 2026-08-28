@@ -18,11 +18,6 @@
 
 package com.openpojo.reflection.java.bytecode.asm;
 
-import static com.openpojo.random.RandomFactory.getRandomValue;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-//import static org.junit.jupiter.api.Assertions.////assertThat;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -37,6 +32,10 @@ import com.openpojo.reflection.java.bytecode.asm.sample.AbstractClassWithAbstrac
 import com.openpojo.reflection.java.bytecode.asm.sample.AbstractClassWithConstructorArgs;
 import com.openpojo.reflection.java.bytecode.asm.sample.AbstractClassWithPrivateConstructor;
 import com.openpojo.reflection.java.bytecode.asm.sample.AbstractClassWithVariousAbstractMethods;
+
+import static com.openpojo.random.RandomFactory.getRandomValue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author oshoukry
@@ -114,7 +113,7 @@ public class ASMServiceEnd2EndTest {
 		// //assertThat(ap, notNullValue());
 	}
 
-	private void assertType(Class actual, Class expected) {
+	private void assertType(Class<?> actual, Class<?> expected) {
 		assertTrue(expected.equals(actual));
 	}
 

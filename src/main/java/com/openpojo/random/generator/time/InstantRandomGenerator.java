@@ -31,32 +31,40 @@ import static com.openpojo.random.generator.time.util.ReflectionHelper.getMethod
 import static com.openpojo.random.generator.time.util.ReflectionHelper.invokeMethod;
 
 /**
+ * Generates a random {@code java.time.Instant}.
+ *
  * @author oshoukry
  */
 public class InstantRandomGenerator implements RandomGenerator {
-  private static final String TYPE = "java.time.Instant";
-  private static final InstantRandomGenerator INSTANCE = new InstantRandomGenerator();
-  private Class<?> instantClass;
+	private static final String TYPE = "java.time.Instant";
+	private static final InstantRandomGenerator INSTANCE = new InstantRandomGenerator();
+	private Class<?> instantClass;
 
-  public static InstantRandomGenerator getInstance() {
-    return INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared generator.
+	 */
+	public static InstantRandomGenerator getInstance() {
+		return INSTANCE;
+	}
 
-  public Collection<Class<?>> getTypes() {
-    List<Class<?>> types = new ArrayList<Class<?>>();
-    if (instantClass != null)
-      types.add(instantClass);
-    return types;
-  }
+	public Collection<Class<?>> getTypes() {
+		List<Class<?>> types = new ArrayList<>();
+		if (instantClass != null)
+			types.add(instantClass);
+		return types;
+	}
 
-  public Object doGenerate(Class<?> type) {
-    Object zonedDateTime = RandomFactory.getRandomValue(ClassUtil.loadClass("java.time.ZonedDateTime"));
+	public Object doGenerate(Class<?> type) {
+		Object zonedDateTime = RandomFactory.getRandomValue(ClassUtil.loadClass("java.time.ZonedDateTime"));
 
-    Method toInstant = getMethod(zonedDateTime.getClass(), "toInstant");
-    return invokeMethod(toInstant, zonedDateTime);
-  }
+		Method toInstant = getMethod(zonedDateTime.getClass(), "toInstant");
+		return invokeMethod(toInstant, zonedDateTime);
+	}
 
-  private InstantRandomGenerator() {
-    instantClass = ClassUtil.loadClass(TYPE);
-  }
+	private InstantRandomGenerator() {
+		instantClass = ClassUtil.loadClass(TYPE);
+	}
 }

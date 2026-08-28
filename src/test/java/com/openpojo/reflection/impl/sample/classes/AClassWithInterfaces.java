@@ -21,6 +21,9 @@ package com.openpojo.reflection.impl.sample.classes;
 /**
  * @author oshoukry
  */
-public class AClassWithInterfaces implements FirstInterfaceForAClassWithInterfaces, SecondInterfaceForAClassWithInterfaces {
+public class AClassWithInterfaces
+		implements
+			FirstInterfaceForAClassWithInterfaces,
+			SecondInterfaceForAClassWithInterfaces {
 
 }

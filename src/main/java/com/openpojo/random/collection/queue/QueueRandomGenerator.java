@@ -27,26 +27,36 @@ import com.openpojo.random.collection.util.BaseCollectionRandomGenerator;
 import com.openpojo.random.util.Helper;
 
 /**
+ * Generates values for {@code Queue}, returning a {@code ConcurrentLinkedQueue} holding between 1 and 5 random
+ * elements.
+ *
  * @author oshoukry
  */
 public class QueueRandomGenerator extends BaseCollectionRandomGenerator {
-  private static final Class<?>[] TYPES = new Class<?>[] { Queue.class };
-  private static final QueueRandomGenerator INSTANCE = new QueueRandomGenerator();
+	private static final Class<?>[] TYPES = new Class<?>[]{Queue.class};
+	private static final QueueRandomGenerator INSTANCE = new QueueRandomGenerator();
 
-  public static QueueRandomGenerator getInstance() {
-    return INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared generator.
+	 */
+	public static QueueRandomGenerator getInstance() {
+		return INSTANCE;
+	}
 
-  public Collection<Class<?>> getTypes() {
-    return Arrays.asList(TYPES);
-  }
+	@Override
+	public Collection<Class<?>> getTypes() {
+		return Arrays.asList(TYPES);
+	}
 
-  @Override
-  protected Collection getBasicInstance(Class<?> type) {
-    Helper.assertIsAssignableTo(type, getTypes());
-    return new ConcurrentLinkedQueue();
-  }
+	@Override
+	protected Collection<Object> getBasicInstance(Class<?> type) {
+		Helper.assertIsAssignableTo(type, getTypes());
+		return new ConcurrentLinkedQueue<>();
+	}
 
-  private QueueRandomGenerator() {
-  }
+	private QueueRandomGenerator() {
+	}
 }

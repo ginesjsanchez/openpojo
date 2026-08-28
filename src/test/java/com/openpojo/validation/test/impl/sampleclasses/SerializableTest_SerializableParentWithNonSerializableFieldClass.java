@@ -24,5 +24,5 @@ import java.io.Serializable;
  * @author oshoukry
  */
 class SerializableTest_SerializableParentWithNonSerializableFieldClass implements Serializable {
-  private SerializableTest_NonSerializableClass nonSerializableClass;
+	private SerializableTest_NonSerializableClass nonSerializableClass;
 }

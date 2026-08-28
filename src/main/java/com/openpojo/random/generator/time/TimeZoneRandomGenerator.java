@@ -27,30 +27,39 @@ import java.util.TimeZone;
 import com.openpojo.random.RandomGenerator;
 
 /**
+ * Generates a {@code TimeZone} picked at random from the identifiers available on the machine.
+ *
  * @author oshoukry
  */
 public class TimeZoneRandomGenerator implements RandomGenerator {
-  private static final Class<?>[] TYPE = { TimeZone.class };
-  private static final TimeZoneRandomGenerator INSTANCE = new TimeZoneRandomGenerator();
-  private static final Random RANDOM = new Random(System.currentTimeMillis());
-  private final ArrayList<String> availableZones;
+	private static final Class<?>[] TYPE = {TimeZone.class};
+	private static final TimeZoneRandomGenerator INSTANCE = new TimeZoneRandomGenerator();
+	private static final Random RANDOM = new Random(System.currentTimeMillis());
+	private final ArrayList<String> availableZones;
 
-  private TimeZoneRandomGenerator() {
-    availableZones = new ArrayList<String>();
-    String[] zones = TimeZone.getAvailableIDs();
-    availableZones.addAll(Arrays.asList(zones));}
+	private TimeZoneRandomGenerator() {
+		availableZones = new ArrayList<>();
+		String[] zones = TimeZone.getAvailableIDs();
+		availableZones.addAll(Arrays.asList(zones));
+	}
 
-  public Collection<Class<?>> getTypes() {
-    return Arrays.asList(TYPE);
-  }
+	public Collection<Class<?>> getTypes() {
+		return Arrays.asList(TYPE);
+	}
 
-  public Object doGenerate(Class<?> type) {
-    String anyZone = availableZones.get(RANDOM.nextInt(availableZones.size()));
-    return TimeZone.getTimeZone(anyZone);
-  }
+	public Object doGenerate(Class<?> type) {
+		String anyZone = availableZones.get(RANDOM.nextInt(availableZones.size()));
+		return TimeZone.getTimeZone(anyZone);
+	}
 
-  public static TimeZoneRandomGenerator getInstance() {
-    return INSTANCE;
-  }
+	/**
+	 * Returns the single instance of this class; it is the one that gets registered and the one reused on every
+	 * request.
+	 *
+	 * @return the shared generator.
+	 */
+	public static TimeZoneRandomGenerator getInstance() {
+		return INSTANCE;
+	}
 
 }
