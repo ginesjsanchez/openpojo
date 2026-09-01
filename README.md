@@ -2,11 +2,11 @@
 
 POJO Testing &amp; Identity Management Made Trivial
 
-A Java 21 port of [OpenPojo](https://github.com/oshoukry/openpojo) 0.9.2, by Osman Shoukry.
+A Java 21 port of [OpenPojo](https://github.com/GJ-Soft/openpojo) 1.0.0, by GJ Software.
 
 ```xml
 <dependency>
-  <groupId>org.gjs.java.tools</groupId>
+  <groupId>org.gjsoft.java.tools</groupId>
   <artifactId>openpojo</artifactId>
   <version>1.0.0-RC.2</version>
   <scope>test</scope>

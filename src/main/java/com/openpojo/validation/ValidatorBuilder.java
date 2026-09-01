@@ -51,11 +51,27 @@ public class ValidatorBuilder {
 	/**
 	 * Adds structural rules.
 	 *
+	 * Same as {@link #withRules(Rule...)}. Prefer that one when the argument is a lambda or a method
+	 * reference: {@link Rule} and {@link Tester} are both functional interfaces taking a PojoClass, so the
+	 * compiler cannot tell which overload of {@code with} is meant and rejects the call as ambiguous.
+	 *
 	 * @param rules
 	 *     The rules to apply.
 	 * @return this same builder, so calls can be chained.
 	 */
 	public ValidatorBuilder with(Rule... rules) {
+		return withRules(rules);
+	}
+
+	/**
+	 * Adds structural rules. Unambiguous alternative to {@link #with(Rule...)}, valid for lambdas and
+	 * method references.
+	 *
+	 * @param rules
+	 *     The rules to apply. A null array, and null entries in it, are ignored.
+	 * @return this same builder, so calls can be chained.
+	 */
+	public ValidatorBuilder withRules(Rule... rules) {
 		if (rules != null)
 			for (Rule rule : rules) {
 				if (rule != null)
@@ -76,11 +92,30 @@ public class ValidatorBuilder {
 	/**
 	 * Adds behavioural testers.
 	 *
+	 * Same as {@link #withTesters(Tester...)}. Prefer that one when the argument is a lambda or a method
+	 * reference; see {@link #with(Rule...)} for why.
+	 *
 	 * @param testers
 	 *     The testers to apply.
 	 * @return this same builder, so calls can be chained.
 	 */
+	// The overloads lint flags this pair as potentially ambiguous, and it is right: a lambda cannot pick
+	// between them. Both overloads stay for backwards compatibility, and withRules/withTesters are the way
+	// out, so the warning has nothing left to report here.
+	@SuppressWarnings("overloads")
 	public ValidatorBuilder with(Tester... testers) {
+		return withTesters(testers);
+	}
+
+	/**
+	 * Adds behavioural testers. Unambiguous alternative to {@link #with(Tester...)}, valid for lambdas and
+	 * method references.
+	 *
+	 * @param testers
+	 *     The testers to apply. A null array, and null entries in it, are ignored.
+	 * @return this same builder, so calls can be chained.
+	 */
+	public ValidatorBuilder withTesters(Tester... testers) {
 		if (testers != null)
 			for (Tester tester : testers) {
 				if (tester != null)

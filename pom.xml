@@ -20,13 +20,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.gjs.java</groupId>
+        <groupId>org.gjsoft.java</groupId>
         <artifactId>gjs-java-base-parent</artifactId>
         <version>1.0.0-RC.2</version>
         <relativePath/>
     </parent>
 
-    <groupId>org.gjs.java.tools</groupId>
+    <groupId>org.gjsoft.java.tools</groupId>
     <artifactId>openpojo</artifactId>
     <version>1.0.0-RC.2</version>
     <name>GJS Open Pojo</name>
@@ -98,6 +98,11 @@
         <url>https://github.com/GJ-Soft/openpojo/issues</url>
     </issueManagement>
 
+    <ciManagement>
+        <system>GitHub Actions</system>
+        <url>https://github.com/GJ-Soft/openpojo/actions</url>
+    </ciManagement>
+
     <properties>
         <java.version>21</java.version>
         <jdk.target>${java.version}</jdk.target>
@@ -106,6 +111,10 @@
              They are switched back on here: they are what guides the modernization. -->
         <gjs.compiler.verbose>true</gjs.compiler.verbose>
         <gjs.compiler.lint>all</gjs.compiler.lint>
+        <!-- This project declares no annotation processor. With the inherited -proc:full,
+             javac runs the processing rounds anyway and reports every annotation it finds
+             as unclaimed (@Test, @BeforeEach, @BusinessKey...). -->
+        <gjs.compiler.proc>none</gjs.compiler.proc>
 
         <encoding>UTF-8</encoding>
         <source.encoding>${encoding}</source.encoding>
@@ -318,5 +327,30 @@
       attach-sources and attach-javadoc profiles, which attach the sources and javadoc
       jars. See the maven-release-plugin configuration above.
     -->
+
+    <profiles>
+        <!--
+          Publication to GitHub Packages, driven by .github/workflows/maven-publish.yml.
+          Kept in a profile on purpose: without -Pgithub-packages there is no
+          <distributionManagement> at all, so a stray `mvn deploy` cannot push
+          anything anywhere. The server id must match the one setup-java writes
+          into the runner's settings.xml.
+        -->
+        <profile>
+            <id>github-packages</id>
+            <distributionManagement>
+                <repository>
+                    <id>github</id>
+                    <name>GitHub GJ-Soft Apache Maven Packages</name>
+                    <url>https://maven.pkg.github.com/GJ-Soft/openpojo</url>
+                </repository>
+                <snapshotRepository>
+                    <id>github</id>
+                    <name>GitHub GJ-Soft Apache Maven Packages (snapshots)</name>
+                    <url>https://maven.pkg.github.com/GJ-Soft/openpojo</url>
+                </snapshotRepository>
+            </distributionManagement>
+        </profile>
+    </profiles>
 
 </project>

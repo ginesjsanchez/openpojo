@@ -55,7 +55,7 @@ public class TestClassMustBeProperlyNamedRule implements Rule {
 	/**
 	 * Annotations that mark a class as a test class.
 	 */
-	public static final String[] DEFAULT_ANNOTATIONS = {"org.testng.annotations.Test", "org.junit.jupiter.api.Test",
+	public static final String[] DEFAULT_ANNOTATIONS = {"org.testng.annotations.Test",
 			"org.junit.jupiter.api.Test"};
 
 	private final Collection<String> prefixes;

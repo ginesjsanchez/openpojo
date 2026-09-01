@@ -111,4 +111,33 @@ public class ValidatorBuilderTest {
 		Assertions.assertTrue(Validator.class.isAssignableFrom(validator.getClass()));
 	}
 
+	@Test
+	public void withRules_acceptsLambda() {
+		ValidatorBuilder validatorBuilder = ValidatorBuilder.create().withRules(pojoClass -> {
+		});
+		Assertions.assertEquals(1, validatorBuilder.getRules().size());
+		Assertions.assertEquals(0, validatorBuilder.getTesters().size());
+	}
+
+	@Test
+	public void withTesters_acceptsLambda() {
+		ValidatorBuilder validatorBuilder = ValidatorBuilder.create().withTesters(pojoClass -> {
+		});
+		Assertions.assertEquals(1, validatorBuilder.getTesters().size());
+		Assertions.assertEquals(0, validatorBuilder.getRules().size());
+	}
+
+	@Test
+	public void withRules_ignoresNullsLikeWith() {
+		Assertions.assertEquals(0, ValidatorBuilder.create().withRules((Rule[]) null).getRules().size());
+		Assertions.assertEquals(0, ValidatorBuilder.create().withRules(new Rule[] { null, null }).getRules().size());
+	}
+
+	@Test
+	public void withTesters_ignoresNullsLikeWith() {
+		Assertions.assertEquals(0, ValidatorBuilder.create().withTesters((Tester[]) null).getTesters().size());
+		Assertions
+				.assertEquals(0, ValidatorBuilder.create().withTesters(new Tester[] { null, null }).getTesters().size());
+	}
+
 }
